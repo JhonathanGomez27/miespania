@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+}
+
+.mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+}
+
+.th.mat-header-cell {
+    border-bottom: 1px solid saddlebrown !important;
+}
+
+th {
+    /* row border */
+    border-bottom: 2px solid #E33022 !important;
+}

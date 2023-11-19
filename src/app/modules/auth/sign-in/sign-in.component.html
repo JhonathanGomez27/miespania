@@ -1,0 +1,52 @@
+<div class="flex flex-col flex-auto items-center sm:justify-center min-w-0 bg-jasmine">
+    <div class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card">
+        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+            <!-- Logo -->
+            <div class="w-full flex flex-col items-center">
+                <div class="w-18">
+                    <img src="assets/images/logo/logo-mi.svg">
+                </div>
+            </div>
+
+            <!-- Title -->
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight text-center">Inicio sesíon</div>
+            <div class="flex items-baseline mt-0.5 font-medium justify-center">
+                <div>Consola de administracíon</div>
+            </div>
+
+            <!-- Sign in form -->
+            <form class="mt-8" [formGroup]="signInForm" #signInNgForm="ngForm">
+
+                <!-- Email field -->
+                <mat-form-field class="w-full">
+                    <!-- <mat-label>Email address</mat-label> -->
+                    <input id="email" matInput [formControlName]="'user'" placeholder="Usuario">
+                    <mat-error>
+                        El usuario es requerido.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Password field -->
+                <mat-form-field class="w-full">
+                    <!-- <mat-label>Password</mat-label> -->
+                    <input id="password" matInput type="password" [formControlName]="'password'" #passwordField placeholder="Contraseña">
+                    <button mat-icon-button type="button" (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'" matSuffix>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'" [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                        <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'" [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                    </button>
+                    <mat-error>
+                        La contraseña es requerida.
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Submit button -->
+                <button class="fuse-mat-button-large w-full mt-6 text-white font-extrabold text-lg" mat-flat-button [color]="'primary'" [disabled]="signInForm.disabled" (click)="signIn()">
+                    <span *ngIf="!signInForm.disabled">
+                        Iniciar sesíon
+                    </span>
+                    <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

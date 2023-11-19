@@ -1,0 +1,109 @@
+<div class="flex flex-col flex-auto w-full">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+        <!-- Title and action buttons -->
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <div class="text-3xl font-semibold tracking-tight leading-8">Torneos</div>
+            </div>
+            <div class="flex items-center ml-6">
+                <button (click)="crearTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                    <span class="ml-2">Crear torneo</span>
+                </button>
+
+                <!-- Actions menu (visible on xs) -->
+                <div class="sm:hidden">
+                    <button [matMenuTriggerFor]="actionsMenu" mat-icon-button>
+                        <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                    </button>
+                    <mat-menu #actionsMenu="matMenu">
+                        <button (click)="crearTorneoDialogo()" mat-menu-item>Crear torneo</button>
+                    </mat-menu>
+                </div>
+            </div>
+        </div>
+
+        <!-- tabla torneos -->
+        <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
+            <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden">
+                <div class="overflow-x-auto mx-6">
+                    <table class="w-full bg-transparent" mat-table [dataSource]="tablaTorneosData" [trackBy]="trackByFn">
+
+                        <!-- Torneo -->
+                        <ng-container matColumnDef="torneo">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Torneo
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 font-medium text-sm text-secondary whitespace-nowrap">
+                                    {{element.name}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Rama -->
+                        <ng-container matColumnDef="rama">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Rama
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap">
+                                    {{element.rama}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Categoria -->
+                        <ng-container matColumnDef="categoria">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Categoria
+                            </th>
+                            <td class=" text-center" mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap font-semibold">
+                                    {{element.categoria}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- Status -->
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Estado
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase"
+                                    [ngClass]="{'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': element.estado === 'Finalizado',
+                                                'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element.estado === 'En proceso'}">
+                                    <span class="leading-relaxed whitespace-nowrap">
+                                        {{element.estado}}
+                                    </span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- acciones -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Acciones
+                            </th>
+                            <td class="text-center" mat-cell *matCellDef="let element">
+                                <div>
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarTorneo(element)"></mat-icon>&nbsp;&nbsp;
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'"></mat-icon>&nbsp;
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:pause'"></mat-icon>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="tablaTorneosColumns"></tr>
+                        <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaTorneosColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+
+            <mat-paginator pageSize="30" class="absolute inset-x-0 bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
+            [length]="torneosCount" (page)="onPageChange($event)" [showFirstLastButtons]="true" aria-label="Select page" [pageIndex]="pagina">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

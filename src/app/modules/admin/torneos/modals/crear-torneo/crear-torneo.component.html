@@ -1,0 +1,104 @@
+<div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-12 pr-3 sm:pr-5 pl-6 sm:pl-8 text-on-primary p-3 border-b-4 mr-4 ml-4 color-borde mt-4">
+        <div class="text-2xl font-medium text-black mb-4">Nuevo torneo</div>
+        <button mat-icon-button (click)="onNoClick()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <!-- contenido -->
+    <div>
+        <form class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto" [formGroup]="torneoForm">
+           <div class="w-full grid grid-cols-1 md:grid-cols-2">
+                <div class="p-4">
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Nombre del torneo</mat-label>
+                        <input matInput [formControlName]="'nombre'" type="text">
+                    </mat-form-field>
+
+                    <!-- tipo -->
+                    <div class="w-full mb-3">
+                        <mat-label class="font-medium pb-4">Tipo de torneo</mat-label><br>
+                        <mat-radio-group aria-label="seleccionar tipo de torneo" [formControlName]="'nombre'">
+                            <mat-radio-button value="1">Regular</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="2">Escalera</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <!-- rama -->
+                    <div class="w-full mb-3">
+                        <mat-label class="font-medium pb-4">Rama</mat-label><br>
+                        <mat-radio-group aria-label="seleccionar rama del torneo" [formControlName]="'nombre'">
+                            <mat-radio-button value="1">Masculina</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="2">Femenina</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="3">Mixto</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <!-- modalidad -->
+                    <div class="w-full mb-3">
+                        <mat-label class="font-medium pb-4">Modalidad</mat-label><br>
+                        <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'nombre'">
+                            <mat-radio-button value="1">Singles</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="2">Dobles</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <!-- Grupos -->
+                    <mat-form-field appearance="fill" class="w-full">
+                        <mat-label>Grupos</mat-label>
+                        <mat-select (selectionChange)="onGrupoChange()" [formControlName]="'grupos'" [placeholder]="'Ad status'">
+                            <mat-option [value]="''">
+                            </mat-option>
+                            <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+                                {{grupo.id}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <!-- Categoria -->
+                    <div class="w-full mb-3">
+                        <mat-label class="font-medium pb-4">Categoria</mat-label><br>
+                        <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'categoria'">
+                            <mat-radio-button value="1">A</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="2">B+</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="3">B</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="4">C+</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="5">C</mat-radio-button>&nbsp;&nbsp;
+                            <mat-radio-button value="6">D</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="md:border-l-4 p-4 color-borde">
+                </div>
+           </div>
+        </form>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-center mb-4">
+        <button matTooltip="Crear torneo" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="crearTorneo()">
+            <mat-icon [svgIcon]="'mat_outline:add'"></mat-icon>
+            Crear torneo
+        </button>
+    </div>
+</div>
+
+<!-- <div class="grid sm:grid-cols-4 gap-4 w-full">
+    Nombre torneo
+    <div class="sm:col-span-2">
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Nombre del torneo</mat-label>
+            <input matInput [formControlName]="'nombre'" type="text">
+        </mat-form-field>
+    </div>
+
+    Nombre torneo
+    <div class="sm:col-span-2">
+        <mat-form-field appearance="fill" class="w-full">
+            <mat-label>Nombre del torneo</mat-label>
+            <input matInput [formControlName]="'nombre'" type="text">
+        </mat-form-field>
+    </div>
+</div> -->
