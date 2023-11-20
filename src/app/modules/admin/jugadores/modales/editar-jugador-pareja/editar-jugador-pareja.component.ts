@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ReplaySubject } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,6 +16,11 @@ export class EditarJugadorParejaComponent implements OnInit {
     tipoAccion: any = 'Crear';
 
     Toast:any;
+
+    jugadores: any = [];
+
+    public jugadoresFiltroCtrl: FormControl = new FormControl();
+    public filteredJugadores: ReplaySubject<any[]> = new ReplaySubject<any[]>(null);
 
     constructor(
         public matDialogRef: MatDialogRef<EditarJugadorParejaComponent>,

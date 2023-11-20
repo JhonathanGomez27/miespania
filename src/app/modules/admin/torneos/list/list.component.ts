@@ -50,6 +50,7 @@ export class ListComponent implements OnInit {
         // Open the dialog
         const dialogRef = this._matDialog.open(CrearTorneoComponent,{
             // width: '80%'
+            data: {accion: 'Crear'}
         });
 
         dialogRef.afterClosed().subscribe((result) => {

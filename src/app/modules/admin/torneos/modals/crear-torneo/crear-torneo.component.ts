@@ -13,6 +13,8 @@ export class CrearTorneoComponent implements OnInit {
 
     torneoForm: FormGroup;
 
+    tipoAccion:any = 'Crear';
+
     grupos:any = [
         {id: 2},
         {id: 3},
@@ -24,6 +26,7 @@ export class CrearTorneoComponent implements OnInit {
         public matDialogRef: MatDialogRef<CrearTorneoComponent>,
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
+        @Inject(MAT_DIALOG_DATA) public data: any,
     ) {
         this.torneoForm = this._formBuilder.group({
             nombre: new FormControl({ value: '', disabled: false },Validators.required),
@@ -33,6 +36,8 @@ export class CrearTorneoComponent implements OnInit {
             grupos: new FormControl({ value: '', disabled: false },Validators.required),
             categoria: new FormControl({ value: '', disabled: false },Validators.required),
         });
+
+        this.tipoAccion = data.accion;
     }
 
     ngOnInit() {}

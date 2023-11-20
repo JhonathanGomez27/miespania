@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { EditarPartidoComponent } from '../modals/editar-partido/editar-partido.component';
+import { CrearTorneoComponent } from '../modals/crear-torneo/crear-torneo.component';
 
 @Component({
     selector: 'app-details',
@@ -41,7 +42,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
     }
 
     editarTorneoDialogo(){
+        // Open the dialog
+        const dialogRef = this._matDialog.open(CrearTorneoComponent,{
+            // width: '80%'
+            data: {accion: 'Editar'}
+        });
 
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log(result);
+        });
     }
 
     crearGrupo(){

@@ -69,3 +69,30 @@
 // .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
 //     border: 1px solid #E33022; /* red */
 // }
+
+.input-select-per{
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    mat-icon{
+        margin-right: 10px;
+    }
+
+    mat-select{
+        width: 100%;
+    }
+
+    background-color: #bebebeb1;
+    border-radius: 7px;
+    padding: 8px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+    .input-select-per{
+        border: 1px solid #E33022 !important; /* red */
+    }
+}
