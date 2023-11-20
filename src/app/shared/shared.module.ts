@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
     imports: [
@@ -34,7 +35,8 @@ import { MatSelectModule } from '@angular/material/select';
         MatDialogModule,
         MatInputModule,
         MatRadioModule,
-        MatSelectModule
+        MatSelectModule,
+        NgxMatSelectSearchModule
     ],
     exports: [
         CommonModule,
@@ -53,7 +55,8 @@ import { MatSelectModule } from '@angular/material/select';
         MatDialogModule,
         MatInputModule,
         MatRadioModule,
-        MatSelectModule
+        MatSelectModule,
+        NgxMatSelectSearchModule
     ]
 })
 export class SharedModule

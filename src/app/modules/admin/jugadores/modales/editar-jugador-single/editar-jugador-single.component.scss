@@ -1,0 +1,71 @@
+.color-borde{
+    border-color: #E33022;
+}
+
+.mat-radio-inner-circle{
+    background-color: #FFD484 !important;
+}
+
+.input-number-set{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    input{
+        background-color: #bebebeb1;
+        border-radius: 7px;
+        padding: 5px;
+        font-size: 15px;
+        font-weight: 800;
+        text-align: center;
+    }
+}
+
+.input-text-per{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    input{
+        background-color: #bebebeb1;
+        border-radius: 7px;
+        padding: 8px;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+        border: 1px solid #E33022; /* red */
+    }
+
+}
+
+.input-number-per{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    input{
+        background-color: #bebebeb1;
+        border-radius: 7px;
+        padding: 8px;
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+    .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+        border: 1px solid #E33022; /* red */
+    }
+
+}
+
+.mat-radio-inner-circle{
+    background-color: #FFD484 !important;
+}
+
+
+// .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+//     border: 1px solid #E33022; /* red */
+// }

@@ -20,7 +20,7 @@
                     <!-- tipo -->
                     <div class="w-full mb-3">
                         <mat-label class="font-medium pb-4">Tipo de torneo</mat-label><br>
-                        <mat-radio-group aria-label="seleccionar tipo de torneo" [formControlName]="'nombre'">
+                        <mat-radio-group aria-label="seleccionar tipo de torneo" [formControlName]="'tipo'">
                             <mat-radio-button value="1">Regular</mat-radio-button>&nbsp;&nbsp;
                             <mat-radio-button value="2">Escalera</mat-radio-button>
                         </mat-radio-group>
@@ -29,7 +29,7 @@
                     <!-- rama -->
                     <div class="w-full mb-3">
                         <mat-label class="font-medium pb-4">Rama</mat-label><br>
-                        <mat-radio-group aria-label="seleccionar rama del torneo" [formControlName]="'nombre'">
+                        <mat-radio-group aria-label="seleccionar rama del torneo" [formControlName]="'rama'">
                             <mat-radio-button value="1">Masculina</mat-radio-button>&nbsp;&nbsp;
                             <mat-radio-button value="2">Femenina</mat-radio-button>&nbsp;&nbsp;
                             <mat-radio-button value="3">Mixto</mat-radio-button>
@@ -39,7 +39,7 @@
                     <!-- modalidad -->
                     <div class="w-full mb-3">
                         <mat-label class="font-medium pb-4">Modalidad</mat-label><br>
-                        <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'nombre'">
+                        <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'modalidad'">
                             <mat-radio-button value="1">Singles</mat-radio-button>&nbsp;&nbsp;
                             <mat-radio-button value="2">Dobles</mat-radio-button>
                         </mat-radio-group>
@@ -47,7 +47,7 @@
 
                     <!-- Grupos -->
                     <mat-form-field appearance="fill" class="w-full">
-                        <mat-label>Grupos</mat-label>
+                        <mat-label class="font-medium pb-4">Grupos</mat-label>
                         <mat-select (selectionChange)="onGrupoChange()" [formControlName]="'grupos'" [placeholder]="'Ad status'">
                             <mat-option [value]="''">
                             </mat-option>
