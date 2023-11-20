@@ -8,11 +8,12 @@ import { DetailsComponent } from './details/details.component';
 import { SharedModule } from 'app/shared/shared.module';
 import { CrearTorneoComponent } from './modals/crear-torneo/crear-torneo.component';
 import { EditarPartidoComponent } from './modals/editar-partido/editar-partido.component';
+import { CrearGrupoComponent } from './modals/crear-grupo/crear-grupo.component';
 
 
 @NgModule({
   declarations: [
-    TorneosComponent, ListComponent, DetailsComponent, CrearTorneoComponent, EditarPartidoComponent
+    TorneosComponent, ListComponent, DetailsComponent, CrearTorneoComponent, EditarPartidoComponent, CrearGrupoComponent
   ],
   imports: [
     TorneosRoutingModule,

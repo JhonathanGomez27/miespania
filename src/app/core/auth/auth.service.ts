@@ -8,6 +8,7 @@ import { UserService } from 'app/core/user/user.service';
 export class AuthService
 {
     private _authenticated: boolean = false;
+    private url: any = '';
 
     /**
      * Constructor
@@ -47,7 +48,7 @@ export class AuthService
      */
     forgotPassword(email: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/forgot-password', email);
+        return this._httpClient.post(`${this.url}forgotPassword`, email);
     }
 
     /**
@@ -57,7 +58,7 @@ export class AuthService
      */
     resetPassword(password: string): Observable<any>
     {
-        return this._httpClient.post('api/auth/reset-password', password);
+        return this._httpClient.post(`${this.url}resetPassword`, password);
     }
 
     /**

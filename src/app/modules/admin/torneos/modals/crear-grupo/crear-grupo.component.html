@@ -1,0 +1,26 @@
+<div class="flex flex-col max-w-240 md:min-w-100 max-h-screen -m-6">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-12 pr-3 sm:pr-5 pl-6 sm:pl-8 text-on-primary p-3 border-b-4 mr-4 ml-4 color-borde mt-4">
+        <div class="text-2xl font-medium text-black mb-4">{{tipoAccion}} grupo</div>
+        <button mat-icon-button (click)="onNoClick()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div class="mt-4 mb-4 w-full">
+        <!-- buscar jugador -->
+        <div class="flex justify-center">
+            <div class="input-select-per  w-10/12">
+                <!-- <input [formControlName]="'jugadorUno'" name="nombreJugadorUno" id="nombreJugadorUno" type="text" required> -->
+                <mat-icon class="icon-size-5" matPrefix [svgIcon]="'feather:search'"></mat-icon>
+                <mat-select required name="nombreJugadorDos" id="nombreJugadorDos">
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="jugadoresFiltroCtrl" placeholderLabel="Buscar jugador..." noEntriesFoundLabel="'Jugador no encontrado'">
+                        </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option value="jugador">Jugador</mat-option>
+                </mat-select>
+            </div>
+        </div>
+    </div>
+</div>

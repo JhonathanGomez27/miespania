@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { EditarPartidoComponent } from '../modals/editar-partido/editar-partido.component';
 import { CrearTorneoComponent } from '../modals/crear-torneo/crear-torneo.component';
+import { CrearGrupoComponent } from '../modals/crear-grupo/crear-grupo.component';
 
 @Component({
     selector: 'app-details',
@@ -53,10 +54,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    crearGrupo(){
-        let grupo: any = {};
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-        this.grupos.push(grupo);
+    crearGrupo(){
+
+        // Open the dialog
+        const dialogRef = this._matDialog.open(CrearGrupoComponent,{
+            // width: '80%'
+            data: {accion: 'Crear'}
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log(result);
+        });
     }
 
     removeGrupo(index:any){
