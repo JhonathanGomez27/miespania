@@ -16,14 +16,19 @@
                     <div class="input-select-per">
                         <!-- <input [formControlName]="'jugadorUno'" name="nombreJugadorUno" id="nombreJugadorUno" type="text" required> -->
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'feather:search'"></mat-icon>
-                        <mat-select required [formControlName]="'jugadorUno'" name="nombreJugadorUno" id="nombreJugadorUno">
+                        <mat-select required [formControlName]="'jugador1'" name="nombreJugadorUno" id="nombreJugadorUno" (selectionChange)="jugadorChange($event.value)">
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="jugadoresFiltroCtrl" placeholderLabel="Buscar jugador..." noEntriesFoundLabel="'Jugador no encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option value="jugador 1">Jugador 1</mat-option>
+                            <mat-option *ngFor="let jugador of filteredJugadores| async" [value]="jugador.id">
+                                {{ jugador.nombre }}
+                            </mat-option>
                         </mat-select>
                     </div>
+                    <mat-error *ngIf="parejaForm.get('jugador1').invalid && (parejaForm.get('jugador1').dirty || parejaForm.get('jugador1').touched)">
+                        El jugador 1 es requerido.
+                    </mat-error>
                 </div>
 
                 <!-- jugador 2 -->
@@ -32,42 +37,44 @@
                     <div class="input-select-per">
                         <!-- <input [formControlName]="'jugadorUno'" name="nombreJugadorUno" id="nombreJugadorUno" type="text" required> -->
                         <mat-icon class="icon-size-5" matPrefix [svgIcon]="'feather:search'"></mat-icon>
-                        <mat-select required [formControlName]="'jugadorDos'" name="nombreJugadorDos" id="nombreJugadorDos">
+                        <mat-select required [formControlName]="'jugador2'" name="nombreJugadorDos" id="nombreJugadorDos" (selectionChange)="jugadorDChange($event.value)">
                             <mat-option>
-                                <ngx-mat-select-search [formControl]="jugadoresFiltroCtrl" placeholderLabel="Buscar jugador..." noEntriesFoundLabel="'Jugador no encontrado'">
+                                <ngx-mat-select-search [formControl]="jugadoresFiltroDCtrl" placeholderLabel="Buscar jugador..." noEntriesFoundLabel="'Jugador no encontrado'">
                                 </ngx-mat-select-search>
                             </mat-option>
-                            <mat-option value="jugador 2">Jugador 2</mat-option>
+                            <mat-option *ngFor="let jugador of filteredJugadoresD| async" [value]="jugador.id">
+                                {{ jugador.nombre }}
+                            </mat-option>
                         </mat-select>
                     </div>
+                    <mat-error *ngIf="parejaForm.get('jugador2').invalid && (parejaForm.get('jugador2').dirty || parejaForm.get('jugador2').touched)">
+                        El jugador 2 es requerido.
+                    </mat-error>
                 </div>
             </div>
 
             <!-- ranking -->
-            <div class="input-number-per mt-2">
+            <div class="input-number-per mt-2 mb-3">
                 <mat-label class="mb-1 font-medium text-lg">Ranking</mat-label>
                 <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" name="ranking" id="ranking" type="number" min="1" required>
+                <mat-error *ngIf="parejaForm.get('ranking').invalid && (parejaForm.get('ranking').dirty || parejaForm.get('ranking').touched)">
+                    El ranking de la pareja es requerida y mayor a 0.
+                </mat-error>
             </div>
 
             <!-- rama -->
             <div class="w-full mb-3">
-                <mat-label class="mb-1 font-medium text-lg">Rama</mat-label><br>
+                <mat-label class="mb-2 font-medium text-lg">Rama</mat-label><br>
                 <mat-radio-group aria-label="seleccionar rama del torneo" [formControlName]="'rama'">
-                    <mat-radio-button value="1">Masculina</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="2">Femenina</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button *ngFor="let rama of ramas" [value]="rama.nombre">{{rama.descripcion | titlecase}}&nbsp;&nbsp;</mat-radio-button>
                 </mat-radio-group>
             </div>
 
             <!-- Categoria -->
             <div class="w-full mb-3">
-                <mat-label class="mb-1 font-medium text-lg">Categoria</mat-label><br>
-                <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'categoria'">
-                    <mat-radio-button value="1">A</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="2">B+</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="3">B</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="4">C+</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="5">C</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="6">D</mat-radio-button>
+                <mat-label class="mb-2 font-medium text-lg">Categoria</mat-label><br>
+                <mat-radio-group aria-label="seleccionar categoria del torneo" [formControlName]="'categoria'">
+                    <mat-radio-button *ngFor="let categoria of categorias" [value]="categoria.nombre">{{categoria.descripcion | titlecase}}&nbsp;&nbsp;</mat-radio-button>
                 </mat-radio-group>
             </div>
         </form>

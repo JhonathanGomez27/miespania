@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false
+    production: false,
+    apiUrlAdmin: 'http://localhost:3000/tenis/',
+    apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
+    limit: 20,
 };
 
 /*

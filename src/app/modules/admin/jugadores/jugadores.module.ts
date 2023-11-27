@@ -7,6 +7,8 @@ import { SharedModule } from 'app/shared/shared.module';
 import { JugadoresRoutingModule } from './jugadores-routing.module';
 import { EditarJugadorSingleComponent } from './modales/editar-jugador-single/editar-jugador-single.component';
 import { EditarJugadorParejaComponent } from './modales/editar-jugador-pareja/editar-jugador-pareja.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { CustomPaginator } from 'app/shared/customPaginatorConfiguration';
 
 
 
@@ -21,6 +23,9 @@ import { EditarJugadorParejaComponent } from './modales/editar-jugador-pareja/ed
   imports: [
     SharedModule,
     JugadoresRoutingModule
+  ],
+  providers: [
+    {provide: MatPaginatorIntl, useValue: CustomPaginator()},
   ]
 })
 export class JugadoresModule { }

@@ -12,12 +12,12 @@ import { CrearGrupoComponent } from './modals/crear-grupo/crear-grupo.component'
 
 
 @NgModule({
+  imports: [
+      TorneosRoutingModule,
+      SharedModule,
+  ],
   declarations: [
     TorneosComponent, ListComponent, DetailsComponent, CrearTorneoComponent, EditarPartidoComponent, CrearGrupoComponent
-  ],
-  imports: [
-    TorneosRoutingModule,
-    SharedModule
   ]
 })
 export class TorneosModule { }

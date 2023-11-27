@@ -22,11 +22,16 @@ th {
 }
 
 .form-buscar-jugador{
-    padding: 6px;
+    padding: 10px;
     border-radius: 5px;
-    background-color: white;
+    background-color: #bebebeb1;
 
     font-weight: bolder;
+
+    input{
+        font-size: 18px;
+        font-weight: 500;
+    }
 }
 
 .form-buscar-jugador:active{

@@ -19,27 +19,30 @@
             <div class="input-number-per mt-2">
                 <mat-label class="mb-1 font-medium text-lg">Ranking</mat-label>
                 <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" type="number" min="1" required>
+
             </div>
 
             <!-- rama -->
             <div class="w-full mb-3">
-                <mat-label class="mb-1 font-medium text-lg">Rama</mat-label><br>
-                <mat-radio-group aria-label="seleccionar rama del torneo" [formControlName]="'rama'">
-                    <mat-radio-button value="1">Masculina</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="2">Femenina</mat-radio-button>&nbsp;&nbsp;
+                <mat-label class="font-medium pb-4">Rama</mat-label><br>
+                <mat-radio-group aria-label="seleccionar rama del jugador" [formControlName]="'rama'">
+                    <mat-radio-button *ngFor="let rama of ramas" [value]="rama.nombre">{{rama.descripcion | titlecase}}&nbsp;&nbsp;</mat-radio-button>
                 </mat-radio-group>
             </div>
 
             <!-- Categoria -->
             <div class="w-full mb-3">
-                <mat-label class="mb-1 font-medium text-lg">Categoria</mat-label><br>
-                <mat-radio-group aria-label="seleccionar modalidad del torneo" [formControlName]="'categoria'">
-                    <mat-radio-button value="1">A</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="2">B+</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="3">B</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="4">C+</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="5">C</mat-radio-button>&nbsp;&nbsp;
-                    <mat-radio-button value="6">D</mat-radio-button>
+                <mat-label class="font-medium pb-4">Categoria</mat-label><br>
+                <mat-radio-group aria-label="seleccionar categoria del jugador" [formControlName]="'categoria'">
+                    <mat-radio-button *ngFor="let categoria of categorias" [value]="categoria.nombre">{{categoria.descripcion | titlecase}}&nbsp;&nbsp;</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <!-- Categoria dobles-->
+            <div class="w-full mb-3">
+                <mat-label class="font-medium pb-4">Categoria dobles</mat-label><br>
+                <mat-radio-group aria-label="seleccionar categoria del jugador en dobles" [formControlName]="'categoria_dobles'">
+                    <mat-radio-button *ngFor="let categoria of categorias" [value]="categoria.nombre">{{categoria.descripcion | titlecase}}&nbsp;&nbsp;</mat-radio-button>
                 </mat-radio-group>
             </div>
         </form>

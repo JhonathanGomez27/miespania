@@ -1,29 +1,41 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
+import { JugadoresService } from '../../jugadores.service';
 
 @Component({
     selector: 'app-editar-jugador-single',
     templateUrl: './editar-jugador-single.component.html',
     styleUrls: ['./editar-jugador-single.component.scss'],
 })
-export class EditarJugadorSingleComponent implements OnInit {
+export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
 
     jugadorForm: FormGroup;
 
     Toast:any;
 
+    jugador:any = {};
+
+    ramas: any = [];
+    categorias: any = [];
+
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
+
     constructor(
         public matDialogRef: MatDialogRef<EditarJugadorSingleComponent>,
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private _jugadoresService: JugadoresService
     ) {
         this.jugadorForm = this._formBuilder.group({
             nombre: new FormControl({ value: '', disabled: false },Validators.required),
             ranking: new FormControl({ value: '', disabled: false },[Validators.required, Validators.pattern("[0-9]*")]),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
             categoria: new FormControl({ value: '', disabled: false },Validators.required),
+            categoria_dobles: new FormControl({ value: '', disabled: false },Validators.required),
         });
 
         this.Toast = Swal.mixin({
@@ -37,9 +49,36 @@ export class EditarJugadorSingleComponent implements OnInit {
                 toast.addEventListener('mouseleave', Swal.resumeTimer);
             },
         });
+
+        this.jugador = data.jugador;
+
+        this.jugadorForm.patchValue(data.jugador);
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        // ramas
+        this._jugadoresService.ramas$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.ramas = response;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+
+        // categorias
+        this._jugadoresService.categorias$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.categorias = response;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
 
     confirmarJugador(){
         if(this.jugadorForm.invalid){
@@ -48,8 +87,17 @@ export class EditarJugadorSingleComponent implements OnInit {
                 title: "Debe completar todos los campos antes de continuar."
             });
 
+            this.jugadorForm.markAllAsTouched();
+
             return;
         }
+
+        this.jugadorForm.disable();
+
+        let values = this.jugadorForm.getRawValue();
+        values.id = this.jugador.userid.id;
+
+        this.matDialogRef.close(values);
     }
 
     onNoClick(): void {

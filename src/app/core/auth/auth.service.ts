@@ -3,12 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class AuthService
 {
     private _authenticated: boolean = false;
-    private url: any = '';
+    private url: string = environment.apiUrlAuthentication;
 
     /**
      * Constructor
@@ -35,6 +36,14 @@ export class AuthService
     get accessToken(): string
     {
         return localStorage.getItem('accessToken') ?? '';
+    }
+
+    set accessTokenRefresh(token: string) {
+        localStorage.setItem('accessTokenRefresh', token);
+    }
+
+    get accessTokenRefresh(): string {
+        return localStorage.getItem('accessTokenRefresh') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -66,19 +75,21 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(credentials: { correo: string; contrasena: string }): Observable<any>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
         {
-            return throwError('User is already logged in.');
+            return throwError('El usuario ya tiene sesíon iniciada.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post(`${this.url}signin`, credentials).pipe(
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
+
+                this.accessTokenRefresh = response.refreshToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
@@ -98,18 +109,17 @@ export class AuthService
     signInUsingToken(): Observable<any>
     {
         // Renew token
-        return this._httpClient.post('api/auth/refresh-access-token', {
-            accessToken: this.accessToken
-        }).pipe(
+        return this._httpClient.get(`${this.url}refresh`).pipe(
             catchError(() =>
-
                 // Return false
                 of(false)
             ),
             switchMap((response: any) => {
 
                 // Store the access token in the local storage
-                this.accessToken = response.accessToken;
+                this.accessToken = response.accesstoken;
+
+                this.accessTokenRefresh = response.refreshToken;
 
                 // Set the authenticated flag to true
                 this._authenticated = true;
@@ -130,6 +140,7 @@ export class AuthService
     {
         // Remove the access token from the local storage
         localStorage.removeItem('accessToken');
+        localStorage.removeItem('accessTokenRefresh');
 
         // Set the authenticated flag to false
         this._authenticated = false;

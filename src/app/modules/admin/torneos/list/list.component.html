@@ -3,7 +3,17 @@
         <!-- Title and action buttons -->
         <div class="flex items-center justify-between w-full">
             <div>
-                <div class="text-3xl font-semibold tracking-tight leading-8">Torneos</div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Torneos</div>
+                <div class="ml-0.5 font-medium text-secondary text-lg">
+                    <ng-container *ngIf="torneosCount > 0">
+                        {{torneosCount}}
+                    </ng-container>
+                    {{torneosCount | i18nPlural: {
+                    '=0' : 'No tienes torneos',
+                    '=1' : 'torneo',
+                    'other': 'torneos'
+                    } }}
+                </div>
             </div>
             <div class="flex items-center ml-6">
                 <button (click)="crearTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
@@ -35,8 +45,8 @@
                                 Torneo
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 font-medium text-sm text-secondary whitespace-nowrap">
-                                    {{element.name}}
+                                <span class="pr-6 font-medium text-base whitespace-nowrap">
+                                    {{element.nombre}}
                                 </span>
                             </td>
                         </ng-container>
@@ -47,8 +57,8 @@
                                 Rama
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap">
-                                    {{element.rama}}
+                                <span class="pr-6 whitespace-nowrap text-base font-medium">
+                                    {{element.rama | titlecase}}
                                 </span>
                             </td>
                         </ng-container>
@@ -59,7 +69,7 @@
                                 Categoria
                             </th>
                             <td class=" text-center" mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap font-semibold">
+                                <span class="pr-6 whitespace-nowrap font-semibold text-base">
                                     {{element.categoria}}
                                 </span>
                             </td>
@@ -72,9 +82,12 @@
                             </th>
                             <td mat-cell *matCellDef="let element">
                                 <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase"
-                                    [ngClass]="{'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': element.estado === 'Finalizado',
-                                                'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element.estado === 'En proceso'}">
-                                    <span class="leading-relaxed whitespace-nowrap">
+                                    [ngClass]="{'bg-amber-200 text-amber-800 dark:bg-amber-600 dark:text-amber-50': element.estado === 'Programacion',
+                                                'bg-sky-200 text-sky-800 dark:bg-sky-600 dark:text-sky-50': element.estado === 'Inicial',
+                                                'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element.estado === 'En Proceso',
+                                                'bg-purple-200 text-purple-800 dark:bg-purple-600 dark:text-purple-50': element.estado === 'Sorteo',
+                                                'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': element.estado === 'Finalizado'}">
+                                    <span class="leading-relaxed whitespace-nowrap text-base">
                                         {{element.estado}}
                                     </span>
                                 </span>

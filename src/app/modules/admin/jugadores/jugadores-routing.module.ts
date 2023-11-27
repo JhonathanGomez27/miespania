@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { JugadoresComponent } from './jugadores.component';
 import { SinglesComponent } from './singles/singles.component';
 import { ParejasComponent } from './parejas/parejas.component';
+import { ObtenerCategoriasResolver, ObtenerJugadoresPaginadoResolver, ObtenerJugadoresResolver, ObtenerParejasPaginadoResolver, ObtenerParejasResolver, ObtenerRamasResolver } from './jugadores.component.resolver';
 
 const routes: Routes = [
     {
@@ -12,12 +13,25 @@ const routes: Routes = [
             {
                 path: 'solos',
                 component: SinglesComponent,
+                resolve: {
+                    jugadoresPag: ObtenerJugadoresPaginadoResolver
+                }
             },
             {
                 path: 'parejas',
-                component: ParejasComponent
+                component: ParejasComponent,
+                resolve: {
+                    // parejas: ObtenerParejasResolver,
+                    parejas: ObtenerParejasPaginadoResolver,
+                    jugadores: ObtenerJugadoresResolver,
+                }
             }
-        ]
+        ],
+        resolve: {
+            // jugadores: ObtenerJugadoresResolver,
+            ramas: ObtenerRamasResolver,
+            categorias: ObtenerCategoriasResolver,
+        }
     }
 ];
 

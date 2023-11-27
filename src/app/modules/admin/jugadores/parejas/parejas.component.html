@@ -3,20 +3,30 @@
         <!-- Title and action buttons -->
         <div class="flex items-center justify-between w-full">
             <div>
-                <div class="text-3xl font-semibold tracking-tight leading-8">Jugadores / Parejas</div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Jugadores / Parejas</div>
+                <div class="ml-0.5 font-medium text-secondary text-lg">
+                    <ng-container *ngIf="parejasCount > 0">
+                        {{parejasCount}}
+                    </ng-container>
+                    {{parejasCount | i18nPlural: {
+                    '=0' : 'No tienes parejas',
+                    '=1' : 'pareja',
+                    'other': 'parejas'
+                    } }}
+                </div>
             </div>
         </div>
 
         <!-- Selector jugador -->
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 mt-4 gap-2">
             <div class="flex justify-start">
-                <button (click)="crearPareja()" class="text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+                <button (click)="crearParejaDialogo()" class="text-white font-bold text-lg" mat-flat-button [color]="'primary'">
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                     <span class="ml-2">Crear pareja</span>
                 </button>
             </div>
             <div class="form-buscar-jugador">
-                <input matInput [formControl]="buscarJugador" type="text" placeholder="Buscar jugador">
+                <input matInput (keyup)="applyFilter($event)" [formControl]="buscarJugador" type="text" placeholder="Buscar pareja">
             </div>
         </div>
 
@@ -24,90 +34,98 @@
         <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
             <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden">
                 <div class="overflow-x-auto mx-6">
-                    <table class="w-full bg-transparent" mat-table [dataSource]="tablaTorneosData" [trackBy]="trackByFn">
+                    <ng-container *ngIf="parejasCount > 0; else elseNoParejas">
+                        <table class="w-full bg-transparent" mat-table [dataSource]="tablaParejasData" [trackBy]="trackByFn"  matSort #tablaParejas>
 
-                        <!-- ranking -->
-                        <ng-container matColumnDef="ranking">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Ranking
-                            </th>
-                            <td class="text-center" mat-cell *matCellDef="let element">
-                                <span class="pr-6 font-semibold text-sm whitespace-nowrap">
-                                    {{element.ranking}}
-                                </span>
-                            </td>
-                        </ng-container>
+                            <!-- ranking -->
+                            <ng-container matColumnDef="ranking">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black text-lg">
+                                    Ranking
+                                </th>
+                                <td class="text-center" mat-cell *matCellDef="let element">
+                                    <span class="pr-6 font-semibold text-sm whitespace-nowrap">
+                                        {{element.ranking}}
+                                    </span>
+                                </td>
+                            </ng-container>
 
-                        <!-- jugador -->
-                        <ng-container matColumnDef="jugador">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Jugador 1
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap">
-                                    {{element.jugador}}
-                                </span>
-                            </td>
-                        </ng-container>
+                            <!-- jugador -->
+                            <ng-container matColumnDef="jugador1">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black text-lg">
+                                    Jugador 1
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="pr-6 whitespace-nowrap">
+                                        {{element.juagador1.nombre}}
+                                    </span>
+                                </td>
+                            </ng-container>
 
-                        <!-- jugador -->
-                        <ng-container matColumnDef="jugador2">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Jugador 2
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap">
-                                    {{element.jugadorD}}
-                                </span>
-                            </td>
-                        </ng-container>
+                            <!-- jugador -->
+                            <ng-container matColumnDef="jugador2">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black text-lg">
+                                    Jugador 2
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="pr-6 whitespace-nowrap">
+                                        {{element.juagador2.nombre}}
+                                    </span>
+                                </td>
+                            </ng-container>
 
-                        <!-- rama -->
-                        <ng-container matColumnDef="rama">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Rama
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap font-semibold">
-                                    {{element.rama}}
-                                </span>
-                            </td>
-                        </ng-container>
+                            <!-- rama -->
+                            <ng-container matColumnDef="rama">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black text-lg">
+                                    Rama
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="pr-6 whitespace-nowrap font-semibold">
+                                        {{element.rama}}
+                                    </span>
+                                </td>
+                            </ng-container>
 
-                        <!-- categoria -->
-                        <ng-container matColumnDef="categoria">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Categoria
-                            </th>
-                            <td mat-cell *matCellDef="let element">
-                                <span class="pr-6 whitespace-nowrap font-semibold">
-                                    {{element.categoria}}
-                                </span>
-                            </td>
-                        </ng-container>
+                            <!-- categoria -->
+                            <ng-container matColumnDef="categoria">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-black text-lg">
+                                    Categoria
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="pr-6 whitespace-nowrap font-semibold">
+                                        {{element.categoria}}
+                                    </span>
+                                </td>
+                            </ng-container>
 
-                        <!-- acciones -->
-                        <ng-container matColumnDef="acciones">
-                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
-                                Acciones
-                            </th>
-                            <td class="text-center" mat-cell *matCellDef="let element">
-                                <div>
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarPareja(element)"></mat-icon>&nbsp;&nbsp;
-                                </div>
-                            </td>
-                        </ng-container>
+                            <!-- acciones -->
+                            <ng-container matColumnDef="acciones">
+                                <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                    Acciones
+                                </th>
+                                <td class="text-center" mat-cell *matCellDef="let element">
+                                    <div>
+                                        <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarParejaDialogo(element)"></mat-icon>&nbsp;&nbsp;
+                                    </div>
+                                </td>
+                            </ng-container>
 
-                        <tr mat-header-row *matHeaderRowDef="tablaTorneosColumns"></tr>
-                        <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaTorneosColumns;"></tr>
-                    </table>
+                            <tr mat-header-row *matHeaderRowDef="tablaParejasColumns"></tr>
+                            <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaParejasColumns;"></tr>
+                        </table>
+                    </ng-container>
 
-                    <mat-paginator pageSize="30" class="absolute inset-x-0 bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"
-                    [length]="jugadoresCount" (page)="onPageChange($event)" [showFirstLastButtons]="true" aria-label="Select page" [pageIndex]="pagina">
-                    </mat-paginator>
+                    <!-- No parejas -->
+                    <ng-template #elseNoParejas>
+                        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay parejas para mostrar!</div>
+                    </ng-template>
+
                 </div>
             </div>
         </div>
+
+        <div class="mt-10 w-full">&nbsp;</div>
+
+        <mat-paginator [pageSize]="limit" class="absolute inset-x-0 bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent" [length]="parejasCount" (page)="onPageChange($event)" [showFirstLastButtons]="true" aria-label="Select page" [pageIndex]="pagina"></mat-paginator>
     </div>
 
 

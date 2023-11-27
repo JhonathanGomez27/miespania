@@ -89,10 +89,14 @@
     padding: 8px;
     font-size: 15px;
     font-weight: 600;
+
+
 }
 
-.ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
-    .input-select-per{
-        border: 1px solid #E33022 !important; /* red */
+.clas-pruyeba{
+    .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+            border: 1px solid #E33022 !important; /* red */
     }
 }
+
+

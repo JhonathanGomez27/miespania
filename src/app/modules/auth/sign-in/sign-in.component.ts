@@ -57,8 +57,8 @@ export class AuthSignInComponent implements OnInit
     {
         // Create the form
         this.signInForm = this._formBuilder.group({
-            user     : ['hughes.brian@company.com', [Validators.required]],
-            password  : ['admin', Validators.required],
+            user     : ['', [Validators.required]],
+            password  : ['', Validators.required],
         });
     }
 
@@ -86,8 +86,8 @@ export class AuthSignInComponent implements OnInit
         let val = this.signInForm.getRawValue();
 
         let values = {
-            email: val.user,
-            password: val.password
+            correo: val.user,
+            contrasena: val.password
         }
 
         // Sign in

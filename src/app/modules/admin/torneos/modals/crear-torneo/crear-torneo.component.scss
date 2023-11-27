@@ -5,3 +5,37 @@
 .mat-radio-inner-circle{
     background-color: #FFD484 !important;
 }
+
+.input-number-set{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+
+    input{
+        background-color: #bebebeb1;
+        border-radius: 7px;
+        padding: 10px;
+        font-size: 18px;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .ng-invalid:not(form).ng-touched.ng-pristine, .ng-invalid:not(form).ng-touched.ng-dirty{
+        border: 1px solid #E33022 !important; /* red */
+    }
+}
+
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex{
+    background-color: #bebebeb1 !important;
+}
+
+.mat-form-field.mat-form-field-appearance-fill.mat-focused .mat-form-field-wrapper .mat-form-field-flex{
+    background-color: #bebebeb1 !important;
+}
+
+.mat-form-field{
+    input{
+        font-size: 18px;
+        font-weight: 700;
+    }
+}

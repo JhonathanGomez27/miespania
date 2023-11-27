@@ -36,7 +36,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         MatInputModule,
         MatRadioModule,
         MatSelectModule,
-        NgxMatSelectSearchModule
+        NgxMatSelectSearchModule,
     ],
     exports: [
         CommonModule,

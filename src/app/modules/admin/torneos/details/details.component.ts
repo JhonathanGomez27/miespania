@@ -2,10 +2,11 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { EditarPartidoComponent } from '../modals/editar-partido/editar-partido.component';
 import { CrearTorneoComponent } from '../modals/crear-torneo/crear-torneo.component';
 import { CrearGrupoComponent } from '../modals/crear-grupo/crear-grupo.component';
+import { TorneosService } from '../torneos.service';
 
 @Component({
     selector: 'app-details',
@@ -29,9 +30,17 @@ export class DetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _matDialog: MatDialog,
+        private _torneoService: TorneosService
     ) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        this._torneoService.torneo$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.torneo = response;
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
 
     /**
      * On destroy
@@ -46,7 +55,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         // Open the dialog
         const dialogRef = this._matDialog.open(CrearTorneoComponent,{
             // width: '80%'
-            data: {accion: 'Editar'}
+            data: {accion: 'Editar', torneo: this.torneo}
         });
 
         dialogRef.afterClosed().subscribe((result) => {

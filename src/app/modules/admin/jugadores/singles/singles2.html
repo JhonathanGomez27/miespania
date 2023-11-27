@@ -1,0 +1,94 @@
+<div class="flex flex-col flex-auto w-full">
+    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+        <!-- Title and action buttons -->
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <div class="text-3xl font-semibold tracking-tight leading-8">Jugadores / Singles</div>
+            </div>
+        </div>
+
+        <div class="w-full flex justify-end">
+            <!-- Selector jugador -->
+            <div class="w-6/12 form-buscar-jugador">
+                <input matInput [formControl]="buscarJugador" type="text" placeholder="Buscar jugador">
+            </div>
+        </div>
+
+        <!-- tabla jugadores -->
+        <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
+            <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden">
+                <div class="overflow-x-auto mx-6">
+                    <table class="w-full bg-transparent" mat-table [dataSource]="tablaTorneosData" [trackBy]="trackByFn">
+
+                        <!-- ranking -->
+                        <ng-container matColumnDef="ranking">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Ranking
+                            </th>
+                            <td class="text-center" mat-cell *matCellDef="let element">
+                                <span class="pr-6 font-semibold text-sm whitespace-nowrap">
+                                    {{element.ranking}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- jugador -->
+                        <ng-container matColumnDef="jugador">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Jugador
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap">
+                                    {{element.nombre}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- rama -->
+                        <ng-container matColumnDef="rama">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Rama
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap font-semibold">
+                                    {{element.rama | titlecase}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- categoria -->
+                        <ng-container matColumnDef="categoria">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Categoria
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap font-semibold">
+                                    {{element.categoria}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- acciones -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Acciones
+                            </th>
+                            <td class="text-center" mat-cell *matCellDef="let element">
+                                <div>
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarJugador(element)"></mat-icon>&nbsp;&nbsp;
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="tablaTorneosColumns"></tr>
+                        <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaTorneosColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-10 w-full">&nbsp;</div>
+
+        <mat-paginator pageSize="20" class="sm:absolute sm:inset-x-0 sm:bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent" [length]="jugadoresCount" (page)="onPageChange($event)" [showFirstLastButtons]="true" aria-label="Select page" [pageIndex]="pagina"></mat-paginator>
+    </div>
+</div>

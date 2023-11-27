@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TorneosComponent } from './torneos.component';
 import { ListComponent } from './list/list.component';
 import { DetailsComponent } from './details/details.component';
+import { ObtenerCategoriasResolver, ObtenerEstadosResolver, ObtenerFasesResolver, ObtenerModalidadesResolver, ObtenerRamasResolver, ObtenerTiposResolver, ObtenerTorneoByIdResolver, ObtenerTorneosResolver } from './torneos.component.resolver';
 
 const routes: Routes = [
     {
@@ -15,9 +16,21 @@ const routes: Routes = [
             },
             {
                 path: ':id',
-                component: DetailsComponent
+                component: DetailsComponent,
+                resolve: {
+                    torneo: ObtenerTorneoByIdResolver
+                }
             }
-        ]
+        ],
+        resolve: {
+            torneos: ObtenerTorneosResolver,
+            ramas: ObtenerRamasResolver,
+            tipos: ObtenerTiposResolver,
+            modalidades: ObtenerModalidadesResolver,
+            categorias: ObtenerCategoriasResolver,
+            fases: ObtenerFasesResolver,
+            // estados: ObtenerEstadosResolver,
+        }
     }
 ];
 
