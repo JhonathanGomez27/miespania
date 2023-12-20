@@ -58,7 +58,7 @@ export class ObtenerJugadoresPaginadoResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
     {
-        return this._jugadoresService.obtenerJugadoresFiltroPaginadoI({page: 1, limit: limit});
+        return this._jugadoresService.obtenerJugadoresFiltroPaginadoI({page: 1, limit: limit, rama: 'masculina', categoria: 'A'});
     }
 }
 
@@ -171,6 +171,6 @@ export class ObtenerParejasPaginadoResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
     {
-        return this._jugadoresService.obtenerParejasFiltroPaginadoI({page: 1, limit: limit});
+        return this._jugadoresService.obtenerParejasFiltroPaginadoI({page: 1, limit: limit, rama: 'masculina', categoria: 'A'});
     }
 }

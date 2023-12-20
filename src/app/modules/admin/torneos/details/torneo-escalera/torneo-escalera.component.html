@@ -1,0 +1,210 @@
+<div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
+    <!-- Title-->
+    <div class="flex items-center justify-between w-full">
+        <div>
+            <div class="text-3xl font-semibold tracking-tight leading-8">
+                <a class="text-naranmi" [routerLink]="['/torneos']"><mat-icon class="icon-size-6 text-black" [svgIcon]="'mat_outline:arrow_back_ios'"></mat-icon> Torneos</a> / {{torneo.nombre}}
+            </div>
+            <div class="text-xl font-semibold tracking-tight leading-8 cursor-pointer" (click)="verInscritosModal()">
+                Hay <span class="text-naranmi">{{inscritos.length}}</span> {{modalidadTorneo | i18nPlural: {'=jugador' : 'jugadores inscritos.','=pareja' : 'parejas inscritas.'} }}
+            </div>
+        </div>
+        <div *ngIf="torneo.estado === 'En Proceso'">
+            <div class="text-3xl font-semibold tracking-tight leading-8">
+                <span class="p-2.5 bg-slate-500 rounded-full text-white text-2xl font-bold">Fase {{this.torneo.fase_actual | titlecase}}</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex items-center justify-end w-full" *ngIf="showInicial">
+        <div class="flex items-center ml-6 gap-2">
+            <button [disabled]="disableButtons" (click)="editarTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+                <mat-icon class="icon-size-5" [svgIcon]="'feather:edit'"></mat-icon>
+                <span class="ml-2">Editar torneo</span>
+            </button>
+            <button [disabled]="disableButtons" (click)="inscribirJugadorModal()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+                <mat-icon class="icon-size-5" [svgIcon]="'feather:user-plus'"></mat-icon>
+                <span class="ml-2">Inscribir {{modalidadTorneo | titlecase}}</span>
+            </button>
+
+            <!-- Actions menu (visible on xs) -->
+            <div class="sm:hidden">
+                <button [disabled]="disableButtons" [matMenuTriggerFor]="actionsMenu" mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
+                </button>
+                <mat-menu #actionsMenu="matMenu">
+                    <button (click)="editarTorneoDialogo()" mat-menu-item>Editar torneo</button>
+                    <button (click)="inscribirJugadorModal()" mat-menu-item>Inscribir {{modalidadTorneo | titlecase}}</button>
+                </mat-menu>
+            </div>
+        </div>
+    </div>
+
+    <!-- text grupos -->
+    <div class="mt-10">
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <div class="text-3xl font-semibold tracking-tight leading-8">Grupos</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full"></div>
+
+    <!-- Grupos -->
+    <div class="relative flex items-center justify-center w-full dark:text-gray-50">
+        <div class="flex items-center justify-start w-full h-full gap-6 py-4 mx-auto overflow-auto">
+            <div class="relative flex w-full sm:w-auto h-full" *ngFor="let grupo of grupos; index as ind; trackBy: trackByFn">
+                <a (click)="seleccionarGrupoPartidos(grupo.nombre_grupo)" class="w-56 p-3 rounded-lg shadow hover:shadow-xl transition-shadow duration-150 ease-in-out bg-card">
+                    <!-- titulo grupo -->
+                    <div class="w-full border-b-2 border-chiliRed cursor-pointer">
+                        <!-- <div class="flex flex-0 items-center justify-center"> -->
+                            <div class="font-bold text-lg text-center">
+                                Grupo {{grupo.nombre_grupo}}
+                                <!-- <mat-icon *ngIf="showSorteo" (click)="removeGrupo(grupo)" class="text-chiliRed font-bold icon-display cursor-pointer float-right" [svgIcon]="'feather:minus'"></mat-icon> -->
+                            </div>
+                        <!-- </div> -->
+                    </div>
+
+                    <!-- Integrantes -->
+                    <div class="w-full mt-4 cursor-pointer">
+                        <div *ngFor="let jugador of grupo.participantes" class="flex flex-row justify-between">
+                            <div class="font-semibold text-base" *ngIf="modalidadTorneo === 'jugador'">
+                                <span class="text-naranmi" *ngIf="jugador?.ranking">{{jugador?.ranking || ''}}.</span> {{jugador[modalidadTorneo]?.nombre || jugador[modalidadTorneo]?.id}}
+                            </div>
+                            <div class="font-semibold text-base mb-2" *ngIf="modalidadTorneo !== 'jugador'">
+                                {{jugador[modalidadTorneo]?.jugador1.nombre}} - {{jugador[modalidadTorneo]?.jugador2.nombre}}
+                            </div>
+                            <div>
+                                <!-- <mat-icon *ngIf="showSorteo" (click)="removerJugador(jugador, grupo)" class="text-chiliRed font-bold icon-display-delete cursor-pointer" [svgIcon]="'feather:x'"></mat-icon> -->
+                                <div class="mb-7"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Last activity -->
+                    <div class="w-full">
+                        <div class="flex justify-end mt-4 text-md font-md">
+                            <!-- <mat-icon *ngIf="showAcciones" (click)="addIntegranteGrupoDialog(grupo)" class="text-verdemi font-bold icon-display cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon> -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full mt-4"></div>
+
+    <div class="w-full mt-4 mb-4 ">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <mat-form-field class="w-full">
+                <mat-label>Elegir fase torneo </mat-label>
+                <mat-select [formControl]="etapaControl" [placeholder]="'Fase torneo'" id="fasetorneo" (selectionChange)="etapaChange($event.value)" required>
+                    <mat-option value="grupos">Fase de grupos</mat-option>
+                    <mat-option value="octavos">Octavos de final</mat-option>
+                    <mat-option value="cuartos">Cuartos de final</mat-option>
+                    <mat-option value="semifinales">Semifinales</mat-option>
+                    <mat-option value="final">Final</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full" *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'">
+                <mat-label>Elegir jornada</mat-label>
+                <mat-select [formControl]="jornadaControl" [placeholder]="'Jornada'" id="jornada" (selectionChange)="jornadaChange($event.value, $event.source.triggerValue)" required>
+                    <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo | titlecase}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'"></div>
+            <div class="w-full flex justify-end items-center" *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'" >
+                <button (click)="programarPartidosJornada()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+                    <span class="ml-2">Programar partidos jornada.</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- partidos -->
+    <div class="w-full" *ngIf="showTabla; else elseNoPartidos">
+        <div class="grid grid-cols-1 sm:grid-cols-2">
+            <div class="font-semibold text-xl flex items-center">
+                Partidos - Grupo {{grupoSeleccionado}}
+            </div>
+            <!-- Selector jugador -->
+            <div class="w-full form-buscar-jugador">
+                <input matInput [formControl]="buscarJugador" type="text" placeholder="Buscar jugador">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
+            <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden">
+                <div class="overflow-x-auto mx-6">
+                    <table class="w-full bg-transparent" mat-table [dataSource]="tablaJugadoresData" [trackBy]="trackByFn">
+
+                        <!-- jugador 1 -->
+                        <ng-container matColumnDef="JugadorU">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Retador
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase" [ngClass]="{'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element?.resultado?.ganador?.id === element[tipoJugador].id}">
+                                    <span class="pr-6 font-semibold text-base whitespace-nowrap">
+                                        {{element[tipoJugador].nombre}}
+                                    </span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- jugador 2 -->
+                        <ng-container matColumnDef="jugadorD">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Retado
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase" [ngClass]="{'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element?.resultado?.ganador?.id === element[tipoJugador2].id}">
+                                    <span class="pr-6 font-semibold text-base whitespace-nowrap">
+                                        {{element[tipoJugador2].nombre}}
+                                    </span>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- etapa -->
+                        <ng-container matColumnDef="etapa">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Etapa
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <span class="pr-6 font-semibold text-base whitespace-nowrap">
+                                    {{etapa | titlecase}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <!-- acciones -->
+                        <ng-container matColumnDef="acciones">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Acciones
+                            </th>
+                            <td class="text-center" mat-cell *matCellDef="let element">
+                                <div *ngIf="this.torneo.fase_actual === etapa && this.torneo.estado === 'En Proceso'">
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
+                                </div>
+                                <div *ngIf="this.torneo.fase_actual !== etapa || this.torneo.estado === 'Finalizado'">
+                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:eye'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="tablaJugadoresColumns"></tr>
+                        <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaJugadoresColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No partidos -->
+    <ng-template #elseNoPartidos>
+        <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center w-full">{{mensajePartidos}}</div>
+    </ng-template>
+</div>

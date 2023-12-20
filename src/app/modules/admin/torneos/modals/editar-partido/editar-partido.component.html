@@ -17,34 +17,34 @@
                 </span>
             </div>
             <div class="flex flex-col text-center">
-                <span class="font-medium text-lg">Jugador 1</span>
-                <span>Miguel calderon</span>
+                <span class="font-medium text-lg">{{this.modalidad | titlecase}} 1</span>
+                <span>{{partido[tipoJugador].nombre}}</span>
             </div>
             <div class="flex flex-col text-center">
-                <span class="font-medium text-lg">Jugador 2</span>
-                <span>Miguel calderon</span>
+                <span class="font-medium text-lg">{{this.modalidad | titlecase}} 2</span>
+                <span>{{partido[tipoJugador2].nombre}}</span>
             </div>
         </div>
         <!-- sets -->
-        <div *ngFor="let item of [1,2,3,4]" class="grid grid-cols-3 gap-2 mt-4">
+        <div *ngFor="let item of puntos; index as i" class="grid grid-cols-3 gap-2 mt-4">
             <!-- set -->
             <div class="font-semibold text-lg text-center">
-                {{item}}
+                {{i + 1}}
             </div>
             <!-- set jugador 1 -->
             <div class="input-number-set">
-                <input class="w-9/12 sm:w-4/12" type="number" name="setCount" id="setCount" min="1">
+                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs" [(ngModel)]="item.jugador1" type="number" name="setCount" id="setCount" min="1">
             </div>
             <!-- set jugador 2 -->
             <div class="input-number-set">
-                <input class="w-9/12 sm:w-4/12" type="number" name="setCount" id="setCount" min="1">
+                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs" [(ngModel)]="item.jugador2" type="number" name="setCount" id="setCount" min="1">
             </div>
         </div>
     </div>
 
     <!-- Botones -->
     <div class="flex justify-center mb-4">
-        <button matTooltip="Confirmar" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="confirmar()">
+        <button [disabled]="disableInputs" matTooltip="Confirmar" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="confirmar()">
             Confirmar
         </button>
     </div>

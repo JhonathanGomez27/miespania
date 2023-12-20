@@ -1,7 +1,7 @@
 <div class="flex flex-col max-w-240 md:min-w-100 max-h-screen -m-6 p-5">
     <!-- Header -->
     <div class="flex flex-0 items-center justify-between h-12 pr-3 sm:pr-5 pl-6 sm:pl-8 text-on-primary p-3 border-b-4 mr-4 ml-4 color-borde mt-4">
-        <div class="text-2xl font-medium text-black mb-4">{{tipoAccion}} grupo</div>
+        <div class="text-2xl font-medium text-black mb-4">Jugadores inscritos - {{tipojuego | titlecase}}</div>
         <button mat-icon-button (click)="onNoClick()" [tabIndex]="-1">
             <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
         </button>
@@ -23,11 +23,8 @@
                 <div class="grid grid-cols-1 pr-2">
                     <div *ngFor="let jugador of filteredJugadores| async" class="border-b-4 mb-2">
                         <div class="flex flex-row justify-between">
-                            <div matTooltip="{{jugador[tipojuego]?.nombre || jugador[tipojuego]?.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
-                                {{jugador[tipojuego]?.nombre || jugador[tipojuego]?.id}}
-                            </div>
-                            <div>
-                                <mat-icon (click)="addJugadorToGrupo(jugador)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
+                            <div matTooltip="{{jugador.jugador.nombre || jugador.jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                {{jugador.jugador.nombre || jugador.jugador.id}}
                             </div>
                         </div>
                     </div>
@@ -42,11 +39,8 @@
                     <div class="grid grid-cols-1 pr-2">
                         <div *ngFor="let pareja of filteredJugadores| async" class="border-b-4 mb-2">
                             <div class="flex flex-row justify-between">
-                                <div matTooltip="{{pareja[tipojuego]?.jugador1.nombre}} - {{pareja[tipojuego]?.jugador2.nombre}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
-                                    {{pareja[tipojuego]?.jugador1.nombre}} - {{pareja[tipojuego]?.jugador2.nombre}}
-                                </div>
-                                <div>
-                                    <mat-icon (click)="addParejaTogrupo(pareja)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
+                                <div matTooltip="{{pareja.pareja.jugador1.nombre}} - {{pareja.pareja.jugador2.nombre}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                    {{pareja.pareja.jugador1.nombre}} - {{pareja.pareja.jugador2.nombre}}
                                 </div>
                             </div>
                         </div>
@@ -54,6 +48,5 @@
                 </div>
             </div>
         </ng-template>
-
     </div>
 </div>

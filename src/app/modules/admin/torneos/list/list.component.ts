@@ -6,6 +6,7 @@ import { CrearTorneoComponent } from '../modals/crear-torneo/crear-torneo.compon
 import { ActivatedRoute, Router } from '@angular/router';
 import { TorneosService } from '../torneos.service';
 import Swal from 'sweetalert2';
+import { ConfirmarIniciarTorneoComponent } from '../modals/confirmar-iniciar-torneo/confirmar-iniciar-torneo.component';
 
 @Component({
     selector: 'app-list',
@@ -18,7 +19,7 @@ export class ListComponent implements OnInit {
 
     // variables tabla
     tablaTorneosData: MatTableDataSource<any> = new MatTableDataSource([]);
-    tablaTorneosColumns: string[] = ['torneo', 'rama', 'categoria', 'estado', 'acciones'];
+    tablaTorneosColumns: string[] = ['torneo', 'rama', 'categoria', 'estado', 'fase', 'acciones'];
 
     // variables torneos
     torneos: any = [];
@@ -137,8 +138,75 @@ export class ListComponent implements OnInit {
     }
 
     editarTorneo(torneo:any){
-        this._router.navigate(['./', 1], {
+        this._router.navigate(['./', torneo.id], {
             relativeTo: this._activatedRoute,
         });
+    }
+
+    iniciarTorneo(torneo: any){
+        this._torneoService.obtenerInscritosTorneo(torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+
+                // Open the dialog
+                const dialogRef = this._matDialog.open(ConfirmarIniciarTorneoComponent,{
+                    // width: '80%'
+                    data: {accion: 'Confirmar', inscritos: response.length, torneo, tipoTorneo: torneo.tipo_torneo}
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                    if(result !== undefined){
+                        this.finalizarInscripciones(torneo, result.formar)
+                    }
+                });
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.mensaje
+
+                });
+            }
+        );
+
+        return;
+
+    }
+
+    finalizarInscripciones(torneo: any, formarGrupos:any){
+        this._torneoService.finalizarInscripciones(torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: 'Se han cerrado las inscripciones del torneo, ahora se realizara el sorteo de la fase de grupos.'
+                });
+
+                this.obtenerTorneos();
+
+                if(formarGrupos){
+                    this.sortearGrupos(torneo);
+                }
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.mensaje
+
+                });
+            }
+        );
+    }
+
+    sortearGrupos(torneo:any){
+        this._torneoService.sortearGrupos(torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: 'Se ha sorteado con exito la fase de grupos.'
+                });
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.mensaje
+                });
+            }
+        );
     }
 }

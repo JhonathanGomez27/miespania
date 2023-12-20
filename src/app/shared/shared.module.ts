@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     imports: [
@@ -37,6 +38,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         MatRadioModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
+        MatCheckboxModule
     ],
     exports: [
         CommonModule,
@@ -56,7 +58,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         MatInputModule,
         MatRadioModule,
         MatSelectModule,
-        NgxMatSelectSearchModule
+        NgxMatSelectSearchModule,
+        MatCheckboxModule
     ]
 })
 export class SharedModule

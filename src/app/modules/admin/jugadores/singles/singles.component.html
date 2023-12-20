@@ -17,9 +17,28 @@
             </div>
         </div>
 
-        <div class="w-full flex justify-end mt-10">
+        <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-5 mt-10">
+            <!-- Categoria -->
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label class="font-medium pb-4 text-xl">Categoria</mat-label>
+                <mat-select (selectionChange)="onCategoriaChange($event)" [placeholder]="'Categoria'" [formControl]="filtroCategoria">
+                    <mat-option *ngFor="let categoria of categorias" [value]="categoria.nombre">
+                        {{categoria.descripcion}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <!-- Categoria -->
+            <mat-form-field appearance="fill" class="w-full">
+                <mat-label class="font-medium pb-4 text-xl">Rama</mat-label>
+                <mat-select (selectionChange)="onRamaChange($event)" [placeholder]="'Rama'" [formControl]="filtroRama">
+                    <mat-option *ngFor="let rama of ramas" [value]="rama.nombre">
+                        {{rama.descripcion | titlecase}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
             <!-- Selector jugador -->
-            <div class="w-full form-buscar-jugador sm:w-6/12">
+            <div class="w-full form-buscar-jugador">
                 <input matInput (keyup)="applyFilter($event)" [formControl]="buscarJugador" type="text" placeholder="Buscar jugador" #input>
             </div>
         </div>

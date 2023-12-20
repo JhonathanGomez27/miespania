@@ -505,14 +505,14 @@ fuse-vertical-navigation-collapsable-item {
     > .fuse-vertical-navigation-item-wrapper {
 
         .fuse-vertical-navigation-item {
-
+            color:  rgb(196 89 47);
             /* Active state */
             &:not(.fuse-vertical-navigation-item-disabled) {
 
                 &.fuse-vertical-navigation-item-active,
                 &.fuse-vertical-navigation-item-active-forced {
                     @apply bg-naranmi bg-opacity-5 dark:bg-naranmi dark:bg-opacity-60;
-
+                    color: white;
                     .fuse-vertical-navigation-item-icon {
                         @apply opacity-100;
                     }
@@ -532,7 +532,7 @@ fuse-vertical-navigation-collapsable-item {
 
                 &:hover {
                     @apply bg-naranmi bg-opacity-5 dark:bg-naranmi dark:bg-opacity-60;
-
+                    color: white;
                     .fuse-vertical-navigation-item-icon {
                         @apply opacity-100;
                     }

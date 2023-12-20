@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +14,7 @@ import { environment } from 'environments/environment';
     selector: 'app-parejas',
     templateUrl: './parejas.component.html',
     styleUrls: ['./parejas.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
 
@@ -35,6 +36,11 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
 
     Toast: typeof Swal;
 
+    filtroCategoria: any = new FormControl({ value: 'A', disabled: false });
+    filtroRama: any = new FormControl({ value: 'masculina', disabled: false });
+
+    categorias: any = [];
+    ramas: any = [];
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _matDialog: MatDialog,
@@ -67,6 +73,18 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
+
+        this._jugadoresService.categorias$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.categorias = response;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._jugadoresService.ramas$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.ramas = response;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     /**
@@ -87,8 +105,13 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
     }
 
     onPageChange(event: any): void {
+        let categoria = this.filtroCategoria.value;
+        let rama = this.filtroRama.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
         this.pagina = event.pageIndex;
-        this.obtenerParejasPaginadas({page: (event.pageIndex + 1), limit: this.limit});
+        this.obtenerParejasPaginadas({page: (event.pageIndex + 1), limit: this.limit, categoria, rama});
     }
 
     obtenerParejasPaginadas(data:any){
@@ -99,11 +122,19 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
                 this.tablaParejasData = new MatTableDataSource(response.parejas);
 
                 this.tablaParejasData.sort = this.tablaParejas;
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
+
+                this._changeDetectorRef.markForCheck();
             },(error) => {
                 this.Toast.fire({
                     icon: 'error',
                     title: error.error.message
                 });
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
             }
         );
     }
@@ -131,7 +162,12 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
                     title: 'Pareja creada con exito.'
                 });
 
-                this.obtenerParejasRefresh();
+                let categoria = this.filtroCategoria.value;
+                let rama = this.filtroRama.value;
+                this.filtroCategoria.disable();
+                this.filtroRama.disable();
+
+                this.obtenerParejasRefresh({page: (this.pagina + 1), limit: this.limit, categoria, rama});
 
                 this._changeDetectorRef.markForCheck();
             },(error) => {
@@ -165,8 +201,12 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
                     icon: 'success',
                     title: 'Pareja editada con exito.'
                 });
+                let categoria = this.filtroCategoria.value;
+                let rama = this.filtroRama.value;
+                this.filtroCategoria.disable();
+                this.filtroRama.disable();
 
-                this.obtenerParejasRefresh();
+                this.obtenerParejasRefresh({page: (this.pagina + 1), limit: this.limit, categoria, rama});
             },(error) => {
                 this.Toast.fire({
                     icon: 'error',
@@ -176,15 +216,18 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
         );
     }
 
-    obtenerParejasRefresh(){
-        this._jugadoresService.obtenerParejasRefresh().pipe(takeUntil(this._unsubscribeAll)).subscribe(
+    obtenerParejasRefresh(data:any){
+        this._jugadoresService.obtenerParejasFiltroPaginado(data).pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (response:any) => {
-                this._jugadoresService.parejas = response;
-                this.parejas = response;
-                this.parejasCount = response.length;
-                this.tablaParejasData = new MatTableDataSource(response);
+                this._jugadoresService.parejas = response.parejas;
+                this.parejas = response.parejas;
+                this.parejasCount = response.total;
+                this.tablaParejasData = new MatTableDataSource(response.parejas);
 
                 this.tablaParejasData.sort = this.tablaParejas;
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
 
                 this._changeDetectorRef.markForCheck();
             },(error) => {
@@ -192,6 +235,9 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
                     icon: 'error',
                     title: error.error.message
                 });
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
             }
         );
     }
@@ -203,6 +249,26 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
         this.parejasCount = this.tablaParejasData.filteredData.length;
 
         this._changeDetectorRef.markForCheck();
+    }
+
+    onCategoriaChange(event:any){
+        let categoria = event.value;
+        let rama = this.filtroRama.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
+        this.pagina = 0;
+        this.obtenerParejasPaginadas({page: 1, limit: this.limit, categoria: categoria, rama});
+    }
+
+    onRamaChange(event:any){
+        let categoria = this.filtroCategoria.value;
+        let rama = event.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
+        this.pagina = 0;
+        this.obtenerParejasPaginadas({page: 1, limit: this.limit, categoria, rama});
     }
 
     /**

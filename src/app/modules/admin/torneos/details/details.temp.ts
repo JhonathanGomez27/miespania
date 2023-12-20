@@ -13,12 +13,11 @@ import { InscribirJugadorComponent } from '../modals/inscribir-jugador/inscribir
 import { VerInscritosComponent } from '../modals/ver-inscritos/ver-inscritos.component';
 
 @Component({
-    selector: 'app-details',
-    templateUrl: './details.component.html',
-    styleUrls: ['./details.component.scss'],
+    selector: 'app-details.temp',
+    templateUrl: './details.temp.html',
     encapsulation: ViewEncapsulation.None
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsTempComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -98,43 +97,43 @@ export class DetailsComponent implements OnInit, OnDestroy {
             this.torneo = response;
             this.cantGrupos = response.cantidad_grupos;
 
-            // this.determinarTorneo();
+            this.determinarTorneo();
 
-            // if(response.estado !== 'Inicial' && response.estado !== 'Sorteo' && response.tipo_torneo !== 'escalera'){
-            //     this.tablaJugadoresData = new MatTableDataSource([]);
-            //     this.faseOctavos = [];
-            //     this.faseCuartos = [];
-            //     this.faseSemifinal = [];
-            //     this.faseFinal = [];
-            //     this.obtenerPartidosTorneo(response.id, true);
-            // }
+            if(response.estado !== 'Inicial' && response.estado !== 'Sorteo' && response.tipo_torneo !== 'escalera'){
+                this.tablaJugadoresData = new MatTableDataSource([]);
+                this.faseOctavos = [];
+                this.faseCuartos = [];
+                this.faseSemifinal = [];
+                this.faseFinal = [];
+                this.obtenerPartidosTorneo(response.id, true);
+            }
 
-            // if(response.estado === 'Inicial'){
-            //     this.showEditar = true;
-            // }
+            if(response.estado === 'Inicial'){
+                this.showEditar = true;
+            }
 
-            // if(response.estado === 'Sorteo' && response.tipo_torneo !== 'escalera'){
-            //     this.showAcciones = true;
-            //     this.showPrograma = true;
-            // }
+            if(response.estado === 'Sorteo' && response.tipo_torneo !== 'escalera'){
+                this.showAcciones = true;
+                this.showPrograma = true;
+            }
 
-            // if(response.estado === 'Inicial' || response.estado === 'Sorteo'){
-            //     this.etapaControl.disable();
-            // }
+            if(response.estado === 'Inicial' || response.estado === 'Sorteo'){
+                this.etapaControl.disable();
+            }
 
-            // if(response.estado === 'En Proceso' && response.fase_actual !== 'final' && response.tipo_torneo !== 'escalera'){
-            //     this.showSiguienteFase = true;
+            if(response.estado === 'En Proceso' && response.fase_actual !== 'final' && response.tipo_torneo !== 'escalera'){
+                this.showSiguienteFase = true;
 
-            //     this._changeDetectorRef.markForCheck();
-            // }
+                this._changeDetectorRef.markForCheck();
+            }
 
-            // if(response.estado === 'En Proceso' && response.fase_actual === 'grupos' && response.tipo_torneo === 'escalera' ){
-            //     this.showSiguietenJornada = true;
-            // }
+            if(response.estado === 'En Proceso' && response.fase_actual === 'grupos' && response.tipo_torneo === 'escalera' ){
+                this.showSiguietenJornada = true;
+            }
 
-            // if(response.tipo_torneo === 'escalera'){
-            //     this.obtenerDataEscalera();
-            // }
+            if(response.tipo_torneo === 'escalera'){
+                this.obtenerDataEscalera();
+            }
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });

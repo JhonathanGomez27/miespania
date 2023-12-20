@@ -53,7 +53,7 @@
                             <mat-label class="font-medium pb-4 text-xl">Jornadas cruzadas</mat-label>
                             <input matInput [formControlName]="'jornadas'" type="number">
                         </mat-form-field> -->
-                        <div>
+                        <div *ngIf="!mostrarJornadas">
                             <mat-label class="font-medium pb-4 text-xl">Grupos</mat-label>
                             <div class="input-number-set mb-4">
                                 <input class="w-6/12" [formControlName]="'cantidad_grupos'" type="number" name="grupos"
@@ -61,10 +61,17 @@
                             </div>
                         </div>
                         <div *ngIf="mostrarJornadas">
+                            <mat-label class="font-medium pb-4 text-xl" >Jornadas</mat-label>
+                            <div class="input-number-set mb-4">
+                                <input class="w-6/12" [formControlName]="'cantidad_jornadas_regulares'" type="number" name="jornadas_regulares"
+                                    id="jornadas_regulares" min="1">
+                            </div>
+                        </div>
+                        <div *ngIf="mostrarJornadas">
                             <mat-label class="font-medium pb-4 text-xl">Jornadas cruzadas</mat-label>
                             <div class="input-number-set mb-4">
-                                <input class="w-6/12" [formControlName]="'jornadas'" type="number" name="jornadas"
-                                    id="jornadas" min="1">
+                                <input class="w-6/12" [formControlName]="'cantidad_jornadas_cruzadas'" type="number" name="jornadas_cruzadas"
+                                    id="jornadas_cruzadas" min="1">
                             </div>
                         </div>
                     </div>
@@ -108,7 +115,7 @@
         <button matTooltip="Crear torneo" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button
             (click)="crearTorneo()">
             <mat-icon [svgIcon]="'mat_outline:add'"></mat-icon>
-            Crear torneo
+            {{tipoAccion}} torneo
         </button>
     </div>
 </div>

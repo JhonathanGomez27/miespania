@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,6 +14,7 @@ import { environment } from 'environments/environment';
     selector: 'app-singles',
     templateUrl: './singles.component.html',
     styleUrls: ['./singles.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('tablaJugadores', { read: MatSort }) tablaJugadores: MatSort;
@@ -37,8 +38,12 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     limit: number = environment.limit;
 
     buscarJugador: any = new FormControl({ value: '', disabled: false });
-
+    filtroCategoria: any = new FormControl({ value: 'A', disabled: false });
+    filtroRama: any = new FormControl({ value: 'masculina', disabled: false });
     Toast: any;
+
+    categorias: any = [];
+    ramas: any = [];
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -61,7 +66,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this._jugadoreService.jugadores$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+        this._jugadoreService.jugadoresList$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
             // this.jugadores = response;
             // this.jugadoresCount = response.length;
             // this.tablaTorneosData = new MatTableDataSource(response);
@@ -69,6 +74,18 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
             this.jugadores = response.jugadores;
             this.jugadoresCount = response.total;
             this.tablaTorneosData = new MatTableDataSource(response.jugadores);
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._jugadoreService.categorias$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.categorias = response;
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._jugadoreService.ramas$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+            this.ramas = response;
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
@@ -93,23 +110,36 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onPageChange(event: any): void {
         // console.log({page: (event.pageIndex + 1)});
+        let categoria = this.filtroCategoria.value;
+        let rama = this.filtroRama.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
         this.pagina = event.pageIndex;
-        this.obtenerJugadorePaginado({page: (event.pageIndex + 1), limit: this.limit});
+        this.obtenerJugadorePaginado({page: (event.pageIndex + 1), limit: this.limit, categoria, rama});
     }
 
     obtenerJugadorePaginado(data: any){
         this._jugadoreService.obtenerJugadoresFiltroPaginado(data).pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (response:any) => {
-                this._jugadoreService.jugadores = response.jugadores;
+                this._jugadoreService.jugadoresList = response.jugadores;
                 this.jugadoresCount = response.total;
                 this.tablaTorneosData = new MatTableDataSource(response.jugadores);
 
                 this.tablaTorneosData.sort = this.tablaJugadores;
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
+
+                this._changeDetectorRef.markForCheck();
             },(error) => {
                 this.Toast.fire({
                     icon: 'error',
                     title: error.error.message
                 });
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
             }
         );
     }
@@ -123,6 +153,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result !== undefined) {
+
                 this.editarJugadorPorId(result);
             }
         });
@@ -135,8 +166,11 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
                     icon: 'success',
                     title: 'El jugador ha sido editado con exito',
                 });
-
-                this.obtenerJugadoresRefresh();
+                let categoria = this.filtroCategoria.value;
+                let rama = this.filtroRama.value;
+                this.filtroCategoria.disable();
+                this.filtroRama.disable();
+                this.obtenerJugadoresRefresh({page: (this.pagina + 1), limit: this.limit, categoria, rama});
             },
             (error) => {
                 this.Toast.fire({
@@ -147,14 +181,17 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
-    obtenerJugadoresRefresh() {
-        this._jugadoreService.obtenerJugadoresRefresh().pipe(takeUntil(this._unsubscribeAll)).subscribe(
+    obtenerJugadoresRefresh(data:any) {
+        this._jugadoreService.obtenerJugadoresFiltroPaginado(data).pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (response: any) => {
-                this._jugadoreService.jugadores = response;
-                this.jugadoresCount = response.length;
-                this.tablaTorneosData = new MatTableDataSource(response);
+                this._jugadoreService.jugadores = response.jugadores;
+                this.jugadoresCount = response.total;
+                this.tablaTorneosData = new MatTableDataSource(response.jugadores);
 
                 this.tablaTorneosData.sort = this.tablaJugadores;
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
 
                 this._changeDetectorRef.markForCheck();
             },
@@ -163,6 +200,9 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
                     icon: 'error',
                     title: error.error.message,
                 });
+
+                this.filtroCategoria.enable();
+                this.filtroRama.enable();
             }
         );
     }
@@ -174,6 +214,26 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
         this.jugadoresCount = this.tablaTorneosData.filteredData.length;
 
         this._changeDetectorRef.markForCheck();
+    }
+
+    onCategoriaChange(event:any){
+        let categoria = event.value;
+        let rama = this.filtroRama.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
+        this.pagina = 0;
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama});
+    }
+
+    onRamaChange(event:any){
+        let categoria = this.filtroCategoria.value;
+        let rama = event.value;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
+        this.pagina = 0;
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama});
     }
 
     /**

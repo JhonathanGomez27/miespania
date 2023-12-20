@@ -37,3 +37,7 @@ th {
 .form-buscar-jugador:active{
     border: 1px solid #FFD484;
 }
+
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper{
+    margin: 0px !important;
+}

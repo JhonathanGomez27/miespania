@@ -1,0 +1,65 @@
+/* width */
+::-webkit-scrollbar {
+    height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.icon-display{
+    transform: scale(1.4);
+    float: right !important;
+}
+
+.icon-display-delete{
+    transform: scale(1);
+}
+
+.form-buscar-jugador{
+    padding: 6px;
+    border-radius: 5px;
+    background-color: white;
+
+    font-weight: bolder;
+}
+
+.form-buscar-jugador:active{
+    border: 1px solid #FFD484;
+}
+
+table {
+    width: 100%;
+}
+
+th {
+    /* row border */
+    border-bottom: 2px solid #E33022 !important;
+}
+
+.mat-form-field.mat-form-field-appearance-fill .mat-form-field-wrapper .mat-form-field-flex{
+    border-radius: 15px !important;
+    background-color: #bebebe72 !important;
+}
+
+.mat-form-field.mat-form-field-appearance-fill.mat-focused .mat-form-field-wrapper .mat-form-field-flex{
+    border-radius: 15px !important;
+    background-color: #bebebe72 !important;
+}
+
+mat-select{
+    font-size: 18px;
+    font-weight: 700;
+}

@@ -1,0 +1,24 @@
+<div class="flex flex-col max-w-240 md:min-w-100 max-h-screen -m-6 p-5">
+    <div class="p-3 text-center">
+        <h1 class="text-xl font-bold">¿ Estas seguro que deseas finalizar las inscripciones del torneo <br><span class="text-naranmi">{{torneo.nombre}}</span> ?</h1>
+        <br>
+        <h2 class="text-lg font-bold">Hay <span class="text-naranmi">{{inscritos}}</span> jugadores inscritos.</h2>
+        <h2 class="text-lg font-bold" *ngIf="tipoTorneo !== 'regular'">Para el torneo escalera los grupos se formaran automaticamente y no podran editarse.</h2>
+    </div>
+    <div class="p-3" *ngIf="tipoTorneo === 'regular'">
+        <mat-checkbox class="text-lg" [formControl]="formarGrupos">Formar fase de grupos automáticamente.</mat-checkbox>
+    </div>
+
+    <div class="p-2 grid grid-cols-2 gap-5">
+        <div class="flex justify-end ">
+            <button (click)="onNoClick()" class="text-white font-bold text-lg bg-chiliRed" mat-flat-button>
+                <span>No</span>
+            </button>
+        </div>
+        <div class="flex justify-start">
+            <button (click)="confirmar()" class="text-white font-bold text-lg bg-verdemi" mat-flat-button>
+                <span>Si</span>
+            </button>
+        </div>
+    </div>
+</div>

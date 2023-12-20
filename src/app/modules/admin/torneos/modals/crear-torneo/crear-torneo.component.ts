@@ -51,14 +51,16 @@ export class CrearTorneoComponent implements OnInit, OnDestroy {
             tipo_torneo: new FormControl({ value: '', disabled: false },Validators.required),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
             modalidad: new FormControl({ value: '', disabled: false },Validators.required),
-            cantidad_grupos: new FormControl({ value: 1, disabled: false },[Validators.required]),
+            cantidad_grupos: new FormControl({ value: 2, disabled: false },[Validators.required]),
             categoria: new FormControl({ value: '', disabled: false },Validators.required),
-            jornadas: new FormControl({ value: 1, disabled: true },Validators.required),
+            cantidad_jornadas_regulares: new FormControl({ value: 1, disabled: true },Validators.required),
+            cantidad_jornadas_cruzadas: new FormControl({ value: 1, disabled: true },Validators.required),
         });
 
         this.tipoAccion = data.accion;
 
         if(data.accion === 'Editar'){
+            this.torneoForm.get('modalidad').disable();
             this.torneo = data.torneo;
         }
 
@@ -115,6 +117,7 @@ export class CrearTorneoComponent implements OnInit, OnDestroy {
             if(this.tipoAccion === 'Editar'){
                 this.torneoForm.patchValue(this.torneo);
                 this.ordenarFasesEditar(this.torneo.configuracion_sets);
+                this.tipoTorneoChange({value: this.torneo.tipo_torneo})
             }
             // Mark for check
             this._changeDetectorRef.markForCheck();
@@ -146,6 +149,16 @@ export class CrearTorneoComponent implements OnInit, OnDestroy {
             this.torneoForm.markAllAsTouched();
         }
 
+        let data = this.torneoForm.getRawValue();
+
+        if(data.cantidad_jornadas_cruzadas > data.cantidad_jornadas_regulares){
+            this.Toast.fire({
+                icon: 'error',
+                title: 'La cantidad de jornadas cruzadas no debe ser mayor a las jornadas regulares.'
+            });
+            return;
+        }
+
         let configuracion_sets:any = {}
 
         for (const [key, value] of Object.entries(this.valuesSet)) {
@@ -160,19 +173,23 @@ export class CrearTorneoComponent implements OnInit, OnDestroy {
 
         values.fase_actual = 'grupos';
 
-        console.log(values);
+        // console.log(values);
 
-        // this.matDialogRef.close(values);
+        this.matDialogRef.close(values);
     }
 
     tipoTorneoChange(event:any){
         if(event.value === 'escalera'){
             this.mostrarJornadas = true;
-            this.torneoForm.get('jornadas').enable();
+            this.torneoForm.get('cantidad_jornadas_cruzadas').enable();
+            this.torneoForm.get('cantidad_jornadas_regulares').enable();
         }else{
             this.mostrarJornadas = false;
-            this.torneoForm.get('jornadas').disable();
+            this.torneoForm.get('cantidad_jornadas_cruzadas').disable();
+            this.torneoForm.get('cantidad_jornadas_regulares').disable();
         }
+
+        this._changeDetectorRef.markForCheck();
     }
 
     getFasePorId(id:any){

@@ -62,6 +62,62 @@ export class ObtenerTorneoByIdResolver implements Resolve<any>
 @Injectable({
     providedIn: 'root'
 })
+export class ObtenerJugadoresInscritosTorneoResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _torneosService: TorneosService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
+    {
+        return this._torneosService.obtenerJugadoresInscritosTorneo(route.paramMap.get('id'));
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ObtenerGruposTorneoResolver implements Resolve<any>
+{
+    /**
+     * Constructor
+     */
+    constructor(private _torneosService: TorneosService)
+    {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Resolver
+     *
+     * @param route
+     * @param state
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
+    {
+        return this._torneosService.obtenerGruposTorneo(route.paramMap.get('id'));
+    }
+}
+
+@Injectable({
+    providedIn: 'root'
+})
 export class ObtenerRamasResolver implements Resolve<any>
 {
     /**

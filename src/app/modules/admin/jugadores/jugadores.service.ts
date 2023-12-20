@@ -15,6 +15,7 @@ export class JugadoresService {
     // -----------------------------------------------------------------------------------------------------
 
     private _jugadores:  BehaviorSubject<any | null> = new BehaviorSubject(null);
+    private _jugadoresList:  BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _parejas:  BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _ramas:  BehaviorSubject<any | null> = new BehaviorSubject(null);
     private _categorias:  BehaviorSubject<any | null> = new BehaviorSubject(null);
@@ -31,6 +32,14 @@ export class JugadoresService {
     get jugadores$(): Observable<any>
     {
         return this._jugadores.asObservable();
+    }
+
+    /**
+     * Getter for jugadoresList
+     */
+    get jugadoresList$(): Observable<any>
+    {
+        return this._jugadoresList.asObservable();
     }
 
     /**
@@ -70,6 +79,10 @@ export class JugadoresService {
         this._parejas.next(data);
     }
 
+    set jugadoresList(data:any){
+        this._jugadoresList.next(data);
+    }
+
     // ----------------------------------------------------------------
     // Metodos jugadores
     // ----------------------------------------------------------------
@@ -88,21 +101,24 @@ export class JugadoresService {
 
     obtenerJugadoresFiltro(data:any): Observable<any>{
         let params = new HttpParams();
-        params = params.set('nombre', data.nombre);
+        params = params.set('page', data.page);
+        params = params.set('limit', data.limit);
         params = params.set('rama', data.rama);
         params = params.set('categoria', data.categoria);
 
-        return this._httpClient.get(`${this.url}jugadores/filters`,{params});
+        return this._httpClient.get(`${this.url}jugadores/filtersPaginated`,{params});
     }
 
     obtenerJugadoresFiltroPaginadoI(data:any): Observable<any>{
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
+        params = params.set('rama', data.rama);
+        params = params.set('categoria', data.categoria);
 
         return this._httpClient.get(`${this.url}jugadores/filtersPaginated`,{params}).pipe(
             tap((response) => {
-                this._jugadores.next(response);
+                this._jugadoresList.next(response);
             })
         );
     }
@@ -111,6 +127,8 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
+        params = params.set('rama', data.rama);
+        params = params.set('categoria', data.categoria);
 
         return this._httpClient.get(`${this.url}jugadores/filtersPaginated`,{params});
     }
@@ -165,6 +183,8 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
+        params = params.set('rama', data.rama);
+        params = params.set('categoria', data.categoria);
 
         return this._httpClient.get(`${this.url}parejas/filtersPaginated`,{params}).pipe(
             tap((response) => {
@@ -177,6 +197,8 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
+        params = params.set('rama', data.rama);
+        params = params.set('categoria', data.categoria);
 
         return this._httpClient.get(`${this.url}parejas/filtersPaginated`,{params});
     }

@@ -36,7 +36,7 @@
         <!-- tabla torneos -->
         <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
             <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden">
-                <div class="overflow-x-auto mx-6">
+                <div class="overflow-x-auto mx-6" *ngIf="torneos.length; else elseNoTorneos">
                     <table class="w-full bg-transparent" mat-table [dataSource]="tablaTorneosData" [trackBy]="trackByFn">
 
                         <!-- Torneo -->
@@ -94,6 +94,18 @@
                             </td>
                         </ng-container>
 
+                        <!-- Status -->
+                        <ng-container matColumnDef="fase">
+                            <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
+                                Fase actual
+                            </th>
+                            <td class=" text-center" mat-cell *matCellDef="let element">
+                                <span class="pr-6 whitespace-nowrap font-semibold text-base">
+                                    {{element.fase_actual | titlecase}}
+                                </span>
+                            </td>
+                        </ng-container>
+
                         <!-- acciones -->
                         <ng-container matColumnDef="acciones">
                             <th mat-header-cell *matHeaderCellDef class="text-black text-lg">
@@ -102,8 +114,8 @@
                             <td class="text-center" mat-cell *matCellDef="let element">
                                 <div>
                                     <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarTorneo(element)"></mat-icon>&nbsp;&nbsp;
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'"></mat-icon>&nbsp;
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:pause'"></mat-icon>
+                                    <mat-icon *ngIf="element.estado === 'Inicial'" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'" (click)="iniciarTorneo(element)"></mat-icon>&nbsp;
+                                    <!-- <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:pause'"></mat-icon> -->
                                 </div>
                             </td>
                         </ng-container>
@@ -112,6 +124,10 @@
                         <tr class="order-row h-16" mat-row *matRowDef="let row; columns: tablaTorneosColumns;"></tr>
                     </table>
                 </div>
+                <!-- No parejas -->
+                <ng-template #elseNoTorneos>
+                    <div class="p-8 sm:p-16 border-t text-4xl font-semibold tracking-tight text-center">¡No hay torneos para mostrar!</div>
+                </ng-template>
             </div>
 
             <mat-paginator pageSize="30" class="absolute inset-x-0 bottom-0 border-b sm:border-t sm:border-b-0 z-10 bg-gray-50 dark:bg-transparent"

@@ -1,0 +1,63 @@
+<div class="flex flex-col max-w-240 md:min-w-100 max-h-screen -m-6 p-5">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-12 pr-3 sm:pr-5 pl-6 sm:pl-8 text-on-primary p-3 border-b-4 mr-4 ml-4 color-borde mt-4">
+        <div class="text-2xl font-medium text-black mb-4">Inscribir {{tipojuego | titlecase}}</div>
+        <button mat-icon-button (click)="onNoClick()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div class="mt-4 mb-4 w-full">
+        <!-- buscar jugador -->
+        <div class="flex justify-center">
+            <mat-form-field class="w-10/12">
+                <!-- <mat-label class="text-base font-semibold">Buscar jugador</mat-label> -->
+                <input [formControl]="jugadoresFiltroCtrl" id="jugador" type="text"  matInput>
+                <mat-icon class="icon-size-7 text-gray-400" matPrefix [svgIcon]="'mat_outline:search'"></mat-icon>
+            </mat-form-field>
+        </div>
+
+        <!-- lista jugadores -->
+        <div class="flex justify-center w-full" *ngIf="tipojuego === 'jugador'; else elseParejas">
+            <div class="overflow-y-auto h-90 w-10/12 overflow-x-hidden">
+                <div class="grid grid-cols-1 pr-2">
+                    <ng-container *ngFor="let jugador of filteredJugadores| async">
+                        <div *ngIf="!jugador.show && jugador.show !== false" class="border-b-4 mb-2" >
+                            <div class="flex flex-row justify-between">
+                                <div matTooltip="{{jugador.nombre || jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                    {{jugador.nombre || jugador.id}}
+                                </div>
+                                <div>
+                                    <mat-icon (click)="addJugador(jugador)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+
+        <!-- lista parejas -->
+        <ng-template #elseParejas>
+            <div class="flex justify-center w-full">
+                <div class="overflow-y-auto h-90 w-10/12 overflow-x-hidden">
+                    <div class="grid grid-cols-1 pr-2">
+                        <ng-container *ngFor="let pareja of filteredJugadores| async">
+                            <div *ngIf="!pareja.show && pareja.show !== false" class="border-b-4 mb-2">
+                                <div class="flex flex-row justify-between">
+                                    <div matTooltip="{{pareja.jugador1}} - {{pareja.jugador2}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                        {{pareja.jugador1}} - {{pareja.jugador2}}
+                                    </div>
+                                    <div>
+                                        <mat-icon (click)="addJugador(pareja)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+</div>
