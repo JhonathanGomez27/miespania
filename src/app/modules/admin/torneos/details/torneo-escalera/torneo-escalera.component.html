@@ -41,6 +41,13 @@
         </div>
     </div>
 
+    <div class="w-full flex justify-end items-center mt-5"  *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
+        <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+            <mat-icon class="icon-size-5" [svgIcon]="'feather:stop-circle'"></mat-icon>
+            <span class="ml-2">Finalizar Torneo.</span>
+        </button>
+    </div>
+
     <!-- text grupos -->
     <div class="mt-10">
         <div class="flex items-center justify-between w-full">
@@ -95,6 +102,13 @@
 
     <div class="w-full mt-4"></div>
 
+    <div class="w-full flex justify-end items-center" *ngIf="showEnProceso && this.torneo.fase_actual !== 'final'">
+        <button (click)="sortearSiguienteFaseTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+            <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+            <span class="ml-2">Sortear siguiente fase.</span>
+        </button>
+    </div>
+
     <div class="w-full mt-4 mb-4 ">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <mat-form-field class="w-full">
@@ -116,24 +130,11 @@
             <div *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'"></div>
             <div class="w-full flex justify-end items-center" *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'" >
                 <button (click)="programarPartidosJornada()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
-                    <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+                    <mat-icon class="icon-size-5" [svgIcon]="'feather:arrow-right-circle'"></mat-icon>
                     <span class="ml-2">Programar partidos jornada.</span>
                 </button>
-            </div>           
+            </div>
         </div>
-    </div>
-
-    <div class="w-full flex justify-end items-center" *ngIf="showEnProceso && this.torneo.fase_actual !== 'final'">
-        <button (click)="sortearSiguienteFaseTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
-            <span class="ml-2">Sortear siguiente fase.</span>
-        </button>
-    </div>
-    <div class="w-full flex justify-end items-center" *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
-        <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
-            <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
-            <span class="ml-2">Fianlizar Torneo.</span>
-        </button>
     </div>
 
     <!-- partidos -->

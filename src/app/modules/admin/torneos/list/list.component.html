@@ -113,9 +113,9 @@
                             </th>
                             <td class="text-center" mat-cell *matCellDef="let element">
                                 <div>
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarTorneo(element)"></mat-icon>&nbsp;&nbsp;
-                                    <mat-icon *ngIf="element.estado === 'Inicial'" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'" (click)="iniciarTorneo(element)"></mat-icon>&nbsp;
-                                    <!-- <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:pause'"></mat-icon> -->
+                                    <mat-icon matTooltip="Editar Torneo" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarTorneo(element)"></mat-icon>&nbsp;&nbsp;
+                                    <mat-icon matTooltip="Iniciar Torneo" *ngIf="element.estado === 'Inicial'" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'" (click)="iniciarTorneo(element)"></mat-icon>&nbsp;
+                                    <mat-icon matTooltip="Finalizar Torneo" *ngIf="element.estado === 'En Proceso'" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:square'"></mat-icon>
                                 </div>
                             </td>
                         </ng-container>

@@ -443,13 +443,15 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
 
         this.ordenarJornadas();
 
-        if(this.etapaControl === 'grupos'){
+        if(this.etapaControl.value === 'grupos'){
             if(this.tipoJornada === 'Cruzada'){
                 this.showTabla = true;
                 this.tablaJugadoresData = new MatTableDataSource(this.partidosJornadas[this.jornadaControl.value]);
             }else{
                 this.seleccionarGrupoPartidos(this.grupoSeleccionado);
             }
+        }else{
+            this.etapaChange(this.etapaControl.value);
         }
     }
 
@@ -513,12 +515,17 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
                     partidos.push(element);
                 }
             });
-            this.tablaJugadoresData = new MatTableDataSource(partidos);
 
-            this.showTabla = true;
+            if(partidos.length){
+                this.tablaJugadoresData = new MatTableDataSource(partidos);
+                this.showTabla = true;
+            }else{
+                this.showTabla = false;
+                this.mensajePartidos = 'No hay partidos en este grupo para la jornada seleccionada.';
+            }
 
+            this._changeDetectorRef.markForCheck();
 
-            this.mensajePartidos = 'Selecciona una jornada.'
         }
 
         this._changeDetectorRef.markForCheck();
@@ -652,8 +659,10 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
         this.jornadas.forEach(jornada => {
             partidosJornadas[jornada.id] = [];
             this.partidos.forEach(partido => {
-                if(partido.jornada.id === jornada.id){
-                    partidosJornadas[jornada.id].push(partido);
+                if(partido.jornada){
+                    if(partido.jornada.id === jornada.id){
+                        partidosJornadas[jornada.id].push(partido);
+                    }
                 }
             });
         });
@@ -695,17 +704,26 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
 
         this.etapaControl.enable();
         this.etapaControl.setValue(this.torneo.fase_actual);
+        if(this.torneo.fase_actual !== 'grupos'){
+            this.etapaChange(this.torneo.fase_actual);
+        }
 
         this.ordenarJornadas();
 
-        if(this.torneo.fase_actual === 'grupos'){
-            this.mensajePartidos = 'Selecciona un grupo y una jornada para ver los partidos.';
+        if(this.tipoJornada === 'Cruzada'){
+            this.showTabla = true;
+            this.tablaJugadoresData = new MatTableDataSource(this.partidosJornadas[this.jornadaControl.value]);
+
+            this._changeDetectorRef.markForCheck();
         }
+
+        this._changeDetectorRef.markForCheck();
 
     }
 
     jornadaChange(event:any, value:any){
         this.tipoJornada = value.split(' ')[1];
+        this.showTabla = false;
         if(this.tipoJornada === 'Regular'){
             if(this.grupoSeleccionado === ''){
                 this.mensajePartidos = 'Selecciona un grupo para ver los partidos de la jornada.'
@@ -716,11 +734,24 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
                         partidos.push(element);
                     }
                 });
+
+                if(partidos.length){
+                    this.showTabla = true;
+                }else{
+                    this.showTabla = false;
+                    this.mensajePartidos = 'No hay partidos en esta jornada.';
+                }
+
                 this.tablaJugadoresData = new MatTableDataSource(partidos);
             }
         }else{
-            this.showTabla = true;
             this.tablaJugadoresData = new MatTableDataSource(this.partidosJornadas[event]);
+            if(this.partidosJornadas[event].length){
+                this.showTabla = true;
+            }else{
+                this.showTabla = false;
+                this.mensajePartidos = 'No hay partidos para esta jornada.'
+            }
         }
         this._changeDetectorRef.markForCheck();
     }

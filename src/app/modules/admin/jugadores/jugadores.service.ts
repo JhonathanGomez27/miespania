@@ -113,10 +113,12 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
-        params = params.set('rama', data.rama);
-        params = params.set('categoria', data.categoria);
+        // params = params.set('rama', data.rama);
+        // params = params.set('categoria', data.categoria);
 
-        return this._httpClient.get(`${this.url}jugadores/filtersPaginated`,{params}).pipe(
+        let filtro = {rama: data.rama, categoria: data.categoria};
+
+        return this._httpClient.post(`${this.url}jugadores/filtersPaginated`, filtro, {params}).pipe(
             tap((response) => {
                 this._jugadoresList.next(response);
             })
@@ -127,10 +129,12 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
-        params = params.set('rama', data.rama);
-        params = params.set('categoria', data.categoria);
+        // params = params.set('rama', data.rama);
+        // params = params.set('categoria', data.categoria);
 
-        return this._httpClient.get(`${this.url}jugadores/filtersPaginated`,{params});
+        let filtro = {rama: data.rama, categoria: data.categoria};
+
+        return this._httpClient.post(`${this.url}jugadores/filtersPaginated`, filtro, {params});
     }
 
     obtenerJugadorUserId(userId:any): Observable<any>{
@@ -183,10 +187,12 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
-        params = params.set('rama', data.rama);
-        params = params.set('categoria', data.categoria);
+        // params = params.set('rama', data.rama);
+        // params = params.set('categoria', data.categoria);
 
-        return this._httpClient.get(`${this.url}parejas/filtersPaginated`,{params}).pipe(
+        let filtro = {rama: data.rama, categoria: data.categoria};
+
+        return this._httpClient.post(`${this.url}parejas/filtersPaginated`, filtro, {params}).pipe(
             tap((response) => {
                 this._parejas.next(response);
             })
@@ -197,10 +203,12 @@ export class JugadoresService {
         let params = new HttpParams();
         params = params.set('page', data.page);
         params = params.set('limit', data.limit);
-        params = params.set('rama', data.rama);
-        params = params.set('categoria', data.categoria);
+        // params = params.set('rama', data.rama);
+        // params = params.set('categoria', data.categoria);
 
-        return this._httpClient.get(`${this.url}parejas/filtersPaginated`,{params});
+        let filtro = {rama: data.rama, categoria: data.categoria};
+
+        return this._httpClient.post(`${this.url}parejas/filtersPaginated`, filtro, {params});
     }
 
     obtenerParejasRefresh(): Observable<any> {
