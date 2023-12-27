@@ -143,10 +143,17 @@
                     </mat-select>
                 </mat-form-field>
 
+                <!-- este y iba abajo pero lo quite para poder finalizar el torneo  && this.torneo.fase_actual !== 'final'-->
                 <div class="w-full flex justify-end items-center" *ngIf="showEnProceso && this.torneo.fase_actual !== 'final'">
                     <button (click)="sortearSiguienteFaseTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
                         <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
                         <span class="ml-2">Sortear siguiente fase.</span>
+                    </button>
+                </div>
+                <div class="w-full flex justify-end items-center" *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
+                    <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+                        <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+                        <span class="ml-2">Fianlizar Torneo.</span>
                     </button>
                 </div>
             </div>

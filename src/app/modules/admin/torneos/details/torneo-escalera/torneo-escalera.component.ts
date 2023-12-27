@@ -607,6 +607,25 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
         );
     }
 
+
+    finalizarTorneo(){
+        this._torneoService.sortearSiguienteFase(this.torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: `Torneo Finalizado, Felicitaciones ${response.ganador} `
+                });
+
+                this.actualizarDataTorneo();
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.mensaje
+                });
+            }
+        );
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods jornadas
     // -----------------------------------------------------------------------------------------------------

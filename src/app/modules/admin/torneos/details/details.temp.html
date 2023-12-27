@@ -136,7 +136,7 @@
                 <mat-form-field class="w-full" *ngIf="showSiguietenJornada">
                     <mat-label>Elegir jornada</mat-label>
                     <mat-select [formControl]="jornadaControl" [placeholder]="'Jornada'" id="jornada" (selectionChange)="jornadaChange($event.value)" required>
-                        <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo}}</mat-option>
+                        <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo}} {{jornada.retadores}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <div class="w-full flex justify-end items-center" *ngIf="showSiguienteFase">

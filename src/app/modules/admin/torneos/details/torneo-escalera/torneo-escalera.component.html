@@ -110,7 +110,7 @@
             <mat-form-field class="w-full" *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'">
                 <mat-label>Elegir jornada</mat-label>
                 <mat-select [formControl]="jornadaControl" [placeholder]="'Jornada'" id="jornada" (selectionChange)="jornadaChange($event.value, $event.source.triggerValue)" required>
-                    <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo | titlecase}}</mat-option>
+                    <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo | titlecase}} - {{jornada.retadores}}</mat-option>
                 </mat-select>
             </mat-form-field>
             <div *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'"></div>
@@ -119,8 +119,21 @@
                     <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
                     <span class="ml-2">Programar partidos jornada.</span>
                 </button>
-            </div>
+            </div>           
         </div>
+    </div>
+
+    <div class="w-full flex justify-end items-center" *ngIf="showEnProceso && this.torneo.fase_actual !== 'final'">
+        <button (click)="sortearSiguienteFaseTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+            <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+            <span class="ml-2">Sortear siguiente fase.</span>
+        </button>
+    </div>
+    <div class="w-full flex justify-end items-center" *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
+        <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+            <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+            <span class="ml-2">Fianlizar Torneo.</span>
+        </button>
     </div>
 
     <!-- partidos -->
