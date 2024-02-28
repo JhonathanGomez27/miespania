@@ -104,9 +104,18 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
         if(this.data.editar){
             values.id = this.jugador.userid.id;
             // console.log("editar");
+            if(values.correo === ''){
+                delete values.correo;
+            }
+            // console.log(values);
+
             this.matDialogRef.close(values);
         }else{
             // console.log("no editar");
+            if(values.correo === ''){
+                delete values.correo;
+            }
+            // console.log(values);
             this.matDialogRef.close(values);
         }
     }

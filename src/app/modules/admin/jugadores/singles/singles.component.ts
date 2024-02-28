@@ -159,7 +159,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
 
         dialogRef.afterClosed().subscribe((result) => {
             if (result !== undefined) {
-                console.log(result);
+                // console.log(result);
                 let data = {
                     ...result,
                     correo: null,
@@ -286,7 +286,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onBuscarChange(event:any){
-        console.log("object");
+        // console.log("object");
         let categoria = this.filtroCategoria.value;
         let rama = this.filtroRama.value;
         let nombre = event;
