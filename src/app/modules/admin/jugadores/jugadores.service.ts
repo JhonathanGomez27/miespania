@@ -132,7 +132,7 @@ export class JugadoresService {
         // params = params.set('rama', data.rama);
         // params = params.set('categoria', data.categoria);
 
-        let filtro = {rama: data.rama, categoria: data.categoria};
+        let filtro = {rama: data.rama, categoria: data.categoria, nombre: data.nombre};
 
         return this._httpClient.post(`${this.url}jugadores/filtersPaginated`, filtro, {params});
     }
@@ -151,8 +151,12 @@ export class JugadoresService {
         return this._httpClient.get(`${this.url}jugadores/byId`,{params});
     }
 
-    editarJugadorPorId(id:any, data: any){
+    editarJugadorPorId(id:any, data: any): Observable<any>{
         return this._httpClient.patch(`${this.url}usuarios/editar/${id}`, data);
+    }
+
+    crearjugador(data:any): Observable<any>{
+        return this._httpClient.post(`${this.url}usuarios`, data);
     }
 
     obtenerRamas(): Observable<any> {

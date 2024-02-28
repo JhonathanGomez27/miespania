@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TorneosService } from '../torneos.service';
 import Swal from 'sweetalert2';
 import { ConfirmarIniciarTorneoComponent } from '../modals/confirmar-iniciar-torneo/confirmar-iniciar-torneo.component';
+import { ConfirmarAccionComponent } from '../modals/confirmar-accion/confirmar-accion.component';
 
 @Component({
     selector: 'app-list',
@@ -179,8 +180,6 @@ export class ListComponent implements OnInit {
                     title: 'Se han cerrado las inscripciones del torneo, ahora se realizara el sorteo de la fase de grupos.'
                 });
 
-                this.obtenerTorneos();
-
                 if(formarGrupos){
                     this.sortearGrupos(torneo);
                 }
@@ -201,6 +200,41 @@ export class ListComponent implements OnInit {
                     icon: 'success',
                     title: 'Se ha sorteado con exito la fase de grupos.'
                 });
+
+                this.obtenerTorneos();
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.mensaje
+                });
+            }
+        );
+    }
+
+    dialogFinalizarTorneo(torneo: any){
+        // Open the dialog
+        const dialogRef = this._matDialog.open(ConfirmarAccionComponent,{
+            // width: '80%'
+            data: {mensaje: '¿Estás seguro que quieres finalizar este torneo?'}
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if(result !== undefined){
+                this.finalizarTorneo(torneo)
+            }
+        });
+
+    }
+
+    finalizarTorneo(torneo:any){
+        this._torneoService.sortearSiguienteFase(torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: `Torneo Finalizado, Felicitaciones ${response.ganador} `
+                });
+
+                this.obtenerTorneos();
             },(error) => {
                 this.Toast.fire({
                     icon: 'error',

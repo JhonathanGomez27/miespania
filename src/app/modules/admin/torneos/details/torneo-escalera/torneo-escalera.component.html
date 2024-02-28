@@ -1,7 +1,7 @@
 <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-6 md:p-8">
     <!-- Title-->
-    <div class="flex items-center justify-between w-full">
-        <div>
+    <div class="w-full grid grid-cols-1 sm:grid-cols-3">
+        <div class="col-span-2">
             <div class="text-3xl font-semibold tracking-tight leading-8">
                 <a class="text-naranmi" [routerLink]="['/torneos']"><mat-icon class="icon-size-6 text-black" [svgIcon]="'mat_outline:arrow_back_ios'"></mat-icon> Torneos</a> / {{torneo.nombre}}
             </div>
@@ -9,7 +9,7 @@
                 Hay <span class="text-naranmi">{{inscritos.length}}</span> {{modalidadTorneo | i18nPlural: {'=jugador' : 'jugadores inscritos.','=pareja' : 'parejas inscritas.'} }}
             </div>
         </div>
-        <div *ngIf="torneo.estado === 'En Proceso'">
+        <div class="flex justify-start sm:justify-end mt-3 sm:mt-0" *ngIf="torneo.estado === 'En Proceso'">
             <div class="text-3xl font-semibold tracking-tight leading-8">
                 <span class="p-2.5 bg-slate-500 rounded-full text-white text-2xl font-bold">Fase {{this.torneo.fase_actual | titlecase}}</span>
             </div>
@@ -121,7 +121,7 @@
                     <mat-option value="final">Final</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field class="w-full" *ngIf="etapaControl.value === 'grupos' && torneo.fase_actual === 'grupos'">
+            <mat-form-field class="w-full" *ngIf="etapaControl.value === 'grupos'">
                 <mat-label>Elegir jornada</mat-label>
                 <mat-select [formControl]="jornadaControl" [placeholder]="'Jornada'" id="jornada" (selectionChange)="jornadaChange($event.value, $event.source.triggerValue)" required>
                     <mat-option *ngFor="let jornada of jornadas; index as ind" [value]="jornada.id">{{ind + 1}}. {{jornada.tipo | titlecase}} - {{jornada.retadores}}</mat-option>

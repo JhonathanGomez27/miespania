@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { EditarJugadorSingleComponent } from '../modales/editar-jugador-single/editar-jugador-single.component';
 import { JugadoresService } from '../jugadores.service';
 import Swal from 'sweetalert2';
@@ -38,8 +38,8 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     limit: number = environment.limit;
 
     buscarJugador: any = new FormControl({ value: '', disabled: false });
-    filtroCategoria: any = new FormControl({ value: 'A', disabled: false });
-    filtroRama: any = new FormControl({ value: 'masculina', disabled: false });
+    filtroCategoria: any = new FormControl({ value: '', disabled: false });
+    filtroRama: any = new FormControl({ value: '', disabled: false });
     Toast: any;
 
     categorias: any = [];
@@ -89,6 +89,12 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
+
+        this.buscarJugador.valueChanges.pipe( debounceTime(1000) ).subscribe(
+            value => {
+                this.onBuscarChange(value)
+            }
+        )
     }
 
     /**
@@ -144,11 +150,52 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
         );
     }
 
+    crearJugadorDialogo(){
+        // Open the dialog
+        const dialogRef = this._matDialog.open(EditarJugadorSingleComponent, {
+            // width: '80%'
+            data: { editar: false, title: 'Crear' },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result !== undefined) {
+                console.log(result);
+                let data = {
+                    ...result,
+                    correo: null,
+                    contrasena: null
+                }
+                this.crearJugador(result);
+            }
+        });
+    }
+
+    crearJugador(data:any){
+        this._jugadoreService.crearjugador(data).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: 'Jugador creado con exito'
+                });
+                let categoria = this.filtroCategoria.value;
+                let rama = this.filtroRama.value;
+                this.filtroCategoria.disable();
+                this.filtroRama.disable();
+                this.obtenerJugadoresRefresh({page: (this.pagina + 1), limit: this.limit, categoria, rama});
+            },(error) => {
+                this.Toast.fire({
+                    icon: 'error',
+                    title: error.error.message
+                });
+            }
+        );
+    }
+
     editarJugador(jugador: any) {
         // Open the dialog
         const dialogRef = this._matDialog.open(EditarJugadorSingleComponent, {
             // width: '80%'
-            data: { jugador },
+            data: { jugador, editar: true, title: 'Editar' },
         });
 
         dialogRef.afterClosed().subscribe((result) => {
@@ -219,21 +266,35 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     onCategoriaChange(event:any){
         let categoria = event.value;
         let rama = this.filtroRama.value;
+        let nombre = this.buscarJugador.value;
         this.filtroCategoria.disable();
         this.filtroRama.disable();
 
         this.pagina = 0;
-        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama});
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
     }
 
     onRamaChange(event:any){
         let categoria = this.filtroCategoria.value;
         let rama = event.value;
+        let nombre = this.buscarJugador.value;
         this.filtroCategoria.disable();
         this.filtroRama.disable();
 
         this.pagina = 0;
-        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama});
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
+    }
+
+    onBuscarChange(event:any){
+        console.log("object");
+        let categoria = this.filtroCategoria.value;
+        let rama = this.filtroRama.value;
+        let nombre = event;
+        this.filtroCategoria.disable();
+        this.filtroRama.disable();
+
+        this.pagina = 0;
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
     }
 
     /**

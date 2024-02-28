@@ -210,6 +210,7 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
     actualizarDataTorneo(){
         this._torneoService.obtenerTorneoByIdRefresh(this.torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (response:any) => {
+
                 this._torneoService.torneo = response;
             },(error) => {
                 this.Toast.fire({
@@ -451,6 +452,7 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
                 this.seleccionarGrupoPartidos(this.grupoSeleccionado);
             }
         }else{
+            this.etapaControl.setValue(this.torneo.fase_actual);
             this.etapaChange(this.etapaControl.value);
         }
     }
@@ -614,6 +616,20 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
         );
     }
 
+    dialogFinalizarTorneo(torneo: any){
+        // Open the dialog
+        const dialogRef = this._matDialog.open(ConfirmarAccionComponent,{
+            // width: '80%'
+            data: {mensaje: '¿Estás seguro que quieres finalizar este torneo?'}
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if(result !== undefined){
+                this.finalizarTorneo()
+            }
+        });
+
+    }
 
     finalizarTorneo(){
         this._torneoService.sortearSiguienteFase(this.torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
@@ -704,6 +720,8 @@ export class TorneoEscaleraComponent implements OnInit, OnDestroy {
 
         this.etapaControl.enable();
         this.etapaControl.setValue(this.torneo.fase_actual);
+        // Aqui esta el problema de que se pinta verde ya que primero cambia a la siguiente fase del torneo y
+        // luego vuelve a asignar los partidos que estaba en la ultima fase de grupos
         if(this.torneo.fase_actual !== 'grupos'){
             this.etapaChange(this.torneo.fase_actual);
         }

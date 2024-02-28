@@ -18,9 +18,9 @@
         </div>
 
         <!-- Selector jugador -->
-        <div class="w-full grid grid-cols-1 sm:grid-cols-2 mt-4 gap-2">
-            <div class="flex justify-start">
-                <button (click)="crearParejaDialogo()" class="text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+        <div class="w-full grid grid-cols-1 mt-4 gap-2">
+            <div class="flex justify-end">
+                <button (click)="crearParejaDialogo()" class="text-white font-bold text-2xl bg-orange-600" mat-flat-button>
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                     <span class="ml-2">Crear pareja</span>
                 </button>
@@ -49,9 +49,9 @@
                 </mat-select>
             </mat-form-field>
 
-            <div class="w-full form-buscar-jugador">
+            <!-- <div class="w-full form-buscar-jugador">
                 <input matInput (keyup)="applyFilter($event)" [formControl]="buscarJugador" type="text" placeholder="Buscar pareja">
-            </div>
+            </div> -->
         </div>
 
         <!-- tabla jugadores -->

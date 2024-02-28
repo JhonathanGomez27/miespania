@@ -42,6 +42,13 @@
             </div>
         </div>
 
+        <div class="w-full flex justify-end items-center mt-5" *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
+            <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+                <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
+                <span class="ml-2">Fianlizar Torneo.</span>
+            </button>
+        </div>
+
         <!-- text grupos -->
         <div class="mt-10">
             <div class="flex items-center justify-between w-full">
@@ -102,7 +109,7 @@
                         <!-- Last activity -->
                         <div class="w-full">
                             <div class="flex justify-end mt-4 text-md font-md">
-                                <mat-icon *ngIf="showAcciones" (click)="addIntegranteGrupoDialog(grupo)" class="text-verdemi font-bold icon-display cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
+                                <mat-icon *ngIf="!showEnProceso" (click)="addIntegranteGrupoDialog(grupo)" class="text-verdemi font-bold icon-display cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
                             </div>
                         </div>
                     </a>
@@ -150,12 +157,7 @@
                         <span class="ml-2">Sortear siguiente fase.</span>
                     </button>
                 </div>
-                <div class="w-full flex justify-end items-center" *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
-                    <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
-                        <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
-                        <span class="ml-2">Fianlizar Torneo.</span>
-                    </button>
-                </div>
+
             </div>
         </div>
 

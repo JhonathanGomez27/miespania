@@ -17,11 +17,23 @@
             </div>
         </div>
 
+        <!-- Selector jugador -->
+        <div class="w-full grid grid-cols-1 mt-4 gap-2">
+            <div class="flex justify-end">
+                <button (click)="crearJugadorDialogo()" class="text-white font-bold text-2xl bg-orange-700" mat-flat-button>
+                    <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                    <span class="ml-2">Crear Jugador</span>
+                </button>
+            </div>
+        </div>
+
         <div class="w-full grid grid-cols-2 sm:grid-cols-3 gap-5 mt-10">
             <!-- Categoria -->
             <mat-form-field appearance="fill" class="w-full">
                 <mat-label class="font-medium pb-4 text-xl">Categoria</mat-label>
                 <mat-select (selectionChange)="onCategoriaChange($event)" [placeholder]="'Categoria'" [formControl]="filtroCategoria">
+                    <mat-option [value]="''">
+                    </mat-option>
                     <mat-option *ngFor="let categoria of categorias" [value]="categoria.nombre">
                         {{categoria.descripcion}}
                     </mat-option>
@@ -32,6 +44,8 @@
             <mat-form-field appearance="fill" class="w-full">
                 <mat-label class="font-medium pb-4 text-xl">Rama</mat-label>
                 <mat-select (selectionChange)="onRamaChange($event)" [placeholder]="'Rama'" [formControl]="filtroRama">
+                    <mat-option [value]="''">
+                    </mat-option>
                     <mat-option *ngFor="let rama of ramas" [value]="rama.nombre">
                         {{rama.descripcion | titlecase}}
                     </mat-option>
@@ -39,7 +53,7 @@
             </mat-form-field>
             <!-- Selector jugador -->
             <div class="w-full form-buscar-jugador">
-                <input matInput (keyup)="applyFilter($event)" [formControl]="buscarJugador" type="text" placeholder="Buscar jugador" #input>
+                <input matInput [formControl]="buscarJugador" type="text" placeholder="Buscar jugador" #input>
             </div>
         </div>
 

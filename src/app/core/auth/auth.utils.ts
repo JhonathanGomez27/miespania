@@ -5,13 +5,16 @@
 // https://github.com/auth0/angular2-jwt
 // -----------------------------------------------------------------------------------------------------
 
+import { AuthService } from "./auth.service";
+
 export class AuthUtils
 {
     /**
      * Constructor
      */
-    constructor()
+    constructor(private _authService: AuthService)
     {
+
     }
 
     // -----------------------------------------------------------------------------------------------------

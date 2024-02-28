@@ -33,7 +33,6 @@ export class InscribirJugadorComponent implements OnInit, OnDestroy {
     ) {
         this.tipojuego = data.tipojuego;
         this.inscritos = data.inscritos;
-        console.log(this.inscritos);
         this.torneo = data.torneo;        this.Toast = Swal.mixin({
             toast: true,
             position: 'top-end',

@@ -20,6 +20,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
 
     ramas: any = [];
     categorias: any = [];
+    title: any = '';
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -32,6 +33,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
     ) {
         this.jugadorForm = this._formBuilder.group({
             nombre: new FormControl({ value: '', disabled: false },Validators.required),
+            correo:  new FormControl({ value: '', disabled: false }),
             ranking: new FormControl({ value: '', disabled: false },[Validators.required, Validators.pattern("[0-9]*")]),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
             categoria: new FormControl({ value: '', disabled: false },Validators.required),
@@ -50,9 +52,12 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
             },
         });
 
-        this.jugador = data.jugador;
-
-        this.jugadorForm.patchValue(data.jugador);
+        if(data.editar){
+            this.jugador = data.jugador;
+            this.title = data.title;
+            this.jugadorForm.patchValue(data.jugador);
+            this.jugadorForm.get('correo').setValue(data.jugador.userid.correo);
+        }
     }
 
     ngOnInit() {
@@ -95,9 +100,15 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
         this.jugadorForm.disable();
 
         let values = this.jugadorForm.getRawValue();
-        values.id = this.jugador.userid.id;
 
-        this.matDialogRef.close(values);
+        if(this.data.editar){
+            values.id = this.jugador.userid.id;
+            // console.log("editar");
+            this.matDialogRef.close(values);
+        }else{
+            // console.log("no editar");
+            this.matDialogRef.close(values);
+        }
     }
 
     onNoClick(): void {

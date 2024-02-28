@@ -154,10 +154,14 @@ export class TorneoRegularComponent implements OnInit, OnDestroy {
                 this.showProgramacion = true;
                 break;
             case 'Programacion':
+                this.showSorteo = true;
                 this.showProgramacion = true;
                 break;
             case 'En Proceso':
                 this.showEnProceso = true;
+                this.showSorteo = false;
+                this.showInicial = false;
+                this.showProgramacion = false;
                 break;
             case 'Finalizado':
                 this.showFinalizado = true;
@@ -165,6 +169,8 @@ export class TorneoRegularComponent implements OnInit, OnDestroy {
             default:
                 break;
         }
+
+        this._changeDetectorRef.markForCheck();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -533,6 +539,10 @@ export class TorneoRegularComponent implements OnInit, OnDestroy {
     programarPartidos(){
         this._torneoService.programarPartidosFase(this.torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
             (response:any) => {
+
+                this.showProgramacion = false;
+                this.showSorteo = false;
+                this.showEnProceso
                 this.Toast.fire({
                     icon: 'success',
                     title: 'Se ha sorteado con exito la fase de grupos.'
@@ -568,6 +578,20 @@ export class TorneoRegularComponent implements OnInit, OnDestroy {
         );
     }
 
+    dialogFinalizarTorneo(torneo: any){
+        // Open the dialog
+        const dialogRef = this._matDialog.open(ConfirmarAccionComponent,{
+            // width: '80%'
+            data: {mensaje: '¿Estás seguro que quieres finalizar este torneo?'}
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if(result !== undefined){
+                this.finalizarTorneo()
+            }
+        });
+
+    }
 
     finalizarTorneo(){
         this._torneoService.sortearSiguienteFase(this.torneo.id).pipe(takeUntil(this._unsubscribeAll)).subscribe(

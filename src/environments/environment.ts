@@ -4,8 +4,10 @@
 
 export const environment = {
     production: false,
-    apiUrlAdmin: 'http://localhost:3000/tenis/',
-    apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
+    apiUrlAdmin: 'http://35.173.80.197:3000/tenis/',
+    apiUrlAuthentication: 'http://35.173.80.197:3000/tenis/authentication/',
+    // apiUrlAdmin: 'http://localhost:3000/tenis/',
+    // apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
     limit: 20,
 };
 
