@@ -26,6 +26,9 @@ export class EditarPartidoComponent implements OnInit {
     tipoJugador2: string = '';
 
     disableInputs: boolean = false;
+    disableInputs2: boolean = false;
+
+    disableShow: boolean = false;
 
     faseActual: any = '';
 
@@ -42,6 +45,8 @@ export class EditarPartidoComponent implements OnInit {
 
         if(this.faseActual !== this.etapa || data.estado === 'Finalizado'){
             this.disableInputs = true;
+            this.disableInputs2 = true;
+            this.disableShow = true;
         }
 
         this.tipoJugador = data.tipoJugador1;
@@ -76,7 +81,19 @@ export class EditarPartidoComponent implements OnInit {
 
     ordenarPuntos(){
         for (let index = 0; index < this.sets.sets_totales; index++) {
-           this.puntos.push({jugador1: 0, jugador2: 0});
+            let data = {jugador1: 0, jugador2: 0};
+
+            if(!this.partido[this,this.tipoJugador].nombre){
+                data = {jugador1: 0, jugador2: 1};
+                this.disableInputs = true;
+            }
+
+            if(!this.partido[this,this.tipoJugador2].nombre){
+                data = {jugador1: 1, jugador2: 0};
+                this.disableInputs2 = true;
+            }
+
+            this.puntos.push(data);
         }
     }
 
@@ -88,7 +105,11 @@ export class EditarPartidoComponent implements OnInit {
     }
 
     confirmar(){
-        let valid = this.validarSets();
+        let valid = false;
+
+        valid = this.validarSets();
+
+        // console.log(this.determinarGanador());
 
         if(valid){
             this.matDialogRef.close(this.determinarGanador());
@@ -96,18 +117,46 @@ export class EditarPartidoComponent implements OnInit {
     }
 
     validarSets(){
-        let valid = true;
+
+        let valid = false;
+        let puntos1 = 0;
+        let puntos2 = 0;
 
         this.puntos.forEach(element => {
-            if(element.jugador1 === element.jugador2){
-                this.Toast.fire({
-                    icon: 'error',
-                    title: 'No puede haber sets en empate de puntos.'
-                });
-
-                valid = false;
-            }
+            puntos1 = puntos1 + element.jugador1;
+            puntos2 = puntos2 + element.jugador2;
         });
+
+        if(!this.partido[this,this.tipoJugador].nombre && puntos1 > puntos2){
+            this.Toast.fire({
+                icon: 'error',
+                title: 'El jugador 1 no puede tener mas puntos que el jugador 2.'
+            });
+            valid = false;
+
+            return valid;
+        }
+
+        if(!this.partido[this,this.tipoJugador2].nombre && puntos2 > puntos1){
+            this.Toast.fire({
+                icon: 'error',
+                title: 'El jugador 2 no puede tener mas puntos que el jugador 1.'
+            });
+
+            valid = false;
+
+            return valid;
+        }
+
+        if(puntos1 !== puntos2){
+            valid = true;
+        }else{
+            this.Toast.fire({
+                icon: 'error',
+                title: 'No puede haber haber empates en puntos totales.'
+            });
+            valid = false;
+        }
 
         return valid;
     }
@@ -129,12 +178,14 @@ export class EditarPartidoComponent implements OnInit {
             jugador1 = jugador1 + element.jugador1;
             jugador2 = jugador2 + element.jugador2;
 
-            if(element.jugador1 > element.jugador2){
-                ganados1 = ganados1 + 1;
-                perdidos2 = perdidos2 + 1;
-            }else{
-                ganados2 = ganados2 + 1;
-                perdidos1 = perdidos1 + 1;
+            if(element.jugador1 !== element.jugador2){
+                if(element.jugador1 > element.jugador2){
+                    ganados1 = ganados1 + 1;
+                    perdidos2 = perdidos2 + 1;
+                }else{
+                    ganados2 = ganados2 + 1;
+                    perdidos1 = perdidos1 + 1;
+                }
             }
         });
 

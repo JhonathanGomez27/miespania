@@ -33,6 +33,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
     ) {
         this.jugadorForm = this._formBuilder.group({
             nombre: new FormControl({ value: '', disabled: false },Validators.required),
+            apellido: new FormControl({ value: '', disabled: false },Validators.required),
             correo:  new FormControl({ value: '', disabled: false }),
             ranking: new FormControl({ value: '', disabled: false },[Validators.required, Validators.pattern("[0-9]*")]),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
@@ -104,7 +105,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
         if(this.data.editar){
             values.id = this.jugador.userid.id;
             // console.log("editar");
-            if(values.correo === ''){
+            if(values.correo === '' || values.correo === null){
                 delete values.correo;
             }
             // console.log(values);
@@ -112,7 +113,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
             this.matDialogRef.close(values);
         }else{
             // console.log("no editar");
-            if(values.correo === ''){
+            if(values.correo === '' || values.correo === null){
                 delete values.correo;
             }
             // console.log(values);

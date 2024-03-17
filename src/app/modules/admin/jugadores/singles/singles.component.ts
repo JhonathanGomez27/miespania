@@ -192,18 +192,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     editarJugador(jugador: any) {
-        // Open the dialog
-        const dialogRef = this._matDialog.open(EditarJugadorSingleComponent, {
-            // width: '80%'
-            data: { jugador, editar: true, title: 'Editar' },
-        });
-
-        dialogRef.afterClosed().subscribe((result) => {
-            if (result !== undefined) {
-
-                this.editarJugadorPorId(result);
-            }
-        });
+        this.obtenerJugadorPorId(jugador.id);
     }
 
     editarJugadorPorId(data: any) {
@@ -295,6 +284,29 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.pagina = 0;
         this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
+    }
+
+    obtenerJugadorPorId(id:any){
+        this._jugadoreService.obtenerJugadorPorId(id).pipe(takeUntil(this._unsubscribeAll)).subscribe(
+            (response:any) => {
+                delete response.nombre;
+                const jugador = {...response, ...response.userid}
+                // Open the dialog
+                const dialogRef = this._matDialog.open(EditarJugadorSingleComponent, {
+                    // width: '80%'
+                    data: { jugador, editar: true, title: 'Editar' },
+                });
+
+                dialogRef.afterClosed().subscribe((result) => {
+                    if (result !== undefined) {
+
+                        this.editarJugadorPorId(result);
+                    }
+                });
+            },(error) => {
+                console.log(error);
+            }
+        );
     }
 
     /**

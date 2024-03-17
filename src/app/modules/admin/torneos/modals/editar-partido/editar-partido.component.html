@@ -33,18 +33,18 @@
             </div>
             <!-- set jugador 1 -->
             <div class="input-number-set">
-                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs" [(ngModel)]="item.jugador1" type="number" name="setCount" id="setCount" min="1">
+                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs" [(ngModel)]="item.jugador1" type="number" name="setCount" id="setCount" min="0">
             </div>
             <!-- set jugador 2 -->
             <div class="input-number-set">
-                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs" [(ngModel)]="item.jugador2" type="number" name="setCount" id="setCount" min="1">
+                <input class="w-9/12 sm:w-4/12" [disabled]="disableInputs2" [(ngModel)]="item.jugador2" type="number" name="setCount" id="setCount" min="0">
             </div>
         </div>
     </div>
 
     <!-- Botones -->
     <div class="flex justify-center mb-4">
-        <button [disabled]="disableInputs" matTooltip="Confirmar" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="confirmar()">
+        <button [disabled]="disableShow" matTooltip="Confirmar" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="confirmar()">
             Confirmar
         </button>
     </div>
