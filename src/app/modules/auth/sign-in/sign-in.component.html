@@ -46,6 +46,12 @@
                     </span>
                     <mat-progress-spinner *ngIf="signInForm.disabled" [diameter]="24" [mode]="'indeterminate'"></mat-progress-spinner>
                 </button>
+
+                <!-- Sign up link -->
+                <div class="mt-4 text-center">
+                    <span>¿No tienes una cuenta?</span>
+                    <a class="text-primary font-medium" routerLink="/sign-up"> Regístrate</a>
+                </div>
             </form>
         </div>
     </div>

@@ -10,6 +10,7 @@ export class AuthService
 {
     private _authenticated: boolean = false;
     private url: string = environment.apiUrlAuthentication;
+    private globalUrl: string = environment.apiUrlAdmin
 
     /**
      * Constructor
@@ -159,9 +160,9 @@ export class AuthService
      *
      * @param user
      */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
+    signUp(user: { nombre: string; correo: string; contrasena: string; nombre_a_mostrar: string; rama: string }): Observable<any>
     {
-        return this._httpClient.post('api/auth/sign-up', user);
+        return this._httpClient.post(`${this.globalUrl}usuarios`, user);
     }
 
     /**
@@ -179,6 +180,8 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
+        console.log('Estado autenticado:', this._authenticated);
+        console.log('Token de acceso:', this.accessToken);
         // Check if the user is logged in
         if ( this._authenticated )
         {

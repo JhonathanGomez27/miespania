@@ -44,10 +44,11 @@ export class AuthSignUpComponent implements OnInit
     {
         // Create the form
         this.signUpForm = this._formBuilder.group({
-                name      : ['', Validators.required],
-                email     : ['', [Validators.required, Validators.email]],
-                password  : ['', Validators.required],
-                company   : [''],
+                nombre      : ['', Validators.required],
+                nombre_a_mostrar  : ['', Validators.required],
+                correo     : ['', [Validators.required, Validators.email]],
+                contrasena  : ['', Validators.required],
+                rama   : [''],
                 agreements: ['', Validators.requiredTrue]
             }
         );
@@ -65,6 +66,7 @@ export class AuthSignUpComponent implements OnInit
         // Do nothing if the form is invalid
         if ( this.signUpForm.invalid )
         {
+            console.log(this.signUpForm.value);
             return;
         }
 
@@ -76,29 +78,19 @@ export class AuthSignUpComponent implements OnInit
 
         // Sign up
         this._authService.signUp(this.signUpForm.value)
-            .subscribe(
-                (response) => {
-
-                    // Navigate to the confirmation required page
-                    this._router.navigateByUrl('/confirmation-required');
-                },
-                (response) => {
-
-                    // Re-enable the form
-                    this.signUpForm.enable();
-
-                    // Reset the form
-                    this.signUpNgForm.resetForm();
-
-                    // Set the alert
-                    this.alert = {
-                        type   : 'error',
-                        message: 'Something went wrong, please try again.'
-                    };
-
-                    // Show the alert
-                    this.showAlert = true;
-                }
-            );
+        .subscribe(
+            (response) => {
+                this._router.navigateByUrl('/confirmation-required');
+            },
+            (response) => {
+                this.signUpForm.enable();
+                this.signUpNgForm.resetForm();
+                this.alert = {
+                    type: 'error',
+                    message: 'Something went wrong, please try again.'
+                };
+                this.showAlert = true;
+            }
+        );
     }
 }

@@ -3,16 +3,16 @@
         <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
             <!-- Logo -->
             <div class="w-12">
-                <img src="assets/images/logo/logo.svg">
+                <img src="assets/images/logo/logo-mi.svg">
             </div>
 
             <!-- Title -->
-            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Sign up</div>
+            <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Registrarse</div>
             <div class="flex items-baseline mt-0.5 font-medium">
-                <div>Already have an account?</div>
+                <div>Ya tienes una cuenta?</div>
                 <a
                     class="ml-1 text-primary-500 hover:underline"
-                    [routerLink]="['/sign-in']">Sign in
+                    [routerLink]="['/sign-in']">Iniciar sesíon
                 </a>
             </div>
 
@@ -34,39 +34,51 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Full name</mat-label>
+                    <mat-label>Nombre completo</mat-label>
                     <input
-                        id="name"
+                        id="nombre"
                         matInput
-                        [formControlName]="'name'">
-                    <mat-error *ngIf="signUpForm.get('name').hasError('required')">
-                        Full name is required
+                        [formControlName]="'nombre'">
+                    <mat-error *ngIf="signUpForm.get('nombre').hasError('required')">
+                        El nombre es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Nomrbe a mostrar -->
+                <mat-form-field class="w-full">
+                    <mat-label>Nombre a mostrar</mat-label>
+                    <input
+                        id="nombre_a_mostrar"
+                        matInput
+                        [formControlName]="'nombre_a_mostrar'">
+                    <mat-error *ngIf="signUpForm.get('nombre_a_mostrar').hasError('required')">
+                        El nombre a mostrar es requerido
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Email field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
+                    <mat-label>Correo</mat-label>
                     <input
-                        id="email"
+                        id="correo"
                         matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signUpForm.get('email').hasError('required')">
-                        Email address is required
+                        [formControlName]="'correo'">
+                    <mat-error *ngIf="signUpForm.get('correo').hasError('required')">
+                        El correo es requerido
                     </mat-error>
-                    <mat-error *ngIf="signUpForm.get('email').hasError('email')">
-                        Please enter a valid email address
+                    <mat-error *ngIf="signUpForm.get('correo').hasError('email')">
+                        Ingresa un correo válido
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Password field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
+                    <mat-label>Contraseña</mat-label>
                     <input
-                        id="password"
+                        id="contrasena"
                         matInput
                         type="password"
-                        [formControlName]="'password'"
+                        [formControlName]="'contrasena'"
                         #passwordField>
                     <button
                         mat-icon-button
@@ -82,18 +94,23 @@
                             *ngIf="passwordField.type === 'text'"
                             [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
                     </button>
-                    <mat-error>
-                        Password is required
+                    <mat-error *ngIf="signUpForm.get('contrasena').hasError('required')">
+                        La contraseña es requerida
                     </mat-error>
                 </mat-form-field>
 
                 <!-- Company field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Company</mat-label>
-                    <input
-                        id="company-confirm"
-                        matInput
-                        [formControlName]="'company'">
+                    <mat-label>Rama</mat-label>
+                    <mat-select [formControlName]="'rama'">
+                        <mat-option value="" disabled>Selecciona la rama</mat-option>
+                        <mat-option value="masculina">Masculina</mat-option>
+                        <mat-option value="femenina">Femenina</mat-option>
+                        <mat-option value="mixta">Mixta</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="signUpForm.get('rama').hasError('required')">
+                        El género es requerido
+                    </mat-error>
                 </mat-form-field>
 
                 <!-- ToS and PP -->
@@ -101,15 +118,15 @@
                     <mat-checkbox
                         [color]="'primary'"
                         [formControlName]="'agreements'">
-                        <span>I agree to the</span>
+                        <span>Acepto los</span>
                         <a
                             class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Terms of Service
+                            [routerLink]="['./']">Términos del Servicio
                         </a>
-                        <span>and</span>
+                        <span>y</span>
                         <a
                             class="ml-1 text-primary-500 hover:underline"
-                            [routerLink]="['./']">Privacy Policy
+                            [routerLink]="['./']">la Política de Privacidad
                         </a>
                     </mat-checkbox>
                 </div>
@@ -122,7 +139,7 @@
                     [disabled]="signUpForm.disabled"
                     (click)="signUp()">
                     <span *ngIf="!signUpForm.disabled">
-                        Create your free account
+                        Crear cuenta
                     </span>
                     <mat-progress-spinner
                         *ngIf="signUpForm.disabled"
