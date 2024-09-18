@@ -4,8 +4,8 @@
 
 export const environment = {
     production: false,
-    apiUrlAdmin: 'https://rcetenis.net/tenis/',
-    apiUrlAuthentication: 'https://rcetenis.net/tenis/authentication/',
+    apiUrlAdmin: 'http://localhost:3000/tenis/',
+    apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
     // apiUrlAdmin: 'http://localhost:3000/tenis/',
     // apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
     limit: 20,

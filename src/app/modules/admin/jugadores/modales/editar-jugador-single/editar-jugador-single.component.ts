@@ -33,7 +33,7 @@ export class EditarJugadorSingleComponent implements OnInit, OnDestroy {
     ) {
         this.jugadorForm = this._formBuilder.group({
             nombre: new FormControl({ value: '', disabled: false },Validators.required),
-            apellido: new FormControl({ value: '', disabled: false },Validators.required),
+            nombre_a_mostrar: new FormControl({ value: '', disabled: false },Validators.required),
             correo:  new FormControl({ value: '', disabled: false }),
             ranking: new FormControl({ value: '', disabled: false },[Validators.required, Validators.pattern("[0-9]*")]),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
