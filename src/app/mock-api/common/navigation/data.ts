@@ -1,5 +1,9 @@
 /* tslint:disable:max-line-length */
 import { FuseNavigationItem } from '@fuse/components/navigation';
+import { AuthUtils } from 'app/core/auth/auth.utils';
+
+
+const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
@@ -14,6 +18,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type    : 'collapsable',
         icon    : 'heroicons_outline:user-group',
         link    : '',
+        hidden: (item: FuseNavigationItem) => token?.rol == 'admin' ? false : true,
         children: [
             {
                 id   : 'singles',

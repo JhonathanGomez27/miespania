@@ -182,6 +182,7 @@ export class AuthService
     {
         console.log('Estado autenticado:', this._authenticated);
         console.log('Token de acceso:', this.accessToken);
+        // console.log(AuthUtils._decodeToken(this.accessToken));
         // Check if the user is logged in
         if ( this._authenticated )
         {

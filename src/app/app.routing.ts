@@ -79,5 +79,5 @@ export const appRoutes: Route[] = [
             {path: 'jugadores', loadChildren: () => import('app/modules/admin/jugadores/jugadores.module').then(m => m.JugadoresModule)},
             {path: '**', redirectTo: 'torneos'},
         ]
-    }
+    },
 ];

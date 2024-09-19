@@ -8,6 +8,7 @@ import { TorneosService } from '../torneos.service';
 import Swal from 'sweetalert2';
 import { ConfirmarIniciarTorneoComponent } from '../modals/confirmar-iniciar-torneo/confirmar-iniciar-torneo.component';
 import { ConfirmarAccionComponent } from '../modals/confirmar-accion/confirmar-accion.component';
+import { AuthUtils } from 'app/core/auth/auth.utils';
 
 @Component({
     selector: 'app-list',
@@ -25,6 +26,7 @@ export class ListComponent implements OnInit {
     // variables torneos
     torneos: any = [];
     torneosCount:any = 0;
+    token:any;
 
     pagina: any = 0;
     Toast: any;
@@ -50,6 +52,10 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
+        if(this.token.rol === 'user'){
+            this.tablaTorneosColumns.pop()
+        }
         this._torneoService.torneos$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
             this.torneos = response;
             this.tablaTorneosData = new MatTableDataSource(response);

@@ -152,9 +152,9 @@ export class AuthUtils
      * Decode token
      *
      * @param token
-     * @private
+     * @public
      */
-    private static _decodeToken(token: string): any
+    public static _decodeToken(token: string): any
     {
         // Return if there is no token
         if ( !token )
