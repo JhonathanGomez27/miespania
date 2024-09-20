@@ -24,8 +24,8 @@
                     <ng-container *ngFor="let jugador of filteredJugadores| async">
                         <div *ngIf="!jugador.show && jugador.show !== false" class="border-b-4 mb-2" >
                             <div class="flex flex-row justify-between">
-                                <div matTooltip="{{jugador.nombre || jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
-                                    {{jugador.nombre || jugador.id}}
+                                <div matTooltip="{{jugador.nombre_a_mostrar || jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                    {{jugador.nombre_a_mostrar || jugador.id}}
                                 </div>
                                 <div>
                                     <mat-icon (click)="addJugador(jugador)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>

@@ -25,7 +25,7 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     tablaTorneosData: MatTableDataSource<any> = new MatTableDataSource([]);
     tablaTorneosColumns: string[] = [
         'ranking',
-        'nombre',
+        'nombre_a_mostrar',
         'rama',
         'categoria',
         'acciones',
