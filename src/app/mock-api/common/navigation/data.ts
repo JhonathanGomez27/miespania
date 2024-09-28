@@ -3,7 +3,7 @@ import { FuseNavigationItem } from '@fuse/components/navigation';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 
 
-const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
+export const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'));
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
