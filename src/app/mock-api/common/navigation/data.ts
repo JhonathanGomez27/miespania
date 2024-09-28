@@ -7,6 +7,13 @@ const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
+        id   : 'info-profile',
+        title: 'Profile',
+        type : 'basic',
+        icon : 'mat_outline:account_circle',
+        link : '/info-profile'
+    },
+    {
         id   : 'torneos',
         title: 'Torneos',
         type : 'basic',

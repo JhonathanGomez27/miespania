@@ -1,0 +1,61 @@
+<div class="flex flex-col max-w-240 md:min-w-160 max-h-screen -m-6">
+    <!-- Header -->
+    <div class="flex flex-0 items-center justify-between h-12 pr-3 sm:pr-5 pl-6 sm:pl-8 text-on-primary p-3 border-b-4 mr-4 ml-4 color-borde mt-4">
+        <div class="text-2xl font-medium text-black mb-4">Cambiar Contraseña</div>
+        <button mat-icon-button (click)="onNoClick()" [tabIndex]="-1">
+            <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+        </button>
+    </div>
+
+    <div class="w-full mt-4 mb-4 pr-8 pl-8">
+        <form [formGroup]="contrasenaForm">
+            <div class="grid grid-cols-1 gap-4">
+                <!-- Contraseña actual -->
+                <div class="w-full">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Contraseña Actual</mat-label>
+                        <input matInput [formControlName]="'contrasenaActual'" type="password" required>
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="contrasenaForm.get('contrasenaActual').invalid && (contrasenaForm.get('contrasenaActual').dirty || contrasenaForm.get('contrasenaActual').touched)">
+                            La contraseña actual es requerida.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Nueva contraseña -->
+                <div class="w-full">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Nueva Contraseña</mat-label>
+                        <input matInput [formControlName]="'nuevaContrasena'" type="password" required>
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="contrasenaForm.get('nuevaContrasena').invalid && (contrasenaForm.get('nuevaContrasena').dirty || contrasenaForm.get('nuevaContrasena').touched)">
+                            La nueva contraseña es requerida.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Confirmar nueva contraseña -->
+                <div class="w-full">
+                    <mat-form-field appearance="outline" class="w-full">
+                        <mat-label>Confirmar Nueva Contraseña</mat-label>
+                        <input matInput [formControlName]="'confirmarContrasena'" type="password" required>
+                        <mat-icon matSuffix>lock</mat-icon>
+                        <mat-error *ngIf="contrasenaForm.get('confirmarContrasena').invalid && (contrasenaForm.get('confirmarContrasena').dirty || contrasenaForm.get('confirmarContrasena').touched)">
+                            La confirmación de la nueva contraseña es requerida.
+                        </mat-error>
+                        <mat-error *ngIf="contrasenaForm.errors?.passwordMismatch">
+                            Las contraseñas no coinciden.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Botones -->
+    <div class="flex justify-center mb-4">
+        <button matTooltip="Confirmar" class="ml-4 bg-verdemi text-white text-xl font-bold" mat-flat-button (click)="confirmar()">
+            Confirmar
+        </button>
+    </div>
+</div>

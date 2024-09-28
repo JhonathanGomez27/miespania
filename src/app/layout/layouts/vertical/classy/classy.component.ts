@@ -7,6 +7,9 @@ import { Navigation } from 'app/core/navigation/navigation.types';
 import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { CambiarContrasenaComponent } from 'app/modules/admin/cambiar-contrasena/cambiar-contrasena.component';
+import {MatDialog,} from '@angular/material/dialog';
+
 
 @Component({
     selector     : 'classy-layout',
@@ -29,7 +32,8 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
         private _navigationService: NavigationService,
         private _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
-        private _fuseNavigationService: FuseNavigationService
+        private _fuseNavigationService: FuseNavigationService,
+        private _dialog: MatDialog
     )
     {
     }
@@ -116,5 +120,12 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     signOut(): void
     {
         this._router.navigate(['/sign-out']);
+    }
+
+    cambiarContrasena(): void
+    {
+         this._dialog.open(CambiarContrasenaComponent, {
+          });
+
     }
 }

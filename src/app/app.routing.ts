@@ -75,6 +75,7 @@ export const appRoutes: Route[] = [
         },
         children   : [
             // {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
+            { path: 'info-profile', loadChildren: () => import('./modules/admin/profile/profile.module').then(m => m.ProfileModule) },
             {path: 'torneos', loadChildren: () => import('app/modules/admin/torneos/torneos.module').then(m => m.TorneosModule)},
             {path: 'jugadores', loadChildren: () => import('app/modules/admin/jugadores/jugadores.module').then(m => m.JugadoresModule)},
             {path: '**', redirectTo: 'torneos'},

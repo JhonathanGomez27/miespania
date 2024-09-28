@@ -44,7 +44,11 @@
             <img class="max-w-24"
                 src="assets/images/logo/logo-mi.svg">
         </div>
-        <div class="fixed bottom-0 p-4">
+        <div class="fixed bottom-0 p-4 flex flex-col space-y-4">
+            <button mat-button (click)="cambiarContrasena()">
+                <mat-icon class="text-naranmi font-bold text-xl " [svgIcon]="'heroicons_outline:lock-closed'"></mat-icon>
+                <span class="font-bold text-xl text-naranmi">&nbsp; Cambiar contraseña</span>
+            </button>
             <button mat-button (click)="signOut()">
                 <mat-icon class="text-naranmi font-bold text-xl " [svgIcon]="'heroicons_outline:logout'"></mat-icon>
                 <span class="font-bold text-xl text-naranmi">&nbsp; Cerrar sesión</span>
