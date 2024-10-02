@@ -6,6 +6,7 @@ export const environment = {
     production: false,
     apiUrlAdmin: 'http://localhost:3000/tenis/',
     apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
+    imageUrl: 'http://localhost:3000/tenis/files/',
     // apiUrlAdmin: 'http://localhost:3000/tenis/',
     // apiUrlAuthentication: 'http://localhost:3000/tenis/authentication/',
     limit: 20,

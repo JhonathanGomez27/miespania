@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector     : 'auth-sign-up',
@@ -15,12 +16,9 @@ export class AuthSignUpComponent implements OnInit
 {
     @ViewChild('signUpNgForm') signUpNgForm: NgForm;
 
-    alert: { type: FuseAlertType; message: string } = {
-        type   : 'success',
-        message: ''
-    };
+
     signUpForm: FormGroup;
-    showAlert: boolean = false;
+    Toast: any;
 
     /**
      * Constructor
@@ -31,6 +29,17 @@ export class AuthSignUpComponent implements OnInit
         private _router: Router
     )
     {
+        this.Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer);
+                toast.addEventListener('mouseleave', Swal.resumeTimer);
+            },
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -67,6 +76,10 @@ export class AuthSignUpComponent implements OnInit
         if ( this.signUpForm.invalid )
         {
             console.log(this.signUpForm.value);
+            this.Toast.fire({
+                icon: 'error',
+                title: 'Verifique los campos requeridos',
+            });
             return;
         }
 
@@ -74,22 +87,24 @@ export class AuthSignUpComponent implements OnInit
         this.signUpForm.disable();
 
         // Hide the alert
-        this.showAlert = false;
 
         // Sign up
         this._authService.signUp(this.signUpForm.value)
         .subscribe(
             (response) => {
+                this.Toast.fire({
+                    icon: 'success',
+                    title: 'Usuario registrado correctamente',
+                });
                 this._router.navigateByUrl('/confirmation-required');
             },
             (response) => {
                 this.signUpForm.enable();
                 this.signUpNgForm.resetForm();
-                this.alert = {
-                    type: 'error',
-                    message: 'Something went wrong, please try again.'
-                };
-                this.showAlert = true;
+                this.Toast.fire({
+                    icon: 'error',
+                    title: 'Upss hubo un error al registrarse',
+                });
             }
         );
     }

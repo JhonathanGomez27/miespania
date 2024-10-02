@@ -17,4 +17,18 @@ export class ProfileService {
         return this.http.get<any>(`${this.url}usuarios/MisDatos`); // Realiza la petición GET
     }
 
+    uploadImageToUser(id: string, file: File): Observable<any> {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      return this.http.patch<any>(
+          `${this.url}usuarios/subir-imagen/${id}`,
+          formData
+      );
+    }
+
+    deleteImageUser(id: string): Observable<any> {
+      return this.http.delete<any>(`${this.url}/files/${id}`);
+    }
+
 }
