@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDividerModule } from '@angular/material/divider';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatFormFieldModule,     // Importar Angular Material form fields
     MatInputModule,          // Importar Angular Material input
     NgApexchartsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatDividerModule
   ]
 })
 export class ProfileModule { }

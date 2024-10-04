@@ -3,6 +3,7 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
+import { HasRoleGuard } from './core/auth/guards/has-role.guard';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -75,10 +76,28 @@ export const appRoutes: Route[] = [
         },
         children   : [
             // {path: 'example', loadChildren: () => import('app/modules/admin/example/example.module').then(m => m.ExampleModule)},
-            { path: 'info-profile', loadChildren: () => import('./modules/admin/profile/profile.module').then(m => m.ProfileModule) },
-            {path: 'torneos', loadChildren: () => import('app/modules/admin/torneos/torneos.module').then(m => m.TorneosModule)},
-            {path: 'jugadores', loadChildren: () => import('app/modules/admin/jugadores/jugadores.module').then(m => m.JugadoresModule)},
-            {path: '**', redirectTo: 'torneos'},
+            {
+                path: 'info-profile',
+                canActivate: [HasRoleGuard],
+                data: {expectedRole: ['user']},
+                loadChildren: () => import('./modules/admin/profile/profile.module').then(m => m.ProfileModule)
+            },
+            {
+                path: 'torneos',
+                canActivate: [HasRoleGuard],
+                data: {expectedRole: ['user', 'admin']},
+                loadChildren: () => import('app/modules/admin/torneos/torneos.module').then(m => m.TorneosModule)
+            },
+            {
+                path: 'jugadores',
+                canActivate: [HasRoleGuard],
+                data: {expectedRole: ['admin']},
+                loadChildren: () => import('app/modules/admin/jugadores/jugadores.module').then(m => m.JugadoresModule)
+            },
+            {
+                path: '**',
+                redirectTo: 'torneos'
+            },
         ]
     },
 ];

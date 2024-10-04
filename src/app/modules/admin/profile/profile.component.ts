@@ -186,9 +186,9 @@ export class ProfileComponent implements OnInit {
         this.profileData = data;
         if (this.profileData.imagen_perfil) {
           this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
-          console.log(this.urlImg);
+        //   console.log(this.urlImg);
         }
-        console.log(this.profileData);  // Puedes eliminar esto después de verificar que la data llega bien
+        // console.log(this.profileData);  // Puedes eliminar esto después de verificar que la data llega bien
       },
       (error) => {
         console.error('Error al obtener los datos del usuario', error);

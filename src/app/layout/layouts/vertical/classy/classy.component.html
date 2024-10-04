@@ -19,23 +19,23 @@
             <!-- Components -->
             <div class="flex items-center ml-auto">
                 <!-- <notifications></notifications> -->
-                <!-- <user [showAvatar]="false"></user> -->
+                <user [showAvatar]="false"></user>
             </div>
         </div>
         <!-- User -->
         <div class="flex flex-col items-center w-full p-4">
-            <!-- <div class="relative w-24 h-24"> -->
-                <!-- <img class="w-full h-full rounded-full" *ngIf="user.avatar" [src]="user.avatar" alt="User avatar"> -->
-                <!-- <mat-icon  class="icon-size-24" *ngIf="!user.avatar" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
-            <!-- </div> -->
-            <!-- <div class="flex flex-col items-center justify-center w-full mt-6"> -->
-                <!-- <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    {{user.name}}
+            <div class="relative w-24 h-24">
+                <img class="w-full h-full rounded-full" *ngIf="urlImg" [src]="urlImg" alt="User avatar">
+                <mat-icon  class="icon-size-24 text-white" *ngIf="!urlImg" [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+            </div>
+            <div class="flex flex-col items-center justify-center w-full mt-6">
+                <div class="w-full whitespace-nowrap text-ellipsis overflow-hidden text-center text-lg font-bold">
+                    {{user.nombre | titlecase}} {{user.apellido | titlecase}}
                 </div>
-                <div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user.email}}
-                </div> -->
-            <!-- </div> -->
+                <div class="w-full mt-0.5 whitespace-nowrap text-ellipsis overflow-hidden text-center text-lg font-bold text-naranmi">
+                    {{user.correo}}
+                </div>
+            </div>
         </div>
     </ng-container>
     <!-- Navigation footer hook -->
@@ -45,10 +45,11 @@
                 src="assets/images/logo/logo-mi.svg">
         </div>
         <div class="fixed bottom-0 p-4 flex flex-col space-y-4">
-            <button mat-button (click)="cambiarContrasena()">
+            <!-- <user></user> -->
+            <!-- <button mat-button (click)="cambiarContrasena()">
                 <mat-icon class="text-naranmi font-bold text-xl " [svgIcon]="'heroicons_outline:lock-closed'"></mat-icon>
                 <span class="font-bold text-xl text-naranmi">&nbsp; Cambiar contraseña</span>
-            </button>
+            </button> -->
             <button mat-button (click)="signOut()">
                 <mat-icon class="text-naranmi font-bold text-xl " [svgIcon]="'heroicons_outline:logout'"></mat-icon>
                 <span class="font-bold text-xl text-naranmi">&nbsp; Cerrar sesión</span>

@@ -9,6 +9,7 @@ import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import { CambiarContrasenaComponent } from 'app/modules/admin/cambiar-contrasena/cambiar-contrasena.component';
 import {MatDialog,} from '@angular/material/dialog';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
     navigation: Navigation;
     user: User;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
+    urlImg: string = null;
 
     /**
      * Constructor
@@ -67,9 +69,10 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             });
 
         // Subscribe to the user service
-        this._userService.user$
-            .pipe((takeUntil(this._unsubscribeAll)))
-            .subscribe((user: User) => {
+        this._userService.user$.pipe((takeUntil(this._unsubscribeAll))).subscribe((user: User) => {
+                if (user.imagen_perfil) {
+                    this.urlImg = `${environment.imageUrl}${user.imagen_perfil.id}`;
+                }
                 this.user = user;
             });
 

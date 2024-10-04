@@ -8,24 +8,28 @@ export const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id   : 'info-profile',
-        title: 'Profile',
+        title: 'Perfil',
         type : 'basic',
         icon : 'mat_outline:account_circle',
-        link : '/info-profile'
+        // hidden: (item: FuseNavigationItem) => token?.rol != 'admin' ? false : true,
+        link : '/info-profile',
+        roles: ['user']
     },
     {
         id   : 'torneos',
         title: 'Torneos',
         type : 'basic',
         icon : 'mat_outline:emoji_events',
-        link : '/torneos'
+        link : '/torneos',
+        roles: ['user', 'admin']
     },{
         id      : 'jugadores',
         title   : 'Jugadores',
         type    : 'collapsable',
         icon    : 'heroicons_outline:user-group',
         link    : '',
-        hidden: (item: FuseNavigationItem) => token?.rol == 'admin' ? false : true,
+        // hidden: (item: FuseNavigationItem) => token?.rol == 'admin' ? false : true,
+        roles: ['admin'],
         children: [
             {
                 id   : 'singles',

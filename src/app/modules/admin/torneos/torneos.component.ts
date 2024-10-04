@@ -8,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
 export class TorneosComponent implements OnInit {
     constructor() {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        //refresh the view
+        // location.reload();
+    }
 
 }

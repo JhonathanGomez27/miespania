@@ -34,7 +34,11 @@ const themes = {
         },
         'on-warn': {
             500: colors.red['50']
-        }
+        },
+        'jasmine-bar':{
+            DEFAULT: customPalettes.brand[800]
+        },
+
     },
     // Rest of the themes will use the 'default' as the base theme
     // and extend them with their given configuration

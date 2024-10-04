@@ -4,6 +4,8 @@ import { BooleanInput } from '@angular/cdk/coercion';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import { CambiarContrasenaComponent } from 'app/modules/admin/cambiar-contrasena/cambiar-contrasena.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector       : 'user',
@@ -29,7 +31,8 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _dialog: MatDialog
     )
     {
     }
@@ -94,5 +97,12 @@ export class UserComponent implements OnInit, OnDestroy
     signOut(): void
     {
         this._router.navigate(['/sign-out']);
+    }
+
+    cambiarContrasena(): void
+    {
+         this._dialog.open(CambiarContrasenaComponent, {
+          });
+
     }
 }

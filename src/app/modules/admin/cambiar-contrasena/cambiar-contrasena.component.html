@@ -14,8 +14,12 @@
                 <div class="w-full">
                     <mat-form-field appearance="outline" class="w-full">
                         <mat-label>Contraseña Actual</mat-label>
-                        <input matInput [formControlName]="'contrasenaActual'" type="password" required>
-                        <mat-icon matSuffix>lock</mat-icon>
+                        <input matInput [formControlName]="'contrasenaActual'" type="password" #passwordField required>
+                        <button mat-icon-button type="button" (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'" matSuffix>
+                            <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'" [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'" [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                        </button>
+                        <!-- <mat-icon matSuffix>lock</mat-icon> -->
                         <mat-error *ngIf="contrasenaForm.get('contrasenaActual').invalid && (contrasenaForm.get('contrasenaActual').dirty || contrasenaForm.get('contrasenaActual').touched)">
                             La contraseña actual es requerida.
                         </mat-error>
@@ -26,8 +30,12 @@
                 <div class="w-full">
                     <mat-form-field appearance="outline" class="w-full">
                         <mat-label>Nueva Contraseña</mat-label>
-                        <input matInput [formControlName]="'nuevaContrasena'" type="password" required>
-                        <mat-icon matSuffix>lock</mat-icon>
+                        <input matInput [formControlName]="'nuevaContrasena'" type="password" #passwordFieldNew required>
+                        <button mat-icon-button type="button" (click)="passwordFieldNew.type === 'password' ? passwordFieldNew.type = 'text' : passwordFieldNew.type = 'password'" matSuffix>
+                            <mat-icon class="icon-size-5" *ngIf="passwordFieldNew.type === 'password'" [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <mat-icon class="icon-size-5" *ngIf="passwordFieldNew.type === 'text'" [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                        </button>
+                        <!-- <mat-icon matSuffix>lock</mat-icon> -->
                         <mat-error *ngIf="contrasenaForm.get('nuevaContrasena').invalid && (contrasenaForm.get('nuevaContrasena').dirty || contrasenaForm.get('nuevaContrasena').touched)">
                             La nueva contraseña es requerida.
                         </mat-error>
@@ -38,8 +46,12 @@
                 <div class="w-full">
                     <mat-form-field appearance="outline" class="w-full">
                         <mat-label>Confirmar Nueva Contraseña</mat-label>
-                        <input matInput [formControlName]="'confirmarContrasena'" type="password" required>
-                        <mat-icon matSuffix>lock</mat-icon>
+                        <input matInput [formControlName]="'confirmarContrasena'" type="password" #passwordFieldConfirm required>
+                        <button mat-icon-button type="button" (click)="passwordFieldConfirm.type === 'password' ? passwordFieldConfirm.type = 'text' : passwordFieldConfirm.type = 'password'" matSuffix>
+                            <mat-icon class="icon-size-5" *ngIf="passwordFieldConfirm.type === 'password'" [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                            <mat-icon class="icon-size-5" *ngIf="passwordFieldConfirm.type === 'text'" [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
+                        </button>
+                        <!-- <mat-icon matSuffix>lock</mat-icon> -->
                         <mat-error *ngIf="contrasenaForm.get('confirmarContrasena').invalid && (contrasenaForm.get('confirmarContrasena').dirty || contrasenaForm.get('confirmarContrasena').touched)">
                             La confirmación de la nueva contraseña es requerida.
                         </mat-error>
