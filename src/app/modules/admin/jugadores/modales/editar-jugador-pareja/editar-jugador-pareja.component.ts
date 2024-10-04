@@ -45,7 +45,7 @@ export class EditarJugadorParejaComponent implements OnInit, OnDestroy {
         this.parejaForm = this._formBuilder.group({
             jugador1: new FormControl({ value: '', disabled: false },Validators.required),
             jugador2: new FormControl({ value: '', disabled: false },Validators.required),
-            ranking: new FormControl({ value: 0, disabled: false },[Validators.required, Validators.pattern("[0-9]*")]),
+            ranking: new FormControl({ value: 0, disabled: false },[ Validators.pattern("[0-9]*")]),
             rama: new FormControl({ value: '', disabled: false },Validators.required),
             categoria: new FormControl({ value: '', disabled: false },Validators.required),
         });

@@ -171,6 +171,6 @@ export class ObtenerParejasPaginadoResolver implements Resolve<any>
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any[]>
     {
-        return this._jugadoresService.obtenerParejasFiltroPaginadoI({page: 1, limit: limit, rama: '', categoria: '', nombre: ''});
+        return this._jugadoresService.obtenerParejasFiltroPaginadoI({page: 1, limit: limit,  rama: 'masculina', categoria: 'A', nombre: ''});
     }
 }

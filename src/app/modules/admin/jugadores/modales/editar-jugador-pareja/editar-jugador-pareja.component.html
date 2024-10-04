@@ -22,7 +22,7 @@
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let jugador of filteredJugadores| async" [value]="jugador.id">
-                                {{ jugador.nombre }}
+                                {{ jugador.nombre_a_mostrar === "" ? jugador.userid.nombre + jugador.userid.apellido: jugador.nombre_a_mostrar }}
                             </mat-option>
                         </mat-select>
                     </div>
@@ -43,7 +43,7 @@
                                 </ngx-mat-select-search>
                             </mat-option>
                             <mat-option *ngFor="let jugador of filteredJugadoresD| async" [value]="jugador.id">
-                                {{ jugador.nombre }}
+                                {{ jugador.nombre_a_mostrar === "" ? jugador.userid.nombre + jugador.userid.apellido : jugador.nombre_a_mostrar }}
                             </mat-option>
                         </mat-select>
                     </div>
@@ -56,7 +56,7 @@
             <!-- ranking -->
             <div class="input-number-per mt-2 mb-3">
                 <mat-label class="mb-1 font-medium text-lg">Ranking</mat-label>
-                <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" name="ranking" id="ranking" type="number" min="1" required>
+                <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" name="ranking" id="ranking" type="number" min="0">
                 <mat-error *ngIf="parejaForm.get('ranking').invalid && (parejaForm.get('ranking').dirty || parejaForm.get('ranking').touched)">
                     El ranking de la pareja es requerida y mayor a 0.
                 </mat-error>

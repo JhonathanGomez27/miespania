@@ -25,7 +25,7 @@
                         <div *ngIf="!jugador.show && jugador.show !== false" class="border-b-4 mb-2" >
                             <div class="flex flex-row justify-between">
                                 <div matTooltip="{{jugador.nombre_a_mostrar || jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
-                                    {{jugador.nombre_a_mostrar || jugador.id}}
+                                    {{jugador.nombre_a_mostrar === "" ? jugador.userid.nombre + jugador.userid.apellido: jugador.nombre_a_mostrar || jugador.id}}
                                 </div>
                                 <div>
                                     <mat-icon (click)="addJugador(jugador)" class="text-verdemi font-bold icon-display-delete cursor-pointer" [svgIcon]="'mat_outline:add'"></mat-icon>
