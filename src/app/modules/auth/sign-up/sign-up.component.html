@@ -23,13 +23,24 @@
 
                 <!-- Name field -->
                 <mat-form-field class="w-full">
-                    <mat-label>Nombre completo</mat-label>
+                    <mat-label>Nombre</mat-label>
                     <input
                         id="nombre"
                         matInput
                         [formControlName]="'nombre'">
                     <mat-error *ngIf="signUpForm.get('nombre').hasError('required')">
                         El nombre es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="w-full">
+                    <mat-label>Apellido</mat-label>
+                    <input
+                        id="apellido"
+                        matInput
+                        [formControlName]="'apellido'">
+                    <mat-error *ngIf="signUpForm.get('apellido').hasError('required')">
+                        El apellido es requerido
                     </mat-error>
                 </mat-form-field>
 

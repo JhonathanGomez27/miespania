@@ -4,10 +4,10 @@
         <div class="flex items-center justify-between w-full">
             <div>
                 <div class="text-3xl font-semibold tracking-tight leading-8">
-                    <a class="text-naranmi" [routerLink]="['/torneos']"><mat-icon class="icon-size-6 text-black" [svgIcon]="'mat_outline:arrow_back_ios'"></mat-icon> Torneos</a> / {{torneo.nombre}} <span class="p-2.5 bg-slate-500 rounded-full text-white text-2xl font-bold">{{this.torneo.fase_actual | titlecase}}</span>
+                    <!-- <a class="text-naranmi" [routerLink]="['/torneos']"><mat-icon class="icon-size-6 text-black" [svgIcon]="'mat_outline:arrow_back_ios'"></mat-icon> Torneos</a> / {{torneo.nombre}} <span class="p-2.5 bg-slate-500 rounded-full text-white text-2xl font-bold">{{this.torneo.fase_actual | titlecase}}</span> -->
                 </div>
                 <div class="text-xl font-semibold tracking-tight leading-8" (click)="verInscritosModal()">
-                    Hay <span class="text-naranmi">{{inscritos.length}}</span> {{tipojuego | i18nPlural: {'=jugador' : 'jugadores inscritos.','=pareja' : 'parejas inscritas.'} }}
+                    <!-- Hay <span class="text-naranmi">{{inscritos.length}}</span> {{tipojuego | i18nPlural: {'=jugador' : 'jugadores inscritos.','=pareja' : 'parejas inscritas.'} }} -->
                 </div>
             </div>
             <div class="flex items-center ml-6 gap-2" *ngIf="showEditar">
@@ -123,7 +123,7 @@
 
         <div class="w-full mt-4 mb-4 ">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <mat-form-field class="w-full">
+                <!-- <mat-form-field class="w-full">
                     <mat-label>Elegir fase torneo </mat-label>
                     <mat-select [formControl]="etapaControl" [placeholder]="'Fase torneo'" id="fasetorneo" (selectionChange)="etapaChange($event.value)" required>
                         <mat-option value="grupos">Fase de grupos</mat-option>
@@ -132,7 +132,7 @@
                         <mat-option value="semifinales">Semifinales</mat-option>
                         <mat-option value="final">Final</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="w-full" *ngIf="showSiguietenJornada">
                     <mat-label>Elegir jornada</mat-label>
                     <mat-select [formControl]="jornadaControl" [placeholder]="'Jornada'" id="jornada" (selectionChange)="jornadaChange($event.value)" required>

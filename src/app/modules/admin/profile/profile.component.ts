@@ -3,6 +3,41 @@ import { ProfileService } from './profile.service';
 import { Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'environments/environment';
+import {
+  ApexAxisChartSeries,
+  ApexChart,
+  ChartComponent,
+  ApexDataLabels,
+  ApexXAxis,
+  ApexPlotOptions,
+  ApexLegend,
+  ApexNonAxisChartSeries,
+  ApexResponsive,
+  ApexTitleSubtitle
+} from "ng-apexcharts";
+
+export type ChartBarOptions = {
+  series: ApexAxisChartSeries,
+  chart: ApexChart,
+  dataLabels: ApexDataLabels,
+  plotOptions: ApexPlotOptions,
+  colors: string[],
+  legend: ApexLegend,
+  title: ApexTitleSubtitle;
+  xaxis: ApexXAxis,
+};
+
+export type ChartDonutOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  dataLabels: ApexDataLabels,
+  colors: string[],
+  legend: ApexLegend,
+  plotOptions: ApexPlotOptions,
+  title: ApexTitleSubtitle
+};
 
 @Component({
   selector: 'app-profile',
@@ -12,10 +47,18 @@ import { environment } from 'environments/environment';
 export class ProfileComponent implements OnInit {
   profileData: any;
   @ViewChild('imageUrlInput') private _imageUrlInput: ElementRef;
+  @ViewChild("chartBar") chartBar: ChartComponent;
+  @ViewChild("chartDonut") chartDonut: ChartComponent;
+
+  public chartBarOptions: Partial<ChartBarOptions>;
+  public chartDonutOptions: Partial<ChartDonutOptions>;
+
   Toast:any;
   constructor(private _profileService: ProfileService,
               private _changeDetectorRef:ChangeDetectorRef
   ) {
+
+    // Alert //
     this.Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
@@ -26,7 +69,111 @@ export class ProfileComponent implements OnInit {
           toast.addEventListener('mouseenter', Swal.stopTimer);
           toast.addEventListener('mouseleave', Swal.resumeTimer);
       },
+
     });
+    // Chart Info //
+    // this.chartBarOptions = {
+    //   series: [
+    //     {
+    //       name: "Puntaje",
+    //       data: [100, 430]
+    //     }
+    //   ],
+    //   chart: {
+    //     type: "bar",
+    //     height: 350
+    //   },
+    //   plotOptions: {
+    //     bar: {
+    //       horizontal: true,
+    //       distributed: true
+    //     }
+    //   },
+    //   dataLabels: {
+    //     enabled: true,
+    //     offsetX: -6,
+    //     style: {
+    //       fontSize: "12px",
+    //       colors: ["#fff"]
+    //     }
+    //   },
+    //   colors: ["#FFD484", "#C4592F"],
+    //   legend: {
+    //     show: true,
+    //     showForSingleSeries: true,
+    //     customLegendItems: ["Torneo Singles", "Torneo Duplex"],
+    //     markers: {
+    //       fillColors: ["#FFD484", "#C4592F"]
+    //     }
+    //   },
+    //   xaxis: {
+    //     categories: [
+    //       "Torneo Singles",
+    //       "Torneo Duplex",
+    //     ]
+    //   },
+    //   title: {
+    //     text: "Puntaje x Torneo",
+    //     align: "center",
+    //     floating: true
+    //   },
+    // };
+    // Chart Donut
+    this.chartDonutOptions = {
+      series: [100, 430],
+      chart: {
+        type: "donut"
+      },
+      labels: ["Torneo Singles", "Torneo Duplex"],
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                show: true,
+                label: 'Total',
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#000', // Personaliza el color del texto en el centro
+                formatter: () => {
+                  // Calcula y retorna la suma de los valores de la serie
+                  return this.chartDonutOptions.series
+                  .reduce((a, b) => a + b, 0)
+                  .toString();
+                }
+              }
+            }
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      colors: ["#FFD484", "#C4592F"],
+      legend: {
+        position: "bottom"
+      },
+      title: {
+        text: "Porcentajes y Total",
+        align: "center",
+        margin: 5,
+        floating: false
+      },
+    };
   }
   urlImg: any = null;
   file: File = null;
@@ -62,6 +209,8 @@ export class ProfileComponent implements OnInit {
             icon: 'success',
             title: `Imagen subida correctamente`,
         });
+        this.profileData.imagen_perfil = response ? response : null;
+        this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
         this._changeDetectorRef.markForCheck();
         },
         error: (error) => {

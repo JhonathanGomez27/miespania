@@ -18,5 +18,10 @@ table {
 
 th {
     /* row border */
+    text-align: center !important;
     border-bottom: 2px solid #E33022 !important;
+}
+
+td {
+    text-align: center !important;
 }

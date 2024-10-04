@@ -21,7 +21,7 @@ export class ListComponent implements OnInit {
 
     // variables tabla
     tablaTorneosData: MatTableDataSource<any> = new MatTableDataSource([]);
-    tablaTorneosColumns: string[] = ['torneo', 'rama', 'categoria', 'estado', 'fase', 'acciones'];
+    tablaTorneosColumns: string[] = ['torneo', 'modalidad' ,'rama', 'categoria', 'estado', 'fase', 'acciones'];
 
     // variables torneos
     torneos: any = [];

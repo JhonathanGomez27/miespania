@@ -7,6 +7,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -17,7 +19,9 @@ import { MatInputModule } from '@angular/material/input';
     HttpClientModule,
     MatIconModule,          // Importar Angular Material iconos
     MatFormFieldModule,     // Importar Angular Material form fields
-    MatInputModule          // Importar Angular Material input
+    MatInputModule,          // Importar Angular Material input
+    NgApexchartsModule,
+    MatProgressBarModule
   ]
 })
 export class ProfileModule { }

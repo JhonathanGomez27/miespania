@@ -54,6 +54,7 @@ export class AuthSignUpComponent implements OnInit
         // Create the form
         this.signUpForm = this._formBuilder.group({
                 nombre      : ['', Validators.required],
+                apellido    : ['',Validators.required],
                 nombre_a_mostrar  : ['', Validators.required],
                 correo     : ['', [Validators.required, Validators.email]],
                 contrasena  : ['', Validators.required],
@@ -90,22 +91,22 @@ export class AuthSignUpComponent implements OnInit
 
         // Sign up
         this._authService.signUp(this.signUpForm.value)
-        .subscribe(
-            (response) => {
+        .subscribe({
+            next:(response:any) => {
                 this.Toast.fire({
                     icon: 'success',
                     title: 'Usuario registrado correctamente',
                 });
                 this._router.navigateByUrl('/confirmation-required');
             },
-            (response) => {
+            error:(error) => {
                 this.signUpForm.enable();
-                this.signUpNgForm.resetForm();
+                this.signUpForm.reset();
                 this.Toast.fire({
                     icon: 'error',
                     title: 'Upss hubo un error al registrarse',
                 });
             }
-        );
+        });
     }
 }
