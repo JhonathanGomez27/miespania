@@ -79,7 +79,7 @@ export const appRoutes: Route[] = [
             {
                 path: 'info-profile',
                 canActivate: [HasRoleGuard],
-                data: {expectedRole: ['user']},
+                data: {expectedRole: ['user', 'admin']},
                 loadChildren: () => import('./modules/admin/profile/profile.module').then(m => m.ProfileModule)
             },
             {

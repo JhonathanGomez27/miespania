@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable, ReplaySubject, tap } from 'rxjs';
+import { map, Observable, ReplaySubject, Subject, takeUntil, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService
 {
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     private _user: ReplaySubject<any> = new ReplaySubject<any>(1);
 
     /**

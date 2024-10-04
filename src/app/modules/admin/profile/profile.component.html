@@ -1,5 +1,5 @@
 <div class="flex flex-col flex-auto w-full">
-    <div class="flex flex-wrap w-full max-w-screen-xl mx-auto p-4 md:p-8">
+    <div class="flex flex-wrap w-full p-4 md:p-8">
         <!-- Título -->
         <div class="flex items-center justify-between w-full">
             <div>
@@ -12,39 +12,41 @@
 
         <!-- Información del perfil -->
         <div class="grid grid-cols-1 w-full mt-8">
-            <div class="flex flex-col flex-auto bg-card shadow rounded-xl overflow-hidden p-8">
-                <h2 class="text-2xl font-semibold">Detalles del Jugador</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-                    <div class="flex w-40 h-40 row-span-2">
-                        <!-- Icono de perfil -->
-                        <div class="flex flex-auto items-end -mt-10">
-                            <div class="relative flex items-center justify-center w-40 h-40 rounded-full overflow-hidden ring-4 ring-bg-card">
-                                <!-- Upload / Remove img -->
-                                <div class="absolute inset-0 z-10"></div>
-                                <div class="absolute inset-0 flex items-center justify-center z-20">
-                                    <div>
-                                        <input id="avatar-file-input" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file" [multiple]="false" [accept]="'image/jpeg, image/png, image/jpg'" (change)="uploadImageToUser(profileData.id,imageUrlInput.files)" #imageUrlInput>
-                                        <label class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover" for="avatar-file-input" matRipple>
-                                            <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
-                                        </label>
+            <div class="flex flex-col bg-card shadow rounded-xl overflow-hidden p-8">
+                <h2 class="text-2xl font-semibold text-center">Información del Jugador</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+                    <div class="w-full flex justify-center items-center">
+                        <div class="flex w-40 h-40 row-span-2">
+                            <!-- Icono de perfil -->
+                            <div class="flex flex-auto items-end -mt-10">
+                                <div class="relative flex items-center justify-center w-40 h-40 rounded-full overflow-hidden ring-4 ring-bg-card">
+                                    <!-- Upload / Remove img -->
+                                    <div class="absolute inset-0 z-10"></div>
+                                    <div class="absolute inset-0 flex items-center justify-center z-20">
+                                        <div>
+                                            <input id="avatar-file-input" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file" [multiple]="false" [accept]="'image/jpeg, image/png, image/jpg'" (change)="uploadImageToUser(profileData.id,imageUrlInput.files)" #imageUrlInput>
+                                            <label class="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer hover:bg-hover" for="avatar-file-input" matRipple>
+                                                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:camera'"></mat-icon>
+                                            </label>
+                                        </div>
+                                        <!-- <div>
+                                            <button mat-icon-button (click)="removeImage()">
+                                                <mat-icon class="text-white" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
+                                            </button>
+                                        </div> -->
                                     </div>
-                                    <!-- <div>
-                                        <button mat-icon-button (click)="removeImage()">
-                                            <mat-icon class="text-white" [svgIcon]="'heroicons_outline:trash'"></mat-icon>
-                                        </button>
-                                    </div> -->
+                                    <img class="object-cover w-full h-full" *ngIf="urlImg" [src]="urlImg">
                                 </div>
-                                <img class="object-cover w-full h-full" *ngIf="urlImg" [src]="urlImg">
                             </div>
                         </div>
                     </div>
                     <!-- Información del usuario -->
-                    <div class="flex flex-col justify-start gap-3">
+                    <div class="flex flex-col items-center sm:items-start md:justify-center gap-3">
                         <p class="text-lg"><strong>Nombre:</strong> {{ profileData?.nombre |titlecase }}</p>
-                        <p class="text-lg"><strong>Apodo:</strong> {{ profileData?.nombre_a_mostrar |titlecase}}</p>
+                        <p class="text-lg" *appShowForRoles="['user']"><strong>Apodo:</strong> {{ profileData?.nombre_a_mostrar |titlecase}}</p>
                         <p class="text-lg"><strong>Correo :</strong> {{ profileData?.correo |titlecase}}</p>
                     </div>
-                    <div class="flex flex-col justify-start gap-3">
+                    <div class="flex flex-col items-center sm:items-start md:justify-center gap-3" *appShowForRoles="['user']">
                         <p class="text-lg"><strong>Ranking:</strong> {{ profileData?.jugador?.ranking ? profileData?.jugador?.ranking :'Sin ranking' |titlecase}}</p>
                         <p class="text-lg"><strong>Rama:</strong> {{ profileData?.jugador?.rama |titlecase}}</p>
                         <p class="text-lg"><strong>Categoria:</strong> {{ profileData?.jugador?.categoria ? profileData?.jugador?.categoria: 'Sin categoria' |titlecase}}</p>
@@ -54,108 +56,110 @@
         </div>
 
         <!-- Información del jugador dividida en dos secciones -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full mt-8">
-            <div class="grid grid-col-1 col-span-1 gap-4">
-                <div class="bg-card shadow rounded-xl p-6">
-                    <h2 class="text-2xl font-semibold">Mis Torneos</h2>
-                    <div class="flex flex-auto w-full mt-4">
-                        <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
-                            <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
-                                <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+        <ng-container *appShowForRoles="['user']">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 w-full mt-8" >
+                <div class="grid grid-col-1 col-span-1 gap-4">
+                    <div class="bg-card shadow rounded-xl p-6">
+                        <h2 class="text-2xl font-semibold">Mis Torneos</h2>
+                        <div class="flex flex-auto w-full mt-4">
+                            <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                    <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex w-full h-full flex-col items-start ml-2">
+                                <div class="flex flex-row w-full justify-between mb-2">
+                                    <h3>Torneo Singles 2024</h3>
+                                    <h3 class="font-bold">Octavos de Final</h3>
+                                </div>
+                                <mat-progress-bar class="h-5 rounded-lg" mode="determinate" value="40"></mat-progress-bar>
                             </div>
                         </div>
-                        <div class="flex w-full h-full flex-col items-start ml-2">
-                            <div class="flex flex-row w-full justify-between mb-2">
-                                <h3>Torneo Singles 2024</h3>
-                                <h3 class="font-bold">Octavos de Final</h3>
+
+                        <div class="flex flex-auto w-full mt-4">
+                            <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                    <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+                                </div>
                             </div>
-                            <mat-progress-bar class="h-5 rounded-lg" mode="determinate" value="40"></mat-progress-bar>
+                            <div class="flex w-full h-full flex-col items-start">
+                                <div class="flex flex-row w-full justify-between ml-2 mb-2">
+                                    <h3>Torneo Duplex 2024</h3>
+                                    <h3 class="font-bold">Semifinales</h3>
+                                </div>
+                                <mat-progress-bar class="h-5 ml-2 rounded-lg" mode="determinate" value="80"></mat-progress-bar>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="flex flex-auto w-full mt-4">
-                        <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
-                            <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
-                                <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+                    <!-- PREMIACIONES -->
+                    <div class="bg-card shadow rounded-xl p-6">
+                        <h2 class="text-2xl font-semibold">Premiaciones</h2>
+                        <div class="flex w-full mt-4">
+                            <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                    <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex w-full flex-col items-start ml-2">
+                                <div class="flex flex-row w-full justify-between mb-2">
+                                    <h3>Torneos participados</h3>
+                                    <!-- <h3 class="font-bold">1 Puesto</h3> -->
+                                </div>
+                                <h3 class="flex font-bold">11</h3>
                             </div>
                         </div>
-                        <div class="flex w-full h-full flex-col items-start">
-                            <div class="flex flex-row w-full justify-between ml-2 mb-2">
-                                <h3>Torneo Duplex 2024</h3>
-                                <h3 class="font-bold">Semifinales</h3>
+
+                        <mat-divider class="w-full px-4 my-3 mt-4"></mat-divider>
+
+                        <div class="flex w-full mt-4">
+                            <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                    <mat-icon class="text-white" svgIcon="heroicons_outline:first-place-medal"></mat-icon>
+                                </div>
                             </div>
-                            <mat-progress-bar class="h-5 ml-2 rounded-lg" mode="determinate" value="80"></mat-progress-bar>
+                            <div class="flex w-full flex-col items-start ml-2">
+                                <div class="flex flex-row w-full justify-between mb-2">
+                                    <h3>Campeonatos Ganados</h3>
+                                    <h3 class="font-bold">1 Puesto</h3>
+                                </div>
+                                <h3 class="flex font-bold">5</h3>
+                            </div>
+                        </div>
+
+                        <div class="flex w-full mt-4">
+                            <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                    <mat-icon class="text-white" svgIcon="heroicons_outline:medal"></mat-icon>
+                                </div>
+                            </div>
+                            <div class="flex w-full flex-col items-start ml-2">
+                                <div class="flex flex-row w-full justify-between mb-2">
+                                    <h3>Subcampeonatos</h3>
+                                    <h3 class="font-bold">2 Puesto</h3>
+                                </div>
+                                <h3 class="flex font-bold">6</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- PREMIACIONES -->
-                <div class="bg-card shadow rounded-xl p-6">
-                    <h2 class="text-2xl font-semibold">Premiaciones</h2>
-                    <div class="flex w-full mt-4">
-                        <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
-                            <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
-                                <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
-                            </div>
-                        </div>
-                        <div class="flex w-full flex-col items-start ml-2">
-                            <div class="flex flex-row w-full justify-between mb-2">
-                                <h3>Torneos participados</h3>
-                                <!-- <h3 class="font-bold">1 Puesto</h3> -->
-                            </div>
-                            <h3 class="flex font-bold">11</h3>
-                        </div>
-                    </div>
 
-                    <mat-divider class="w-full px-4 my-3 mt-4"></mat-divider>
 
-                    <div class="flex w-full mt-4">
-                        <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
-                            <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
-                                <mat-icon class="text-white" svgIcon="heroicons_outline:first-place-medal"></mat-icon>
-                            </div>
-                        </div>
-                        <div class="flex w-full flex-col items-start ml-2">
-                            <div class="flex flex-row w-full justify-between mb-2">
-                                <h3>Campeonatos Ganados</h3>
-                                <h3 class="font-bold">1 Puesto</h3>
-                            </div>
-                            <h3 class="flex font-bold">5</h3>
-                        </div>
-                    </div>
-
-                    <div class="flex w-full mt-4">
-                        <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
-                            <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
-                                <mat-icon class="text-white" svgIcon="heroicons_outline:medal"></mat-icon>
-                            </div>
-                        </div>
-                        <div class="flex w-full flex-col items-start ml-2">
-                            <div class="flex flex-row w-full justify-between mb-2">
-                                <h3>Subcampeonatos</h3>
-                                <h3 class="font-bold">2 Puesto</h3>
-                            </div>
-                            <h3 class="flex font-bold">6</h3>
-                        </div>
+                <div class="w-full bg-card shadow rounded-xl p-4">
+                    <div id="chartDonut" class="w-full h-full">
+                        <apx-chart
+                            [series]="chartDonutOptions.series"
+                            [chart]="chartDonutOptions.chart"
+                            [labels]="chartDonutOptions.labels"
+                            [responsive]="chartDonutOptions.responsive"
+                            [plotOptions]="chartDonutOptions.plotOptions"
+                            [dataLabels]="chartDonutOptions.dataLabels"
+                            [colors]="chartDonutOptions.colors"
+                            [legend]="chartDonutOptions.legend"
+                            [title]="chartDonutOptions.title"
+                        ></apx-chart>
                     </div>
                 </div>
             </div>
-
-
-            <div class="w-full flex col-span-2 row-span-1 md:col-span-1 md:row-span-2 bg-card shadow rounded-xl p-4">
-                <div id="chartDonut" class="w-full h-full">
-                    <apx-chart
-                        [series]="chartDonutOptions.series"
-                        [chart]="chartDonutOptions.chart"
-                        [labels]="chartDonutOptions.labels"
-                        [responsive]="chartDonutOptions.responsive"
-                        [plotOptions]="chartDonutOptions.plotOptions"
-                        [dataLabels]="chartDonutOptions.dataLabels"
-                        [colors]="chartDonutOptions.colors"
-                        [legend]="chartDonutOptions.legend"
-                        [title]="chartDonutOptions.title"
-                    ></apx-chart>
-                </div>
-            </div>
-        </div>
+        </ng-container>
     </div>
 </div>

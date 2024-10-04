@@ -13,7 +13,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon : 'mat_outline:account_circle',
         // hidden: (item: FuseNavigationItem) => token?.rol != 'admin' ? false : true,
         link : '/info-profile',
-        roles: ['user']
+        roles: ['user', 'admin']
     },
     {
         id   : 'torneos',

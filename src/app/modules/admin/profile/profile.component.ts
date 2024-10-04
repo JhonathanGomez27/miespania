@@ -15,6 +15,7 @@ import {
   ApexResponsive,
   ApexTitleSubtitle
 } from "ng-apexcharts";
+import { UserService } from 'app/core/user/user.service';
 
 export type ChartBarOptions = {
   series: ApexAxisChartSeries,
@@ -42,7 +43,7 @@ export type ChartDonutOptions = {
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+//   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   profileData: any;
@@ -54,8 +55,12 @@ export class ProfileComponent implements OnInit {
   public chartDonutOptions: Partial<ChartDonutOptions>;
 
   Toast:any;
-  constructor(private _profileService: ProfileService,
-              private _changeDetectorRef:ChangeDetectorRef
+
+  user: any = {};
+  constructor(
+    private _profileService: ProfileService,
+    private _changeDetectorRef:ChangeDetectorRef,
+    private _userService: UserService
   ) {
 
     // Alert //
@@ -71,53 +76,7 @@ export class ProfileComponent implements OnInit {
       },
 
     });
-    // Chart Info //
-    // this.chartBarOptions = {
-    //   series: [
-    //     {
-    //       name: "Puntaje",
-    //       data: [100, 430]
-    //     }
-    //   ],
-    //   chart: {
-    //     type: "bar",
-    //     height: 350
-    //   },
-    //   plotOptions: {
-    //     bar: {
-    //       horizontal: true,
-    //       distributed: true
-    //     }
-    //   },
-    //   dataLabels: {
-    //     enabled: true,
-    //     offsetX: -6,
-    //     style: {
-    //       fontSize: "12px",
-    //       colors: ["#fff"]
-    //     }
-    //   },
-    //   colors: ["#FFD484", "#C4592F"],
-    //   legend: {
-    //     show: true,
-    //     showForSingleSeries: true,
-    //     customLegendItems: ["Torneo Singles", "Torneo Duplex"],
-    //     markers: {
-    //       fillColors: ["#FFD484", "#C4592F"]
-    //     }
-    //   },
-    //   xaxis: {
-    //     categories: [
-    //       "Torneo Singles",
-    //       "Torneo Duplex",
-    //     ]
-    //   },
-    //   title: {
-    //     text: "Puntaje x Torneo",
-    //     align: "center",
-    //     floating: true
-    //   },
-    // };
+
     // Chart Donut
     this.chartDonutOptions = {
       series: [100, 430],
@@ -127,7 +86,7 @@ export class ProfileComponent implements OnInit {
       labels: ["Torneo Singles", "Torneo Duplex"],
       responsive: [
         {
-          breakpoint: 480,
+        //   breakpoint: 480,
           options: {
             chart: {
               width: 200
@@ -194,24 +153,33 @@ export class ProfileComponent implements OnInit {
         console.error('Error al obtener los datos del usuario', error);
       }
     );
+
+    this._userService.user$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+        this.user = response;
+        this._changeDetectorRef.markForCheck();
+    });
   }
 
   uploadImageToUser(id_user: string, file: File): void {
     if(!file){
         return;
     }
-    console.log(file[0]);
+    // console.log(file[0]);
 
     this._profileService.uploadImageToUser(id_user, file[0]).pipe(takeUntil(this._unsubscribeAll)).subscribe({
         next: (response: any) => {
-          console.log(response);
-          this.Toast.fire({
-            icon: 'success',
-            title: `Imagen subida correctamente`,
-        });
-        this.profileData.imagen_perfil = response ? response : null;
-        this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
-        this._changeDetectorRef.markForCheck();
+            // console.log(response);
+            this.Toast.fire({
+                icon: 'success',
+                title: `Imagen subida correctamente`,
+            });
+            this.profileData.imagen_perfil = response ? response : null;
+            this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
+            // this._userService.updateImageProfile(response.imagen_perfil);
+            this.user.imagen_perfil = response;
+            this._userService.user = this.user;
+
+            this._changeDetectorRef.markForCheck();
         },
         error: (error) => {
           this.Toast.fire({

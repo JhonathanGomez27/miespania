@@ -16,6 +16,12 @@
                 <input [formControlName]="'nombre'" name="nombreJugador" id="nombreJugador" type="text" required>
             </div>
 
+            <!-- Apellido -->
+            <div class="input-text-per">
+                <mat-label class="mb-1 font-medium text-lg">Apellido</mat-label>
+                <input [formControlName]="'apellido'" name="apellidoJugador" id="apellidoJugador" type="text" required>
+            </div>
+
             <!-- apellido -->
             <div class="input-text-per">
                 <mat-label class="mb-1 font-medium text-lg">Nombre (a mostrar)</mat-label>
@@ -33,7 +39,7 @@
             <!-- ranking -->
             <div class="input-number-per mt-2">
                 <mat-label class="mb-1 font-medium text-lg">Ranking</mat-label>
-                <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" type="number" min="1" required>
+                <input [formControlName]="'ranking'" class="w-4/12 sm:w-3/12" type="number" min="0">
 
             </div>
 

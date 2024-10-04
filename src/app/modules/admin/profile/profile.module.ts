@@ -10,20 +10,22 @@ import { MatInputModule } from '@angular/material/input';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { SharedModule } from 'app/shared/shared.module';
 
 
 @NgModule({
   declarations: [ProfileComponent],
   imports: [
-    CommonModule,
+    // CommonModule,s
     ProfileRoutingModule,
     HttpClientModule,
-    MatIconModule,          // Importar Angular Material iconos
-    MatFormFieldModule,     // Importar Angular Material form fields
-    MatInputModule,          // Importar Angular Material input
+    // MatIconModule,          // Importar Angular Material iconos
+    // MatFormFieldModule,     // Importar Angular Material form fields
+    // MatInputModule,          // Importar Angular Material input
     NgApexchartsModule,
     MatProgressBarModule,
-    MatDividerModule
+    // MatDividerModule,
+    SharedModule
   ]
 })
 export class ProfileModule { }

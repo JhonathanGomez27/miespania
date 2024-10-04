@@ -17,8 +17,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ShowForRolesDirective } from './directives/show-for-roles.directive';
 
 @NgModule({
+    declarations: [ShowForRolesDirective],
     imports: [
         CommonModule,
         FormsModule,
@@ -38,7 +40,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatRadioModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+
     ],
     exports: [
         CommonModule,
@@ -59,7 +62,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         MatRadioModule,
         MatSelectModule,
         NgxMatSelectSearchModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        ShowForRolesDirective
     ]
 })
 export class SharedModule
