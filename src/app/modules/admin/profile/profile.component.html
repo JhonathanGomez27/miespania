@@ -3,9 +3,10 @@
         <!-- Título -->
         <div class="flex items-center justify-between w-full">
             <div>
-                <div class="text-4xl font-extrabold tracking-tight leading-none">Perfil de Jugador</div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none" *appShowForRoles="['user']">Perfil de Jugador</div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none" *appShowForRoles="['admin']">Perfil de Administrador</div>
                 <div class="ml-0.5 font-medium text-secondary text-lg">
-                    Bienvenido, <span class="font-bold">{{ profileData?.nombre_a_mostrar }}</span>
+                    Bienvenido, <span class="font-bold">{{ profileData?.nombre_a_mostrar === '' ? profileData.nombre: profileData.nombre_a_mostrar }}</span>
                 </div>
             </div>
         </div>

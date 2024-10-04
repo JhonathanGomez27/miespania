@@ -255,23 +255,23 @@ export class SinglesComponent implements OnInit, OnDestroy, AfterViewInit {
     onCategoriaChange(event:any){
         let categoria = event.value;
         let rama = this.filtroRama.value;
-        let nombre = this.buscarJugador.value;
+        let nombre_a_mostrar = this.buscarJugador.value;
         this.filtroCategoria.disable();
         this.filtroRama.disable();
 
         this.pagina = 0;
-        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre_a_mostrar});
     }
 
     onRamaChange(event:any){
         let categoria = this.filtroCategoria.value;
         let rama = event.value;
-        let nombre = this.buscarJugador.value;
+        let nombre_a_mostrar = this.buscarJugador.value;
         this.filtroCategoria.disable();
         this.filtroRama.disable();
 
         this.pagina = 0;
-        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre});
+        this.obtenerJugadorePaginado({page: 1, limit: this.limit, categoria, rama, nombre_a_mostrar});
     }
 
     onBuscarChange(event:any){

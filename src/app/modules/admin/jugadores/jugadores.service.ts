@@ -132,7 +132,7 @@ export class JugadoresService {
         // params = params.set('rama', data.rama);
         // params = params.set('categoria', data.categoria);
 
-        let filtro = {rama: data.rama, categoria: data.categoria, nombre: data.nombre};
+        let filtro = {rama: data.rama, categoria: data.categoria, nombre_a_mostrar: data.nombre};
 
         return this._httpClient.post(`${this.url}jugadores/filtersPaginated`, filtro, {params});
     }

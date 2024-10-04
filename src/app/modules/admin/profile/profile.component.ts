@@ -3,18 +3,7 @@ import { ProfileService } from './profile.service';
 import { Subject, takeUntil } from 'rxjs';
 import Swal from 'sweetalert2';
 import { environment } from 'environments/environment';
-import {
-  ApexAxisChartSeries,
-  ApexChart,
-  ChartComponent,
-  ApexDataLabels,
-  ApexXAxis,
-  ApexPlotOptions,
-  ApexLegend,
-  ApexNonAxisChartSeries,
-  ApexResponsive,
-  ApexTitleSubtitle
-} from "ng-apexcharts";
+import { ApexAxisChartSeries, ApexChart, ChartComponent, ApexDataLabels, ApexXAxis, ApexPlotOptions, ApexLegend, ApexNonAxisChartSeries, ApexResponsive, ApexTitleSubtitle} from "ng-apexcharts";
 import { UserService } from 'app/core/user/user.service';
 
 export type ChartBarOptions = {
@@ -46,7 +35,7 @@ export type ChartDonutOptions = {
 //   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  profileData: any;
+  profileData: any = {};
   @ViewChild('imageUrlInput') private _imageUrlInput: ElementRef;
   @ViewChild("chartBar") chartBar: ChartComponent;
   @ViewChild("chartDonut") chartDonut: ChartComponent;
