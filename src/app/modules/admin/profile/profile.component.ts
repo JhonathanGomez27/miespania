@@ -46,6 +46,8 @@ export class ProfileComponent implements OnInit {
   Toast:any;
 
   user: any = {};
+  statistics: any = {};
+
   constructor(
     private _profileService: ProfileService,
     private _changeDetectorRef:ChangeDetectorRef,
@@ -66,62 +68,7 @@ export class ProfileComponent implements OnInit {
 
     });
 
-    // Chart Donut
-    this.chartDonutOptions = {
-      series: [100, 430],
-      chart: {
-        type: "donut"
-      },
-      labels: ["Torneo Singles", "Torneo Duplex"],
-      responsive: [
-        {
-        //   breakpoint: 480,
-          options: {
-            chart: {
-              width: 200
-            },
-            legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ],
-      plotOptions: {
-        pie: {
-          donut: {
-            labels: {
-              show: true,
-              total: {
-                show: true,
-                label: 'Total',
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#000', // Personaliza el color del texto en el centro
-                formatter: () => {
-                  // Calcula y retorna la suma de los valores de la serie
-                  return this.chartDonutOptions.series
-                  .reduce((a, b) => a + b, 0)
-                  .toString();
-                }
-              }
-            }
-          }
-        }
-      },
-      dataLabels: {
-        enabled: true
-      },
-      colors: ["#FFD484", "#C4592F"],
-      legend: {
-        position: "bottom"
-      },
-      title: {
-        text: "Porcentajes y Total",
-        align: "center",
-        margin: 5,
-        floating: false
-      },
-    };
+
   }
   urlImg: any = null;
   file: File = null;
@@ -129,24 +76,87 @@ export class ProfileComponent implements OnInit {
   private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   ngOnInit(): void {
-    this._profileService.getUserData().subscribe(
-      (data) => {
-        this.profileData = data;
+
+    this._profileService.dataUser$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+        this.profileData = response;
         if (this.profileData.imagen_perfil) {
-          this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
-        //   console.log(this.urlImg);
+            this.urlImg = `${environment.imageUrl}${this.profileData.imagen_perfil.id}`;
         }
-        // console.log(this.profileData);  // Puedes eliminar esto después de verificar que la data llega bien
-      },
-      (error) => {
-        console.error('Error al obtener los datos del usuario', error);
-      }
-    );
+        this._changeDetectorRef.markForCheck();
+    });
+
+    this._profileService.statistics$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
+        this.statistics = response;
+        this.setChartData();
+        this._changeDetectorRef.markForCheck();
+    });
 
     this._userService.user$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
         this.user = response;
         this._changeDetectorRef.markForCheck();
     });
+  }
+
+  setChartData(): void {
+
+    const dataSingles  = this.statistics.partidosGanadosSingles;
+    const dataParejas = this.statistics.partidosPerdidosPareja;
+    // Chart Donut
+    this.chartDonutOptions = {
+        series: [dataSingles, dataParejas],
+        chart: {
+          type: "donut"
+        },
+        labels: ["Torneo Singles", "Torneo Pareja"],
+        responsive: [
+          {
+          //   breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: "bottom"
+              }
+            }
+          }
+        ],
+        plotOptions: {
+          pie: {
+            donut: {
+              labels: {
+                show: true,
+                total: {
+                  show: true,
+                  label: 'Total',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  color: '#000', // Personaliza el color del texto en el centro
+                  formatter: () => {
+                    // Calcula y retorna la suma de los valores de la serie
+                    return this.chartDonutOptions.series
+                    .reduce((a, b) => a + b, 0)
+                    .toString();
+                  }
+                }
+              }
+            }
+          }
+        },
+        dataLabels: {
+          enabled: true
+        },
+        colors: ["#FFD484", "#C4592F"],
+        legend: {
+          position: "bottom"
+        },
+        title: {
+          text: "Puntos por Modalidad",
+          align: "center",
+          margin: 5,
+          floating: false
+        },
+      };
   }
 
   uploadImageToUser(id_user: string, file: File): void {

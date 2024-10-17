@@ -23,7 +23,7 @@
                             <div class="flex flex-auto items-end -mt-10">
                                 <div class="relative flex items-center justify-center w-40 h-40 rounded-full overflow-hidden ring-4 ring-bg-card">
                                     <!-- Upload / Remove img -->
-                                    <div class="absolute inset-0 z-10"></div>
+                                    <div class="absolute inset-0 z-10 bg-slate-700 opacity-50"></div>
                                     <div class="absolute inset-0 flex items-center justify-center z-20">
                                         <div>
                                             <input id="avatar-file-input" class="absolute h-0 w-0 opacity-0 invisible pointer-events-none" type="file" [multiple]="false" [accept]="'image/jpeg, image/png, image/jpg'" (change)="uploadImageToUser(profileData.id,imageUrlInput.files)" #imageUrlInput>
@@ -63,7 +63,30 @@
                 <div class="grid grid-col-1 col-span-1 gap-4">
                     <div class="bg-card shadow rounded-xl p-6">
                         <h2 class="text-2xl font-semibold">Mis Torneos</h2>
-                        <div class="flex flex-auto w-full mt-4">
+
+                        <ng-container class="w-full text-center" *ngIf="statistics.torneosEnProceso.length <= 0">
+                            <div class="text-center text-lg font-semibold py-4">
+                                No hay torneos en curso
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngFor="let torneo of statistics.torneosEnProceso">
+                            <div class="flex flex-auto w-full mt-4">
+                                <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
+                                    <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
+                                        <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
+                                    </div>
+                                </div>
+                                <div class="flex w-full h-full flex-col items-start ml-2">
+                                    <div class="flex flex-row w-full justify-between mb-2">
+                                        <h3>{{torneo.nombre}}</h3>
+                                        <h3 class="font-bold">{{torneo.fase_actual}}</h3>
+                                    </div>
+                                    <mat-progress-bar class="h-5 rounded-lg" mode="determinate" value="{{torneo.fase_actual === 'grupos' ? 20 : 0}}"></mat-progress-bar>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <!-- <div class="flex flex-auto w-full mt-4">
                             <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
                                 <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
                                     <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
@@ -76,9 +99,9 @@
                                 </div>
                                 <mat-progress-bar class="h-5 rounded-lg" mode="determinate" value="40"></mat-progress-bar>
                             </div>
-                        </div>
+                        </div> -->
 
-                        <div class="flex flex-auto w-full mt-4">
+                        <!-- <div class="flex flex-auto w-full mt-4">
                             <div class="flex w-[55px] sm:w-[49px] md:w-[49px] h-[49px]">
                                 <div class="relative bg-naranmi rounded-full flex items-center justify-center w-full h-full aspect-square">
                                     <mat-icon class="text-white" svgIcon="heroicons_outline:trophy"></mat-icon>
@@ -91,7 +114,7 @@
                                 </div>
                                 <mat-progress-bar class="h-5 ml-2 rounded-lg" mode="determinate" value="80"></mat-progress-bar>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!-- PREMIACIONES -->
                     <div class="bg-card shadow rounded-xl p-6">
@@ -107,7 +130,7 @@
                                     <h3>Torneos participados</h3>
                                     <!-- <h3 class="font-bold">1 Puesto</h3> -->
                                 </div>
-                                <h3 class="flex font-bold">11</h3>
+                                <h3 class="flex font-bold">{{this.statistics.torneosParticipados}}</h3>
                             </div>
                         </div>
 
@@ -124,7 +147,7 @@
                                     <h3>Campeonatos Ganados</h3>
                                     <h3 class="font-bold">1 Puesto</h3>
                                 </div>
-                                <h3 class="flex font-bold">5</h3>
+                                <h3 class="flex font-bold">{{statistics.torneosCampeon}}</h3>
                             </div>
                         </div>
 
@@ -139,7 +162,7 @@
                                     <h3>Subcampeonatos</h3>
                                     <h3 class="font-bold">2 Puesto</h3>
                                 </div>
-                                <h3 class="flex font-bold">6</h3>
+                                <h3 class="flex font-bold">{{statistics.torneosSubcampeon}}</h3>
                             </div>
                         </div>
                     </div>

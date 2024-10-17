@@ -1,16 +1,43 @@
 import { Injectable } from '@angular/core';
 import {
-  Router, Resolve,
-  RouterStateSnapshot,
-  ActivatedRouteSnapshot
+    Router,
+    Resolve,
+    RouterStateSnapshot,
+    ActivatedRouteSnapshot,
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
+import { ProfileService } from './profile.service';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ProfileResolver implements Resolve<boolean> {
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-    return of(true);
-  }
+    constructor(
+        private router: Router,
+        private _profileService: ProfileService
+    ) {}
+
+    resolve(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<boolean> {
+        return this._profileService.getUserData();
+    }
+}
+
+@Injectable({
+    providedIn: 'root',
+})
+export class ProfileStatisticsResolver implements Resolve<boolean> {
+    constructor(
+        private router: Router,
+        private _profileService: ProfileService
+    ) {}
+
+    resolve(
+        route: ActivatedRouteSnapshot,
+        state: RouterStateSnapshot
+    ): Observable<boolean> {
+        return this._profileService.getUserStatistics();
+    }
 }
