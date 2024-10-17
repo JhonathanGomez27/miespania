@@ -95,10 +95,10 @@
                         <div class="w-full mt-4 cursor-pointer">
                             <div *ngFor="let jugador of grupo.participantes" class="flex flex-row justify-between">
                                 <div class="font-semibold text-base" *ngIf="modalidadTorneo === 'jugador'">
-                                    <span class="text-naranmi" *ngIf="jugador?.ranking">{{jugador?.ranking || ''}}.</span> {{jugador[modalidadTorneo]?.nombre || jugador[modalidadTorneo]?.id}}
+                                    <span class="text-naranmi" *ngIf="jugador?.ranking">{{jugador?.ranking || ''}}.</span> {{jugador[modalidadTorneo]?.nombre_a_mostrar || jugador[modalidadTorneo]?.id}}
                                 </div>
                                 <div class="font-semibold text-base mb-2" *ngIf="modalidadTorneo !== 'jugador'">
-                                    {{jugador[modalidadTorneo]?.jugador1.nombre}} - {{jugador[modalidadTorneo]?.jugador2.nombre}}
+                                    {{jugador[modalidadTorneo]?.jugador1.nombre_a_mostrar}} - {{jugador[modalidadTorneo]?.jugador2.nombre_a_mostrar}}
                                 </div>
                                 <div>
                                     <mat-icon *ngIf="showSorteo" (click)="removerJugador(jugador, grupo)" class="text-chiliRed font-bold icon-display-delete cursor-pointer" [svgIcon]="'feather:x'"></mat-icon>
