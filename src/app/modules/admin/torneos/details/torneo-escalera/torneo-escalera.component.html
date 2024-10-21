@@ -19,22 +19,22 @@
     <!-- Action buttons -->
     <div class="flex items-center justify-end w-full" *ngIf="showInicial">
         <div class="flex items-center ml-6 gap-2">
-            <button [disabled]="disableButtons" (click)="editarTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+            <button [disabled]="disableButtons" *appShowForRoles="['admin']" (click)="editarTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
                 <mat-icon class="icon-size-5" [svgIcon]="'feather:edit'"></mat-icon>
                 <span class="ml-2">Editar torneo</span>
             </button>
-            <button [disabled]="disableButtons" (click)="inscribirJugadorModal()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
+            <button [disabled]="disableButtons" *appShowForRoles="['admin']" (click)="inscribirJugadorModal()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
                 <mat-icon class="icon-size-5" [svgIcon]="'feather:user-plus'"></mat-icon>
                 <span class="ml-2">Inscribir {{modalidadTorneo | titlecase}}</span>
             </button>
 
             <!-- Actions menu (visible on xs) -->
-            <div class="sm:hidden">
+            <div class="sm:hidden" *appShowForRoles="['admin']">
                 <button [disabled]="disableButtons" [matMenuTriggerFor]="actionsMenu" mat-icon-button>
                     <mat-icon [svgIcon]="'heroicons_outline:dots-vertical'"></mat-icon>
                 </button>
                 <mat-menu #actionsMenu="matMenu">
-                    <button (click)="editarTorneoDialogo()" mat-menu-item>Editar torneo</button>
+                    <button (click)="editarTorneoDialogo()"  mat-menu-item>Editar torneo</button>
                     <button (click)="inscribirJugadorModal()" mat-menu-item>Inscribir {{modalidadTorneo | titlecase}}</button>
                 </mat-menu>
             </div>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="w-full flex justify-end items-center mt-5"  *ngIf="showEnProceso  && this.torneo.fase_actual === 'final'">
-        <button (click)="finalizarTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+        <button (click)="finalizarTorneo()" *appShowForRoles="['admin']" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
             <mat-icon class="icon-size-5" [svgIcon]="'feather:stop-circle'"></mat-icon>
             <span class="ml-2">Finalizar Torneo.</span>
         </button>
@@ -103,7 +103,7 @@
     <div class="w-full mt-4"></div>
 
     <div class="w-full flex justify-end items-center" *ngIf="showEnProceso && this.torneo.fase_actual !== 'final'">
-        <button (click)="sortearSiguienteFaseTorneo()" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
+        <button (click)="sortearSiguienteFaseTorneo()" *appShowForRoles="['admin']" class="inline-flex text-white font-bold text-lg bg-naranmi" mat-flat-button>
             <mat-icon class="icon-size-5" [svgIcon]="'feather:refresh-cw'"></mat-icon>
             <span class="ml-2">Sortear siguiente fase.</span>
         </button>
@@ -200,12 +200,14 @@
                                 Acciones
                             </th>
                             <td class="text-center" mat-cell *matCellDef="let element">
-                                <div *ngIf="this.torneo.fase_actual === etapa && this.torneo.estado === 'En Proceso'">
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
-                                </div>
-                                <div *ngIf="this.torneo.fase_actual !== etapa || this.torneo.estado === 'Finalizado'">
-                                    <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:eye'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
-                                </div>
+                                <ng-container *appShowForRoles="['admin']">
+                                    <div *ngIf="this.torneo.fase_actual === etapa && this.torneo.estado === 'En Proceso'">
+                                        <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:edit'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
+                                    </div>
+                                    <div *ngIf="this.torneo.fase_actual !== etapa || this.torneo.estado === 'Finalizado'">
+                                        <mat-icon class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:eye'" (click)="editarPartido(element)"></mat-icon>&nbsp;&nbsp;
+                                    </div>
+                                </ng-container>
                             </td>
                         </ng-container>
 

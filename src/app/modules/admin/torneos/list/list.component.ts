@@ -52,10 +52,6 @@ export class ListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.token = AuthUtils._decodeToken(localStorage.getItem('accessToken'))
-        if(this.token.rol === 'user'){
-            this.tablaTorneosColumns.pop()
-        }
         this._torneoService.torneos$.pipe(takeUntil(this._unsubscribeAll)).subscribe((response: any) => {
             this.torneos = response;
             this.tablaTorneosData = new MatTableDataSource(response);

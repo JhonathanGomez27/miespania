@@ -15,7 +15,7 @@
                     } }}
                 </div>
             </div>
-            <div class="flex items-center ml-6" *ngIf="token.rol === 'admin'">
+            <div class="flex items-center ml-6" *appShowForRoles="['admin']">
                 <button (click)="crearTorneoDialogo()" class="hidden sm:inline-flex text-white font-bold text-lg" mat-flat-button [color]="'primary'">
                     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                     <span class="ml-2">Crear torneo</span>
@@ -121,22 +121,27 @@
                         </ng-container>
 
                         <!-- Acciones (visible solo para admin) -->
-                        <ng-container matColumnDef="acciones" *ngIf="token.rol === 'admin'">
+                        <ng-container matColumnDef="acciones">
                           <th mat-header-cell *matHeaderCellDef class="text-black text-base md:text-lg p-2">
                             Acciones
                           </th>
                           <td mat-cell *matCellDef="let element" class="text-center p-2">
-                            <div class="flex justify-center">
+                            <div class="flex justify-center" *appShowForRoles="['admin']">
                               <mat-icon matTooltip="Editar Torneo" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60"
                                 [svgIcon]="'feather:edit'" (click)="editarTorneo(element)">
                               </mat-icon>&nbsp;&nbsp;
                               <mat-icon matTooltip="Iniciar Torneo" *ngIf="element.estado === 'Inicial'"
                                 class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:play'"
-                                (click)="iniciarTorneo(element)">
+                                (click)="iniciarTorneo(element)" >
                               </mat-icon>&nbsp;
                               <mat-icon matTooltip="Finalizar Torneo" *ngIf="element.estado === 'En Proceso'"
                                 class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60" [svgIcon]="'feather:square'"
                                 (click)="dialogFinalizarTorneo(element)">
+                              </mat-icon>
+                            </div>
+                            <div class="flex justify-center" *appShowForRoles="['user']">
+                              <mat-icon matTooltip="Ver Torneo" class="icon-size-5 cursor-pointer text-naranmi hover:opacity-60"
+                                [svgIcon]="'feather:search'" (click)="editarTorneo(element)">
                               </mat-icon>
                             </div>
                           </td>

@@ -1,9 +1,6 @@
 /* tslint:disable:max-line-length */
 import { FuseNavigationItem } from '@fuse/components/navigation';
-import { AuthUtils } from 'app/core/auth/auth.utils';
 
-
-export const token = AuthUtils._decodeToken(localStorage.getItem('accessToken'));
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
@@ -11,7 +8,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'Perfil',
         type : 'basic',
         icon : 'mat_outline:account_circle',
-        // hidden: (item: FuseNavigationItem) => token?.rol != 'admin' ? false : true,
         link : '/info-profile',
         roles: ['user', 'admin']
     },
@@ -37,7 +33,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type    : 'collapsable',
         icon    : 'heroicons_outline:user-group',
         link    : '',
-        // hidden: (item: FuseNavigationItem) => token?.rol == 'admin' ? false : true,
         roles: ['admin'],
         children: [
             {
