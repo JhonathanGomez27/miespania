@@ -83,6 +83,12 @@ export const appRoutes: Route[] = [
                 loadChildren: () => import('./modules/admin/profile/profile.module').then(m => m.ProfileModule)
             },
             {
+                path: 'info-statistics',
+                canActivate: [HasRoleGuard],
+                data: {expectedRole: ['user', 'admin']},
+                loadChildren: () => import('./modules/admin/statistics/statistics.module').then(m => m.StatisticsModule)
+            },
+            {
                 path: 'torneos',
                 canActivate: [HasRoleGuard],
                 data: {expectedRole: ['user', 'admin']},

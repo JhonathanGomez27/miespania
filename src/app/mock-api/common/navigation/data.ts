@@ -16,6 +16,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
         roles: ['user', 'admin']
     },
     {
+        id   : 'info-statistics',
+        title: 'Estadisticas',
+        type : 'basic',
+        icon : 'mat_outline:insights',
+        link : '/info-statistics',
+        // roles: ['user', 'admin']
+        roles: ['user']
+    },
+    {
         id   : 'torneos',
         title: 'Torneos',
         type : 'basic',

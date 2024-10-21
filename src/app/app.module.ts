@@ -14,7 +14,6 @@ import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
 import { CambiarContrasenaModule } from './modules/admin/cambiar-contrasena/cambiar-contrasena.module';
 import { ProfileModule } from './modules/admin/profile/profile.module';
-
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
     scrollPositionRestoration: 'enabled'

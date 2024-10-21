@@ -7,24 +7,20 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { NgApexchartsModule } from "ng-apexcharts";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { SharedModule } from 'app/shared/shared.module';
 
-
 @NgModule({
   declarations: [ProfileComponent],
   imports: [
-    // CommonModule,s
     ProfileRoutingModule,
     HttpClientModule,
-    // MatIconModule,          // Importar Angular Material iconos
-    // MatFormFieldModule,     // Importar Angular Material form fields
-    // MatInputModule,          // Importar Angular Material input
-    NgApexchartsModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
     MatProgressBarModule,
-    // MatDividerModule,
+    MatDividerModule,
     SharedModule
   ]
 })

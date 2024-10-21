@@ -5,7 +5,7 @@ import {
     RouterStateSnapshot,
     ActivatedRouteSnapshot,
 } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ProfileService } from './profile.service';
 
 @Injectable({
@@ -22,22 +22,5 @@ export class ProfileResolver implements Resolve<boolean> {
         state: RouterStateSnapshot
     ): Observable<boolean> {
         return this._profileService.getUserData();
-    }
-}
-
-@Injectable({
-    providedIn: 'root',
-})
-export class ProfileStatisticsResolver implements Resolve<boolean> {
-    constructor(
-        private router: Router,
-        private _profileService: ProfileService
-    ) {}
-
-    resolve(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
-    ): Observable<boolean> {
-        return this._profileService.getUserStatistics();
     }
 }
