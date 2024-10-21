@@ -23,8 +23,8 @@
                 <div class="grid grid-cols-1 pr-2">
                     <div *ngFor="let jugador of filteredJugadores| async" class="border-b-4 mb-2">
                         <div class="flex flex-row justify-between">
-                            <div matTooltip="{{jugador.jugador.nombre || jugador.jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
-                                {{jugador.jugador.nombre || jugador.jugador.id}}
+                            <div matTooltip="{{jugador.jugador.nombre_a_mostrar || jugador.jugador.id}}" matTooltipClass="tooltip-font-size" class="font-normal text-xl truncate ">
+                                {{jugador.jugador.nombre_a_mostrar || jugador.jugador.id}}
                             </div>
                         </div>
                     </div>

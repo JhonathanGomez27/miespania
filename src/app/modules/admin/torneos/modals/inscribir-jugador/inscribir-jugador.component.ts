@@ -157,7 +157,7 @@ export class InscribirJugadorComponent implements OnInit, OnDestroy {
         // filter the select
         this.filteredJugadores.next(
             data.filter(
-                (element) => element.nombre.toLowerCase().indexOf(search) > -1
+                (element) => element.nombre_a_mostrar.toLowerCase().indexOf(search) > -1
             )
         );
     }

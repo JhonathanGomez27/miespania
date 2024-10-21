@@ -182,6 +182,7 @@ export class ParejasComponent implements OnInit, OnDestroy, AfterViewInit{
 
     editarParejaDialogo(pareja:any){
         // Open the dialog
+        console.log(this.parejas);
         const dialogRef = this._matDialog.open(EditarJugadorParejaComponent,{
             // width: '80%'
             data: {accion: 'Editar', pareja}

@@ -102,7 +102,7 @@ export class StatisticsComponent implements OnInit {
           position: "bottom"
         },
         title: {
-          text: "Puntos por Modalidad",
+          text: "Partidos jugados por Modalidad",
           align: "center",
           margin: 5
         },
