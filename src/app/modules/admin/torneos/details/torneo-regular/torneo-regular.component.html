@@ -187,7 +187,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase" [ngClass]="{'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element?.resultado?.ganador?.id === element[tipoJugador].id}">
                                         <span class="pr-6 font-semibold text-base whitespace-nowrap">
-                                            {{element[tipoJugador].nombre}}
+                                            {{element[tipoJugador].nombre_a_mostrar || element.pareja1.nombres_a_mostrar }}
                                         </span>
                                     </span>
                                 </td>
@@ -201,7 +201,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase" [ngClass]="{'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': element?.resultado?.ganador?.id === element[tipoJugador2].id}">
                                         <span class="pr-6 font-semibold text-base whitespace-nowrap">
-                                            {{element[tipoJugador2].nombre}}
+                                            {{element[tipoJugador2].nombre_a_mostrar || element.pareja2.nombres_a_mostrar}}
                                         </span>
                                     </span>
                                 </td>
