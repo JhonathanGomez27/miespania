@@ -1,0 +1,85 @@
+<div class="grid grid-cols-1 w-full">
+
+    <div class="w-full flex items-center flex-col sm:flex-row md:flex-row bg-card shadow rounded-xl py-4">
+        <div id="chartTypes" class="w-full h-full flex-grow">
+            <apx-chart 
+              [series]="chartOptionsType.series"
+              [chart]="chartOptionsType.chart"
+              [dataLabels]="chartOptionsType.dataLabels"
+              [plotOptions]="chartOptionsType.plotOptions"
+              [yaxis]="chartOptionsType.yaxis"
+              [xaxis]="chartOptionsType.xaxis"
+              [legend]="chartOptionsType.legend"
+              [title]="chartOptionsType.title"
+              [tooltip]="chartOptionsType.tooltip"
+              [colors]="chartOptionsType.colors"
+              [grid]="chartOptionsType.grid"
+            ></apx-chart>
+        </div>
+        <div id="chartStatus" class="w-full h-full flex-grow" >
+            <apx-chart 
+              [series]="chartOptionsStatus.series"
+              [chart]="chartOptionsStatus.chart"
+              [dataLabels]="chartOptionsStatus.dataLabels"
+              [plotOptions]="chartOptionsStatus.plotOptions"
+              [yaxis]="chartOptionsStatus.yaxis"
+              [xaxis]="chartOptionsStatus.xaxis"
+              [legend]="chartOptionsStatus.legend"
+              [tooltip]="chartOptionsStatus.tooltip"
+              [title]="chartOptionsStatus.title"
+              [colors]="chartOptionsStatus.colors"
+              [grid]="chartOptionsStatus.grid"
+            ></apx-chart>
+        </div>
+        
+    </div>
+    <div class="w-full flex items-center flex-col sm:flex-row md:flex-row bg-card shadow rounded-xl py-4">
+        <div id="chartPhases" class="w-full h-full flex-grow" >
+            <apx-chart 
+              [series]="chartOptionsPhases.series"
+              [chart]="chartOptionsPhases.chart"
+              [dataLabels]="chartOptionsPhases.dataLabels"
+              [plotOptions]="chartOptionsPhases.plotOptions"
+              [yaxis]="chartOptionsPhases.yaxis"
+              [xaxis]="chartOptionsPhases.xaxis"
+              [legend]="chartOptionsPhases.legend"
+              [tooltip]="chartOptionsPhases.tooltip"
+              [title]="chartOptionsPhases.title"
+              [colors]="chartOptionsPhases.colors"
+              [grid]="chartOptionsPhases.grid"
+            ></apx-chart>
+        </div>
+        <div id="chartHighestPlayerPoints" class="w-full h-full flex-grow" >
+          <apx-chart 
+            [series]="chartOptionsHighestPlayerPoints.series"
+            [chart]="chartOptionsHighestPlayerPoints.chart"
+            [dataLabels]="chartOptionsHighestPlayerPoints.dataLabels"
+            [plotOptions]="chartOptionsHighestPlayerPoints.plotOptions"
+            [yaxis]="chartOptionsHighestPlayerPoints.yaxis"
+            [xaxis]="chartOptionsHighestPlayerPoints.xaxis"
+            [legend]="chartOptionsHighestPlayerPoints.legend"
+            [tooltip]="chartOptionsHighestPlayerPoints.tooltip"
+            [title]="chartOptionsHighestPlayerPoints.title"
+            [colors]="chartOptionsHighestPlayerPoints.colors"
+            [grid]="chartOptionsHighestPlayerPoints.grid"
+          ></apx-chart>
+      </div>
+    </div>
+    <div class="w-full flex items-center flex-col md:flex-row bg-card shadow rounded-xl py-4">
+      <div id="chartPlayersMoreTournaments" class="w-full sm:w-1/2 md:w-1/2 h-full" >
+        <apx-chart 
+          [series]="chartOptionsPlayersMoreTournaments.series"
+          [chart]="chartOptionsPlayersMoreTournaments.chart"
+          [dataLabels]="chartOptionsPlayersMoreTournaments.dataLabels"
+          [plotOptions]="chartOptionsPlayersMoreTournaments.plotOptions"
+          [yaxis]="chartOptionsPlayersMoreTournaments.yaxis"
+          [xaxis]="chartOptionsPlayersMoreTournaments.xaxis"
+          [legend]="chartOptionsPlayersMoreTournaments.legend"
+          [tooltip]="chartOptionsPlayersMoreTournaments.tooltip"
+          [title]="chartOptionsPlayersMoreTournaments.title"
+          [colors]="chartOptionsPlayersMoreTournaments.colors"
+          [grid]="chartOptionsPlayersMoreTournaments.grid"
+        ></apx-chart>
+      </div>
+    </div>
+</div>

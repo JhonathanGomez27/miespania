@@ -11,9 +11,10 @@ import { NgApexchartsModule } from "ng-apexcharts";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { SharedModule } from 'app/shared/shared.module';
+import { AdminStatisticsComponent } from './admin-statistics/admin-statistics.component';
 
 @NgModule({
-  declarations: [StatisticsComponent], // Cambiar al componente de estadísticas
+  declarations: [StatisticsComponent, AdminStatisticsComponent], // Cambiar al componente de estadísticas
   imports: [
     CommonModule,
     StatisticsRoutingModule, // Cambiar el routing

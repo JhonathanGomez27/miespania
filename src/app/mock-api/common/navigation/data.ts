@@ -1,7 +1,6 @@
 /* tslint:disable:max-line-length */
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
-
 export const defaultNavigation: FuseNavigationItem[] = [
     {
         id   : 'info-profile',
@@ -17,8 +16,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type : 'basic',
         icon : 'mat_outline:insights',
         link : '/info-statistics',
-        // roles: ['user', 'admin']
-        roles: ['user']
+        roles: ['user','admin']
     },
     {
         id   : 'torneos',

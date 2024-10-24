@@ -34,4 +34,12 @@ export class StatisticsService {
             })
         );
     }
+
+    getAdminStatistics(): Observable<any> {
+        return this.http.get<any>(`${this.url}torneos/adminEstadisticasTorneos`).pipe(
+            tap((response) => {
+                this._statistics.next(response);
+            })
+        );
+    }
 }

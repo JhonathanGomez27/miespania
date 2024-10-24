@@ -26,8 +26,7 @@ export type ChartBarOptions = {
   };
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss']
+  templateUrl: './statistics.component.html'
 })
 export class StatisticsComponent implements OnInit {
     public chartBarOptions: Partial<ChartBarOptions>;
